@@ -1,0 +1,17 @@
+asgiref==3.11.1
+black==22.1.0
+blue==0.9.1
+click==8.4.1
+Django==6.0.6
+django-js-asset==4.0.1
+django-mptt==0.18.0
+flake8==4.0.1
+isort==8.0.1
+mccabe==0.6.1
+mypy_extensions==1.1.0
+pathspec==1.1.1
+platformdirs==4.10.0
+pycodestyle==2.8.0
+pyflakes==2.4.0
+sqlparse==0.5.5
+tomli==2.4.1

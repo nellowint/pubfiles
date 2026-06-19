@@ -1,0 +1,112 @@
+{% extends "publications/base.html" %}
+
+{% block title %}Conteúdo Restrito - {{ site_title }}{% endblock %}
+
+{% block extra_css %}
+/* Estilos exclusivos da Tela de Bloqueio Premium */
+.restricted-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+.restricted-box {
+    max-width: 550px;
+    width: 100%;
+    background: var(--card-bg);
+    padding: 45px 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--card-border);
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.crown-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.restricted-box h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.restricted-box p {
+    color: var(--text-color);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.restricted-subtext {
+    opacity: 0.7;
+    font-size: 14px !important;
+}
+
+.btn-restricted-login {
+    display: inline-block;
+    background: #ffc107;
+    color: #111 !important;
+    font-weight: bold;
+    padding: 14px 35px;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 16px;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+    transition: transform 0.2s, background 0.2s;
+}
+.btn-restricted-login:hover {
+    background: #e0a800;
+    transform: translateY(-2px);
+}
+
+.btn-restricted-back {
+    display: inline-block;
+    margin-top: 25px;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+.btn-restricted-back:hover {
+    opacity: 0.8;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+{% endblock %}
+
+{% block content %}
+<div class="restricted-wrapper">
+    <div class="restricted-box">
+        <div class="crown-icon">👑⭐👑</div>
+
+        <h2>Esta página é exclusiva para Assinantes</h2>
+
+        <p>A publicação <strong>"{{ publication.title }}"</strong> exige uma conta ativa para leitura a partir da página 2.</p>
+
+        <p class="restricted-subtext">
+            Crie sua conta ou faça o login agora mesmo para liberar o acesso ilimitado a todo o nosso catálogo de revistas e HQs.
+        </p>
+
+        <a href="{% url 'login' %}" class="btn-restricted-login">🔑 Fazer Login / Assinar</a>
+
+        <br>
+
+        <a href="{% url 'publications:detail' publication.slug %}" class="btn-restricted-back">
+            ⬅️ Voltar para detalhes da publicação
+        </a>
+    </div>
+</div>
+{% endblock %}

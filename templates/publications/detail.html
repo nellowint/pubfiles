@@ -1,0 +1,155 @@
+{% extends "publications/base.html" %}
+
+{% block title %}{{ publication.title }} - Detalhes{% endblock %}
+
+{% block extra_css %}
+/* Estilos exclusivos da Página de Detalhes */
+.detail-container {
+    display: flex;
+    gap: 40px;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--card-border);
+    transition: background 0.3s, border 0.3s;
+    margin-top: 10px;
+}
+
+.cover-wrapper {
+    flex: 0 0 300px;
+}
+.cover-img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.detail-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.detail-content h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+.detail-content p {
+    color: var(--text-color);
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.detail-divider {
+    border: 0;
+    height: 1px;
+    background: var(--nav-border);
+    margin: 20px 0;
+}
+
+.synopsis-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.meta-date {
+    opacity: 0.6;
+    font-style: italic;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* GRUPO DE BOTÕES INVERTIDOS E ALINHADOS */
+.detail-actions-row {
+    display: flex;
+    gap: 15px;
+    margin-top: auto;
+    padding-top: 25px;
+}
+
+.btn-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s, opacity 0.2s;
+    cursor: pointer;
+}
+.btn-detail:hover {
+    transform: translateY(-2px);
+}
+
+/* Botão Voltar (Primeiro, apenas Borda) */
+.btn-action-back {
+    background: transparent;
+    color: var(--text-color) !important;
+    border: 2px solid var(--nav-border);
+}
+.btn-action-back:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--text-color);
+}
+
+/* Botão Visualizar (Segundo, com Cor de Fundo) */
+.btn-action-view {
+    background: #28a745;
+    color: white !important;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+.btn-action-view:hover {
+    background: #218838;
+}
+
+/* Ajuste Responsivo para Celulares */
+@media (max-width: 768px) {
+    .detail-container { flex-direction: column; align-items: center; gap: 25px; }
+    .cover-wrapper { flex: 0 0 auto; max-width: 240px; }
+    .detail-content { text-align: center; }
+    .detail-actions-row { flex-direction: column-reverse; width: 100%; } /* Mantém o voltar abaixo no mobile se empilhar */
+    .btn-detail { width: 100%; }
+    .parent-filter-link { text-align: left; }
+}
+{% endblock %}
+
+{% block content %}
+    <div class="detail-container">
+        <div class="cover-wrapper">
+            {% if publication.cover %}
+                <img src="{{ publication.cover.url }}" alt="{{ publication.title }}" class="cover-img">
+            {% endif %}
+        </div>
+
+        <div class="detail-content">
+            <h1>{{ publication.title }}</h1>
+            <p><strong>Publicado em:</strong> {{ publication.published_at|date:"d/m/Y H:i" }}</p>
+
+            {% if publication.updated_at|date:"U" > publication.published_at|date:"U" %}
+                <p class="meta-date">Editado em: {{ publication.updated_at|date:"d/m/Y H:i" }}</p>
+            {% endif %}
+
+            <hr class="detail-divider">
+
+            <h3 class="synopsis-title">Sinopse:</h3>
+            <p style="line-height: 1.6; text-align: justify; margin-bottom: 0;">{{ publication.description|linebreaks }}</p>
+
+            <div class="detail-actions-row">
+                <a href="{% url 'publications:home' %}" class="btn-detail btn-action-back">
+                    Voltar ao Catálogo
+                </a>
+
+                <a href="{% url 'publications:reader' publication.slug 1 %}" class="btn-detail btn-action-view">
+                    Visualizar
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
