@@ -1,0 +1,86 @@
+.sub-result-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+.sub-result-box {
+    max-width: 550px;
+    width: 100%;
+    background: var(--card-bg);
+    padding: 48px 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.result-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.sub-result-box h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.sub-result-box p {
+    color: var(--text-color);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    opacity: 0.85;
+}
+
+.btn-result {
+    display: inline-block;
+    font-weight: 600;
+    padding: 14px 35px;
+    min-height: 44px;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    margin-top: 20px;
+    font-size: 16px;
+    transition: transform var(--transition-smooth), background var(--transition-fast);
+    will-change: transform;
+    cursor: pointer;
+}
+
+.btn-result-success {
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+.btn-result-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.5);
+}
+
+.btn-result-warning {
+    background: linear-gradient(135deg, #ffc107, #ffb300);
+    color: #111 !important;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+}
+.btn-result-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 193, 7, 0.5);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@media (max-width: 480px) {
+    .sub-result-box { padding: 36px 24px; }
+    .result-icon { font-size: 40px; }
+    .btn-result { width: 100%; }
+}

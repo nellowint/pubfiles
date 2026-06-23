@@ -7,8 +7,8 @@ class Category(MPTTModel):
     name = models.CharField(
         max_length=255,
         unique=True,
-        verbose_name='Nome',
-        help_text='Nome da Categoria'
+        verbose_name='Category Name',
+        help_text='Category Name'
     )
     parent = TreeForeignKey(
         'self',
@@ -16,7 +16,7 @@ class Category(MPTTModel):
         null=True,
         blank=True,
         related_name='children',
-        verbose_name='Categoria Pai',
+        verbose_name='Parent Category',
     )
 
     class MPTTMeta:
@@ -24,8 +24,8 @@ class Category(MPTTModel):
 
     class Meta:
         ordering = ['name']
-        verbose_name = 'Categoria'
-        verbose_name_plural = 'Categorias'
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
 
     def __str__(self):
         return self.name

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,12 +43,14 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.categories',
     'apps.publications',
+    'apps.subscriptions',
     'apps.website',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -65,9 +68,11 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
+                'django.template.context_processors.i18n',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'apps.website.context_processors.website_settings',
+                'apps.subscriptions.context_processors.subscription_settings',
             ],
         },
     },
@@ -111,6 +116,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
+LANGUAGES = [
+    ('pt-br', 'Português'),
+    ('en', 'English'),
+    ('es', 'Español'),
+]
+
+LOCALE_PATHS = [BASE_DIR / 'locale']
+
 TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
@@ -139,7 +152,13 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'publications:home'
 LOGOUT_REDIRECT_URL = 'publications:home'
 
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', '')
+STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
+STRIPE_CURRENCY = 'usd'
+
 from django.apps import apps
+
 
 def get_dynamic_logo():
     try:
@@ -154,8 +173,8 @@ def get_dynamic_logo():
 JAZZMIN_SETTINGS = {
     "site_title": "Pubfiles",
     "site_header": "Pubfiles",
-    "site_brand": "Painel Admin",
-    "welcome_sign": "Bem-vindo",
+    "site_brand": "Admin Panel",
+    "welcome_sign": "Welcome!",
     "copyright": "VWTech Dev",
     "search_model": ["accounts.User"],
     "site_logo": get_dynamic_logo,
@@ -172,6 +191,8 @@ JAZZMIN_SETTINGS = {
         "auth.Group": "fas fa-users",
         "publications.publication": "fas fa-book",
         "categories.category": "fas fa-tags",
+        "subscriptions.subscription": "fas fa-crown",
+        "subscriptions.subscriptionsettings": "fas fa-cog",
         "website.website": "fas fa-globe",
     },
 }

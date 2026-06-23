@@ -1,0 +1,20 @@
+{% extends "publications/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Subscription Activated" %} - {{ site_title }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/subscriptions.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="sub-result-wrapper">
+    <div class="sub-result-box">
+        <div class="result-icon">🎉</div>
+        <h2>{% trans 'Subscription Activated!' %}</h2>
+        <p>{% trans 'Your Premium subscription is now active. You can read every page of every premium publication without limits.' %}</p>
+        <a href="{% url 'publications:home' %}" class="btn-result btn-result-success">{% trans 'Browse the catalog' %}</a>
+    </div>
+</div>
+{% endblock %}

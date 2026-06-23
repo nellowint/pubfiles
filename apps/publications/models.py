@@ -7,21 +7,21 @@ from apps.categories.models import Category
 class Publication(models.Model):
     title = models.CharField(
         max_length=255,
-        verbose_name='Título',
-        help_text='Nome da revista, HQ, etc...'
+        verbose_name='Title',
+        help_text='Name of the magazine, comic book...'
     )
     slug = models.SlugField(
         max_length=255,
         unique=True,
         blank=True,
         verbose_name='url',
-        help_text='Url gerada automaticamente'
+        help_text='Automatically generated url'
     )
     description = models.TextField(
         null=True,
         blank=True,
-        verbose_name='Descrição',
-        help_text='Campo opcional'
+        verbose_name='Description',
+        help_text='Optional field'
     )
     category = models.ForeignKey(
         Category,
@@ -29,39 +29,39 @@ class Publication(models.Model):
         null=True,
         blank=True,
         related_name='publications',
-        verbose_name='Categoria'
+        verbose_name='Category'
     )
     cover = models.ImageField(
         upload_to='covers/',
-        verbose_name='Capa'
+        verbose_name='Cover'
     )
     views_count = models.PositiveIntegerField(
         default=0,
-        verbose_name='Visualizações'
+        verbose_name='Views'
     )
     is_members_only = models.BooleanField(
         default=False,
-        verbose_name='Conteúdo exclusivo?',
-        help_text='Conteúdo exclusivo para assinantes'
+        verbose_name='Exclusive content?',
+        help_text='Exclusive content for subscribers'
     )
     free_pages_count = models.PositiveIntegerField(
         default=1,
-        verbose_name='Páginas gratuitas',
-        help_text='Quantas páginas um usuário não pagante pode ler antes de ser bloqueado. Padrão: 1.'
+        verbose_name='Free pages',
+        help_text='How many pages can a non-paying user read before being blocked? Default: 1.'
     )
     published_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Publicado em'
+        verbose_name='Published in'
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name='Editado em'
+        verbose_name='Edited in'
     )
 
     class Meta:
         ordering = ['-views_count', '-published_at']
-        verbose_name = 'Publicação'
-        verbose_name_plural = 'Publicações'
+        verbose_name = 'Publication'
+        verbose_name_plural = 'Publications'
 
     def __str__(self):
         return self.title
@@ -86,20 +86,20 @@ class Page(models.Model):
         Publication,
         on_delete=models.CASCADE,
         related_name='pages',
-        verbose_name='Publicação'
+        verbose_name='Publication'
     )
     image = models.ImageField(
         upload_to='pages/',
-        verbose_name='Conteúdo das Páginas'
+        verbose_name='Page Content'
     )
     page_order = models.PositiveIntegerField(
-        verbose_name='Ordem da Página'
+        verbose_name='Page Order'
     )
 
     class Meta:
         ordering=['page_order']
-        verbose_name='Página'
-        verbose_name_plural='Páginas'
+        verbose_name='Page'
+        verbose_name_plural='Pages'
 
     def __str__(self):
         return f"{self.publication.title} - {self.page_order}"

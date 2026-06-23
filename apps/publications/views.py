@@ -1,10 +1,13 @@
-from django.views.generic import ListView, DetailView
+from django.db.models import Q
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.cache import never_cache
-from django.http import HttpResponseForbidden
-from apps.website.models import CarouselBanner
-from django.db.models import Q
-from .models import Publication, Category
+from django.views.generic import DetailView, ListView
+
+from apps.subscriptions.models import Subscription
+
+from .models import Category, Publication
+
 
 class HomeView(ListView):
     model = Publication
@@ -13,35 +16,26 @@ class HomeView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        # Pega o banco de dados inicial de publicações ativas
-        queryset = Publication.objects.all() # ou .filter(active=True) se você tiver esse campo
-
-        # 1. Captura o ID da categoria vindo da URL (?category=1)
+        queryset = Publication.objects.all()
         category_id = self.request.GET.get('category')
 
         if category_id:
             try:
-                # Buscamos a categoria selecionada pelo ID
                 category = Category.objects.get(id=category_id)
 
-                # VANTAGEM DO MPTT: Filtrar a categoria pai traz ela E TODAS as filhas automaticamente!
                 queryset = queryset.filter(category__in=category.get_descendants(include_self=True))
             except (Category.DoesNotExist, ValueError):
-                # Se mandarem um ID inválido na URL, não filtra nada (evita quebrar a página)
                 pass
 
-        # 2. Captura a busca por texto se houver (?q=termo)
         search_query = self.request.GET.get('q')
         if search_query:
             queryset = queryset.filter(title__icontains=search_query)
 
-        return queryset.order_by('-id') # Ajuste a ordenação como preferir
+        return queryset.order_by('-id')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Garante que a lista de categorias e banners continuem indo para o HTML herdeiro do base.html
         context['categories'] = Category.objects.all()
-        # context['banners'] = Banner.objects.all() # Ative se tiver o model de banners
         return context
 
 class PublicationDetailView(DetailView):
@@ -69,7 +63,11 @@ def reader_view(request, slug, page_number):
     current_page = all_pages[page_number - 1]
 
     if publication.is_members_only and page_number > publication.free_pages_count:
-        if not request.user.is_authenticated:
+        has_access = (
+            request.user.is_authenticated
+            and Subscription.objects.is_active_for(request.user)
+        )
+        if not has_access:
             return render(request, 'publications/premium.html', {'publication': publication})
 
     has_previous = page_number > 1

@@ -1,0 +1,424 @@
+# Pubfiles - Spanish translations
+# Copyright (C) 2026 VWTech Dev
+# This file is distributed under the same license as the PACKAGE package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-22 21:37-0300\n"
+"PO-Revision-Date: 2026-06-22 21:32-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/errors/404.html:5 templates/errors/404.html:15
+msgid "Page Not Found"
+msgstr "Página No Encontrada"
+
+#: templates/errors/404.html:16
+msgid ""
+"The page you are looking for does not exist, has been removed, or is "
+"temporarily unavailable."
+msgstr ""
+"La página que buscas no existe, ha sido eliminada o no está disponible "
+"temporalmente."
+
+#: templates/errors/404.html:18
+msgid "Back to Catalog"
+msgstr "Volver al Catálogo"
+
+#: templates/publications/base.html:8 templates/publications/index.html:5
+msgid "Home"
+msgstr "Inicio"
+
+#: templates/publications/base.html:59
+msgid "Type to search..."
+msgstr "Escribe para buscar..."
+
+#: templates/publications/base.html:63
+msgid "Toggle Theme"
+msgstr "Cambiar Tema"
+
+#: templates/publications/base.html:73
+msgid "Logout"
+msgstr "Salir"
+
+#: templates/publications/base.html:77 templates/publications/premium.html:31
+msgid "Subscribe Premium"
+msgstr "Ser Premium"
+
+#: templates/publications/base.html:84
+msgid "All Categories"
+msgstr "Todas las Categorías"
+
+#: templates/publications/base.html:101
+#, python-format
+msgid "See all of %(name)s"
+msgstr "Ver todo de %(name)s"
+
+#: templates/publications/base.html:132
+msgid "Language"
+msgstr "Idioma"
+
+#: templates/publications/detail.html:5
+msgid "Details"
+msgstr "Detalles"
+
+#: templates/publications/detail.html:21
+msgid "Published in:"
+msgstr "Publicado en:"
+
+#: templates/publications/detail.html:24
+msgid "Edited in:"
+msgstr "Editado en:"
+
+#: templates/publications/detail.html:29
+msgid "Synopsis:"
+msgstr "Sinopsis:"
+
+#: templates/publications/detail.html:34
+msgid "Return to Catalog"
+msgstr "Volver al Catálogo"
+
+#: templates/publications/detail.html:38
+msgid "View"
+msgstr "Ver"
+
+#: templates/publications/index.html:18
+msgid "PREMIUM"
+msgstr "PREMIUM"
+
+#: templates/publications/index.html:28
+msgid "Default"
+msgstr "Predeterminado"
+
+#: templates/publications/index.html:31
+msgid "Access"
+msgstr "Acceder"
+
+#: templates/publications/index.html:37
+msgid "No publications found."
+msgstr "No se encontraron publicaciones."
+
+#: templates/publications/index.html:45
+msgid "First"
+msgstr "Primera"
+
+#: templates/publications/index.html:46
+msgid "Previous"
+msgstr "Anterior"
+
+#: templates/publications/index.html:49
+#, python-format
+msgid "%(current)s of %(total)s"
+msgstr "%(current)s de %(total)s"
+
+#: templates/publications/index.html:52
+msgid "Next"
+msgstr "Siguiente"
+
+#: templates/publications/index.html:53
+msgid "Last"
+msgstr "Última"
+
+#: templates/publications/premium.html:5
+msgid "Restricted Content"
+msgstr "Contenido Restringido"
+
+#: templates/publications/premium.html:16
+msgid "This page is exclusive to Subscribers"
+msgstr "Esta página es exclusiva para Suscriptores"
+
+#: templates/publications/premium.html:18
+#, python-format
+msgid ""
+"The publication <strong>\"%(title)s\"</strong> requires an active "
+"subscription to read from this page."
+msgstr ""
+"La publicación <strong>\"%(title)s\"</strong> requiere una suscripción "
+"activa para leer desde esta página."
+
+#: templates/publications/premium.html:22
+#, python-format
+msgid "Premium subscription: <strong>%(currency)s %(price)s</strong> / month."
+msgstr "Suscripción Premium: <strong>%(currency)s %(price)s</strong> / mes."
+
+#: templates/publications/premium.html:28
+msgid ""
+"Create your account or log in now and subscribe to unlock unlimited access "
+"to our entire catalog of magazines and comics."
+msgstr ""
+"Crea tu cuenta o inicia sesión ahora y suscríbete para desbloquear acceso "
+"ilimitado a todo nuestro catálogo de revistas y cómics."
+
+#: templates/publications/premium.html:34
+#, python-format
+msgid ""
+"Hi <strong>%(email)s</strong>, your account does not have an active "
+"subscription yet. Subscribe to Premium to unlock this page and the rest of "
+"<strong>\"%(title)s\"</strong>."
+msgstr ""
+"Hola <strong>%(email)s</strong>, tu cuenta aún no tiene una suscripción "
+"activa. Suscríbete a Premium para desbloquear esta página y el resto de "
+"<strong>\"%(title)s\"</strong>."
+
+#: templates/publications/premium.html:37
+msgid "Activate Subscription"
+msgstr "Activar Suscripción"
+
+#: templates/publications/premium.html:43
+msgid "Back to publication details"
+msgstr "Volver a los detalles de la publicación"
+
+#: templates/publications/reader.html:5
+msgid "Page"
+msgstr "Página"
+
+#: templates/publications/reader.html:18
+msgid "Close reader"
+msgstr "Cerrar lector"
+
+#: templates/publications/reader.html:18
+msgid "Close"
+msgstr "Cerrar"
+
+#: templates/publications/reader.html:28
+msgid "Click to advance"
+msgstr "Haz clic para avanzar"
+
+#: templates/publications/reader.html:29 templates/publications/reader.html:33
+#, python-format
+msgid "Page %(num)s"
+msgstr "Página %(num)s"
+
+#: templates/registration/login.html:5
+msgid "Login"
+msgstr "Iniciar Sesión"
+
+#: templates/registration/login.html:14
+msgid "Welcome"
+msgstr "Bienvenido"
+
+#: templates/registration/login.html:15
+msgid "Enter your details to access your subscription"
+msgstr "Ingresa tus datos para acceder a tu suscripción"
+
+#: templates/registration/login.html:19
+msgid "Incorrect username or password. Please try again."
+msgstr "Correo o contraseña incorrectos. Inténtalo de nuevo."
+
+#: templates/registration/login.html:28 templates/registration/login.html:29
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: templates/registration/login.html:33 templates/registration/login.html:34
+msgid "Password"
+msgstr "Contraseña"
+
+#: templates/registration/login.html:40
+msgid "Remember me"
+msgstr "Recuérdame"
+
+#: templates/registration/login.html:43
+msgid "I forgot my password"
+msgstr "Olvidé mi contraseña"
+
+#: templates/registration/login.html:47
+msgid "Login to Account"
+msgstr "Iniciar Sesión"
+
+#: templates/registration/login.html:51
+msgid "Don't have an account?"
+msgstr "¿No tienes una cuenta?"
+
+#: templates/registration/login.html:51 templates/registration/register.html:5
+#: templates/registration/register.html:43
+msgid "Register"
+msgstr "Registrarse"
+
+#: templates/registration/password_reset_complete.html:5
+msgid "Password Reset Complete"
+msgstr "Restablecimiento Completado"
+
+#: templates/registration/password_reset_complete.html:14
+msgid "Updated Password"
+msgstr "Contraseña Actualizada"
+
+#: templates/registration/password_reset_complete.html:15
+msgid ""
+"Your password has been successfully reset! You can now access the platform "
+"using your new credentials."
+msgstr ""
+"¡Tu contraseña ha sido restablecida con éxito! Ya puedes acceder a la "
+"plataforma usando tus nuevas credenciales."
+
+#: templates/registration/password_reset_complete.html:17
+msgid "Login now"
+msgstr "Iniciar sesión ahora"
+
+#: templates/registration/password_reset_confirm.html:5
+msgid "Set New Password"
+msgstr "Establecer Nueva Contraseña"
+
+#: templates/registration/password_reset_confirm.html:15
+msgid "New Password"
+msgstr "Nueva Contraseña"
+
+#: templates/registration/password_reset_confirm.html:16
+msgid "Enter and confirm your new access password below."
+msgstr "Ingresa y confirma tu nueva contraseña de acceso a continuación."
+
+#: templates/registration/password_reset_confirm.html:23
+msgid "Please correct the outstanding password requirements."
+msgstr "Corrige los requisitos de contraseña pendientes."
+
+#: templates/registration/password_reset_confirm.html:42
+msgid "Change Password"
+msgstr "Cambiar Contraseña"
+
+#: templates/registration/password_reset_confirm.html:45
+msgid "Invalid Link"
+msgstr "Enlace Inválido"
+
+#: templates/registration/password_reset_confirm.html:46
+msgid ""
+"The password reset link is invalid or has already expired for security "
+"reasons."
+msgstr ""
+"El enlace para restablecer la contraseña es inválido o ya ha expirado por "
+"razones de seguridad."
+
+#: templates/registration/password_reset_confirm.html:48
+msgid "Request New Link"
+msgstr "Solicitar Nuevo Enlace"
+
+#: templates/registration/password_reset_done.html:5
+#: templates/registration/password_reset_done.html:14
+msgid "Email Sent"
+msgstr "Correo Enviado"
+
+#: templates/registration/password_reset_done.html:15
+msgid ""
+"We will send instructions to reset your password to the email address "
+"provided, if it is included in our database. You should receive it soon."
+msgstr ""
+"Enviaremos instrucciones para restablecer tu contraseña a la dirección de "
+"correo proporcionada, si está incluida en nuestra base de datos. Deberías "
+"recibirla pronto."
+
+#: templates/registration/password_reset_done.html:17
+msgid ""
+"If you don't receive it within a few minutes, check your Spam or Junk Email "
+"folder."
+msgstr ""
+"Si no lo recibes en unos minutos, revisa tu carpeta de Spam o Correo No "
+"Deseado."
+
+#: templates/registration/password_reset_done.html:19
+#: templates/registration/password_reset_form.html:34
+msgid "Back to Login"
+msgstr "Volver al Inicio de Sesión"
+
+#: templates/registration/password_reset_form.html:5
+msgid "Reset Password"
+msgstr "Restablecer Contraseña"
+
+#: templates/registration/password_reset_form.html:14
+msgid "Recover Password"
+msgstr "Recuperar Contraseña"
+
+#: templates/registration/password_reset_form.html:15
+msgid ""
+"Enter your registered email address below and we will send you a link to "
+"reset your password."
+msgstr ""
+"Ingresa tu dirección de correo registrada a continuación y te enviaremos un "
+"enlace para restablecer tu contraseña."
+
+#: templates/registration/password_reset_form.html:19
+msgid "Please enter a valid email address."
+msgstr "Ingresa una dirección de correo válida."
+
+#: templates/registration/password_reset_form.html:26
+msgid "Registered Email"
+msgstr "Correo Registrado"
+
+#: templates/registration/password_reset_form.html:30
+msgid "Send Recovery Link"
+msgstr "Enviar Enlace de Recuperación"
+
+#: templates/registration/password_reset_form.html:34
+msgid "Did you remember the password?"
+msgstr "¿Recordaste la contraseña?"
+
+#: templates/registration/register.html:14
+msgid "Create a new account"
+msgstr "Crear una nueva cuenta"
+
+#: templates/registration/register.html:15
+msgid "Fill in the fields below to register."
+msgstr "Completa los campos a continuación para registrarte."
+
+#: templates/registration/register.html:22
+msgid "Please correct the errors below."
+msgstr "Corrige los errores a continuación."
+
+#: templates/registration/register.html:47
+msgid "Already have an account?"
+msgstr "¿Ya tienes una cuenta?"
+
+#: templates/registration/register.html:47
+msgid "Log in"
+msgstr "Iniciar sesión"
+
+#: templates/subscriptions/cancel.html:5 templates/subscriptions/cancel.html:15
+msgid "Payment Cancelled"
+msgstr "Pago Cancelado"
+
+#: templates/subscriptions/cancel.html:16
+msgid ""
+"Your subscription was not completed. You can try again whenever you want."
+msgstr ""
+"Tu suscripción no se completó. Puedes intentarlo de nuevo cuando quieras."
+
+#: templates/subscriptions/cancel.html:17
+msgid "Try again"
+msgstr "Intentar de nuevo"
+
+#: templates/subscriptions/success.html:5
+msgid "Subscription Activated"
+msgstr "Suscripción Activada"
+
+#: templates/subscriptions/success.html:15
+msgid "Subscription Activated!"
+msgstr "¡Suscripción Activada!"
+
+#: templates/subscriptions/success.html:16
+msgid ""
+"Your Premium subscription is now active. You can read every page of every "
+"premium publication without limits."
+msgstr ""
+"Tu suscripción Premium ya está activa. Puedes leer todas las páginas de "
+"todas las publicaciones premium sin límites."
+
+#: templates/subscriptions/success.html:17
+msgid "Browse the catalog"
+msgstr "Explorar el catálogo"
+
+#: templates/subscriptions/unavailable.html:5
+#: templates/subscriptions/unavailable.html:15
+msgid "Subscriptions Unavailable"
+msgstr "Suscripciones No Disponibles"
+
+#: templates/subscriptions/unavailable.html:16
+msgid ""
+"Premium subscriptions are not available at the moment. Please try again "
+"later."
+msgstr ""
+"Las suscripciones Premium no están disponibles en este momento. Inténtalo de "
+"nuevo más tarde."

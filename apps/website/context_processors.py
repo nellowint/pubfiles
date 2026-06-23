@@ -6,7 +6,7 @@ def website_settings(request):
     
     logo_url = f"{settings.STATIC_URL}img/default-logo.png"
     background_url = f"{settings.STATIC_URL}img/default-background.png"
-    site_title = "Site de Publicações"
+    site_title = "Publications Website"
     
     light_primary = "#FFFFFF"
     light_secondary = "#F8F9FA"
@@ -34,5 +34,5 @@ def website_settings(request):
         'color_light_secondary': light_secondary,
         'color_dark_primary': dark_primary,
         'color_dark_secondary': dark_secondary,
-        'web_settings': settings_obj, # Mantém o objeto original caso precise de algo mais
+        'web_settings': settings_obj,
     }

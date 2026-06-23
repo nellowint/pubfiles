@@ -1,0 +1,20 @@
+{% extends "publications/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Payment Cancelled" %} - {{ site_title }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/subscriptions.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="sub-result-wrapper">
+    <div class="sub-result-box">
+        <div class="result-icon">⚠️</div>
+        <h2>{% trans 'Payment Cancelled' %}</h2>
+        <p>{% trans 'Your subscription was not completed. You can try again whenever you want.' %}</p>
+        <a href="{% url 'subscriptions:checkout' %}" class="btn-result btn-result-warning">{% trans 'Try again' %}</a>
+    </div>
+</div>
+{% endblock %}

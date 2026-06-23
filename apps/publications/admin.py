@@ -6,8 +6,8 @@ from .models import Publication, Page
 
 class PublicationAdminForm(forms.ModelForm):
     batch_upload = forms.FileField(
-        label="Upload de páginas em lote",
-        help_text="Selecione todas as imagens da publicação de uma só vez",
+        label="Batch page upload",
+        help_text="Select all images from the post at once.",
         required=False
     )
 
@@ -49,7 +49,7 @@ class PageInline(admin.TabularInline):
         tpl = get_template("admin/thumbnail.html")
         return tpl.render({"page": instance})
 
-    page_thumbnail.short_description = "Miniatura"
+    page_thumbnail.short_description = "Thumbnail"
 
 @admin.register(Publication)
 class PublicationAdmin(admin.ModelAdmin):

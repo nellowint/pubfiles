@@ -1,0 +1,89 @@
+.restricted-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+.restricted-box {
+    max-width: 550px;
+    width: 100%;
+    background: var(--card-bg);
+    padding: 48px 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.crown-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.restricted-box h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.restricted-box p {
+    color: var(--text-color);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.restricted-subtext {
+    opacity: 0.7;
+    font-size: 14px !important;
+}
+
+.btn-restricted-login {
+    display: inline-block;
+    background: linear-gradient(135deg, #ffc107, #ffb300);
+    color: #111 !important;
+    font-weight: 600;
+    padding: 14px 35px;
+    min-height: 44px;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    margin-top: 20px;
+    font-size: 16px;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-fast);
+    will-change: transform;
+    cursor: pointer;
+}
+.btn-restricted-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 193, 7, 0.5);
+}
+
+.btn-restricted-back {
+    display: inline-block;
+    margin-top: 25px;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+    cursor: pointer;
+}
+.btn-restricted-back:hover { opacity: 0.8; }
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@media (max-width: 480px) {
+    .restricted-box { padding: 36px 24px; }
+    .crown-icon { font-size: 40px; }
+    .btn-restricted-login { width: 100%; }
+}

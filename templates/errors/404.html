@@ -1,79 +1,21 @@
 {% extends "publications/base.html" %}
+{% load static %}
+{% load i18n %}
 
-{% block title %}Page Not Found - 404{% endblock %}
+{% block title %}{% trans "Page Not Found" %} - 404{% endblock %}
 
 {% block extra_css %}
-/* Estilos exclusivos da página de erro 404 */
-.error-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 60px 20px;
-}
-
-.error-box {
-    max-width: 500px;
-    width: 100%;
-    background: var(--card-bg);
-    padding: 50px 40px;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--card-border);
-    text-align: center;
-    transition: background 0.3s;
-}
-
-.error-box h1 {
-    color: #dc3545;
-    font-size: 72px;
-    margin: 0 0 10px 0;
-    line-height: 1;
-    font-weight: 800;
-}
-
-.error-box h2 {
-    font-size: 22px;
-    margin-bottom: 15px;
-    color: var(--text-color);
-}
-
-.error-box p {
-    font-size: 15px;
-    color: var(--text-color);
-    opacity: 0.7;
-    line-height: 1.6;
-    margin-bottom: 35px;
-}
-
-.btn-error-home {
-    display: inline-block;
-    background: var(--primary-color);
-    color: white !important;
-    padding: 14px 28px;
-    font-size: 15px;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: opacity 0.2s, transform 0.1s;
-}
-
-.btn-error-home:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
+    <link rel="stylesheet" href="{% static 'css/errors.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="error-wrapper">
     <div class="error-box">
         <h1>404</h1>
-        <h2>Página Não Encontrada</h2>
-        <p>A página que você está procurando não existe, foi removida ou está temporariamente indisponível.</p>
+        <h2>{% trans 'Page Not Found' %}</h2>
+        <p>{% trans 'The page you are looking for does not exist, has been removed, or is temporarily unavailable.' %}</p>
 
-        <a href="{% url 'publications:home' %}" class="btn-error-home">Voltar ao Catálogo</a>
+        <a href="{% url 'publications:home' %}" class="btn-error-home">{% trans 'Back to Catalog' %}</a>
     </div>
 </div>
 {% endblock %}

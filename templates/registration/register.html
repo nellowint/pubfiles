@@ -1,139 +1,25 @@
 {% extends "publications/base.html" %}
+{% load static %}
+{% load i18n %}
 
-{% block title %}Registrar - {{ site_title }}{% endblock %}
+{% block title %}{% trans "Register" %} - {{ site_title }}{% endblock %}
 
 {% block extra_css %}
-/* Estilos exclusivos da Tela de Registro */
-.register-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-}
-
-.register-box {
-    max-width: 450px;
-    width: 100%;
-    background: var(--card-bg);
-    padding: 40px 30px;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--card-border);
-    transition: background 0.3s;
-}
-
-.register-box h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: var(--text-color);
-    text-align: center;
-}
-
-.register-box p {
-    font-size: 14px;
-    color: var(--text-color);
-    opacity: 0.7;
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 6px;
-    color: var(--text-color);
-}
-
-.form-group input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--nav-border);
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    font-size: 14px;
-    color: var(--text-color);
-    outline: none;
-    transition: border-color 0.2s;
-}
-.form-group input:focus {
-    border-color: var(--primary-color);
-}
-
-.helptext {
-    display: block;
-    font-size: 11px;
-    color: var(--text-color);
-    opacity: 0.6;
-    margin-top: 5px;
-    line-height: 1.4;
-}
-
-.btn-register-submit {
-    width: 100%;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 14px;
-    font-size: 15px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    margin-top: 10px;
-    transition: background 0.2s, transform 0.1s;
-}
-.btn-register-submit:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
-
-.register-footer {
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid var(--nav-border);
-    font-size: 14px;
-    color: var(--text-color);
-    text-align: center;
-}
-.register-footer a {
-    color: var(--text-color);
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-.errorlist {
-    list-style: none;
-    background: #f8d7da;
-    color: #721c24;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    border: 1px solid #f5c6cb;
-}
+    <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="register-wrapper">
     <div class="register-box">
-        <h2>Criar uma nova conta</h2>
-        <p>Preencha os campos abaixo para se cadastrar.</p>
+        <h2>{% trans 'Create a new account' %}</h2>
+        <p>{% trans 'Fill in the fields below to register.' %}</p>
 
         <form method="POST" action="{% url 'register' %}">
             {% csrf_token %}
 
             {% if form.errors %}
                 <div class="errorlist">
-                    Por favor, corrija os erros abaixo.
+                    {% trans 'Please correct the errors below.' %}
                 </div>
             {% endif %}
 
@@ -154,11 +40,11 @@
                 {% endfor %}
             {% endif %}
 
-            <button type="submit" class="btn-register-submit">Registrar</button>
+            <button type="submit" class="btn-register-submit">{% trans 'Register' %}</button>
         </form>
 
         <div class="register-footer">
-            Já tem uma conta? <a href="{% url 'login' %}">Logar-se</a>
+            {% trans 'Already have an account?' %} <a href="{% url 'login' %}">{% trans 'Log in' %}</a>
         </div>
     </div>
 </div>

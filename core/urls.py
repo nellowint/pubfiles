@@ -1,14 +1,16 @@
-from django.contrib import admin
-from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.shortcuts import render  # Importação necessária para o handler
+from django.urls import include, path
 
 from apps.accounts.views import register_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('i18n/', include('django.conf.urls.i18n')),
 
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
@@ -20,6 +22,7 @@ urlpatterns = [
     path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
     path('', include('apps.publications.urls')),
+    path('subscriptions/', include('apps.subscriptions.urls')),
 ]
 
 if settings.DEBUG:

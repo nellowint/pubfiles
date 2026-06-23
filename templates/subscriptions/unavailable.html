@@ -1,0 +1,19 @@
+{% extends "publications/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Subscriptions Unavailable" %} - {{ site_title }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/subscriptions.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="sub-result-wrapper">
+    <div class="sub-result-box">
+        <div class="result-icon">🔒</div>
+        <h2>{% trans 'Subscriptions Unavailable' %}</h2>
+        <p>{% trans 'Premium subscriptions are not available at the moment. Please try again later.' %}</p>
+    </div>
+</div>
+{% endblock %}
