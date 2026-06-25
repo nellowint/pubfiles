@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-22 21:37-0300\n"
+"POT-Creation-Date: 2026-06-25 15:28-0300\n"
 "PO-Revision-Date: 2026-06-22 21:32-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -15,6 +15,81 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/accounts/profile.html:5
+msgid "Profile"
+msgstr "Perfil"
+
+#: templates/accounts/profile.html:14
+msgid "My Profile"
+msgstr "Mi Perfil"
+
+#: templates/accounts/profile.html:15
+msgid "Manage your avatar and account information."
+msgstr "Gestione su avatar e información de cuenta."
+
+#: templates/accounts/profile.html:19 templates/registration/register.html:22
+msgid "Please correct the errors below."
+msgstr "Corrige los errores a continuación."
+
+#: templates/accounts/profile.html:37
+msgid "Change"
+msgstr "Cambiar"
+
+#: templates/accounts/profile.html:47
+msgid "Remove Avatar"
+msgstr "Eliminar Avatar"
+
+#: templates/accounts/profile.html:53 templates/registration/login.html:28
+#: templates/registration/login.html:29
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: templates/accounts/profile.html:57
+msgid "Member since"
+msgstr "Miembro desde"
+
+#: templates/accounts/profile.html:62
+msgid "Subscription"
+msgstr "Suscripción"
+
+#: templates/accounts/profile.html:63
+msgid "Premium"
+msgstr "Premium"
+
+#: templates/accounts/profile.html:69
+msgid "Change password"
+msgstr "Cambiar contraseña"
+
+#: templates/accounts/profile.html:70
+msgid "Leave blank to keep your current password."
+msgstr "Deje en blanco para mantener su contraseña actual."
+
+#: templates/accounts/profile.html:72
+msgid "Current password"
+msgstr "Contraseña actual"
+
+#: templates/accounts/profile.html:81
+msgid "New password"
+msgstr "Nueva contraseña"
+
+#: templates/accounts/profile.html:90
+msgid "Confirm new password"
+msgstr "Confirmar nueva contraseña"
+
+#: templates/accounts/profile.html:100 templates/publications/detail.html:138
+msgid "Save"
+msgstr "Guardar"
+
+#: templates/accounts/profile.html:105 templates/publications/base.html:98
+#: templates/publications/base.html:183
+msgid "Cancel subscription"
+msgstr "Cancelar suscripción"
+
+#: templates/accounts/profile.html:108
+#: templates/subscriptions/cancel_subscription.html:18
+msgid "Back to catalog"
+msgstr "Volver al catálogo"
 
 #: templates/errors/404.html:5 templates/errors/404.html:15
 msgid "Page Not Found"
@@ -36,93 +111,161 @@ msgstr "Volver al Catálogo"
 msgid "Home"
 msgstr "Inicio"
 
-#: templates/publications/base.html:59
+#: templates/publications/base.html:57
 msgid "Type to search..."
 msgstr "Escribe para buscar..."
 
-#: templates/publications/base.html:63
+#: templates/publications/base.html:61 templates/publications/base.html:195
 msgid "Toggle Theme"
 msgstr "Cambiar Tema"
 
-#: templates/publications/base.html:73
+#: templates/publications/base.html:78 templates/publications/base.html:206
+#: templates/publications/base.html:208
+msgid "Language"
+msgstr "Idioma"
+
+#: templates/publications/base.html:85
+msgid "Account menu"
+msgstr "Menú de cuenta"
+
+#: templates/publications/base.html:96 templates/publications/base.html:181
+msgid "My profile"
+msgstr "Mi perfil"
+
+#: templates/publications/base.html:102 templates/publications/base.html:187
 msgid "Logout"
 msgstr "Salir"
 
-#: templates/publications/base.html:77 templates/publications/premium.html:31
+#: templates/publications/base.html:107 templates/publications/base.html:190
+#: templates/publications/premium.html:31
 msgid "Subscribe Premium"
 msgstr "Ser Premium"
 
-#: templates/publications/base.html:84
+#: templates/publications/base.html:119 templates/publications/base.html:215
 msgid "All Categories"
 msgstr "Todas las Categorías"
 
-#: templates/publications/base.html:101
+#: templates/publications/base.html:136 templates/publications/base.html:221
 #, python-format
 msgid "See all of %(name)s"
 msgstr "Ver todo de %(name)s"
 
-#: templates/publications/base.html:132
-msgid "Language"
-msgstr "Idioma"
+#: templates/publications/base.html:163
+#, fuzzy
+#| msgid "Close"
+msgid "Close menu"
+msgstr "Cerrar"
 
 #: templates/publications/detail.html:5
 msgid "Details"
 msgstr "Detalles"
 
-#: templates/publications/detail.html:21
-msgid "Published in:"
-msgstr "Publicado en:"
-
-#: templates/publications/detail.html:24
-msgid "Edited in:"
-msgstr "Editado en:"
-
-#: templates/publications/detail.html:29
-msgid "Synopsis:"
-msgstr "Sinopsis:"
-
-#: templates/publications/detail.html:34
-msgid "Return to Catalog"
-msgstr "Volver al Catálogo"
-
-#: templates/publications/detail.html:38
-msgid "View"
-msgstr "Ver"
-
+#: templates/publications/detail.html:18 templates/publications/detail.html:26
 #: templates/publications/index.html:18
 msgid "PREMIUM"
 msgstr "PREMIUM"
 
-#: templates/publications/index.html:28
+#: templates/publications/detail.html:48
+msgid "Edited in:"
+msgstr "Editado en:"
+
+#: templates/publications/detail.html:58
+msgid "stars"
+msgstr "estrellas"
+
+#: templates/publications/detail.html:66
+#, python-format
+msgid "%(counter)s vote"
+msgid_plural "%(counter)s votes"
+msgstr[0] "%(counter)s voto"
+msgstr[1] "%(counter)s votos"
+
+#: templates/publications/detail.html:72
+msgid "Log in to rate this publication."
+msgstr "Inicia sesión para valorar esta publicación."
+
+#: templates/publications/detail.html:78
+msgid "Synopsis:"
+msgstr "Sinopsis:"
+
+#: templates/publications/detail.html:84
+msgid "Return to Catalog"
+msgstr "Volver al Catálogo"
+
+#: templates/publications/detail.html:89
+msgid "View"
+msgstr "Ver"
+
+#: templates/publications/detail.html:97
+msgid "Comments"
+msgstr "Comentarios"
+
+#: templates/publications/detail.html:125
+msgid "Edit"
+msgstr "Editar"
+
+#: templates/publications/detail.html:130
+msgid "Delete"
+msgstr "Eliminar"
+
+#: templates/publications/detail.html:139
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: templates/publications/detail.html:148
+msgid "No comments yet. Be the first to comment!"
+msgstr "Aún no hay comentarios. ¡Sé el primero en comentar!"
+
+#: templates/publications/detail.html:162
+msgid "Write your comment..."
+msgstr "Escribe tu comentario..."
+
+#: templates/publications/detail.html:166
+msgid "Comment"
+msgstr "Comentar"
+
+#: templates/publications/detail.html:171
+msgid "Log in to leave a comment."
+msgstr "Inicia sesión para dejar un comentario."
+
+#: templates/publications/detail.html:178
+msgid "Similar publications"
+msgstr "Publicaciones similares"
+
+#: templates/publications/index.html:30
 msgid "Default"
 msgstr "Predeterminado"
 
-#: templates/publications/index.html:31
+#: templates/publications/index.html:44
+msgid "No rating"
+msgstr "Sin valoración"
+
+#: templates/publications/index.html:48
 msgid "Access"
 msgstr "Acceder"
 
-#: templates/publications/index.html:37
+#: templates/publications/index.html:53
 msgid "No publications found."
 msgstr "No se encontraron publicaciones."
 
-#: templates/publications/index.html:45
+#: templates/publications/index.html:60
 msgid "First"
 msgstr "Primera"
 
-#: templates/publications/index.html:46
+#: templates/publications/index.html:61
 msgid "Previous"
 msgstr "Anterior"
 
-#: templates/publications/index.html:49
+#: templates/publications/index.html:64
 #, python-format
 msgid "%(current)s of %(total)s"
 msgstr "%(current)s de %(total)s"
 
-#: templates/publications/index.html:52
+#: templates/publications/index.html:67
 msgid "Next"
 msgstr "Siguiente"
 
-#: templates/publications/index.html:53
+#: templates/publications/index.html:68
 msgid "Last"
 msgstr "Última"
 
@@ -211,10 +354,6 @@ msgstr "Ingresa tus datos para acceder a tu suscripción"
 #: templates/registration/login.html:19
 msgid "Incorrect username or password. Please try again."
 msgstr "Correo o contraseña incorrectos. Inténtalo de nuevo."
-
-#: templates/registration/login.html:28 templates/registration/login.html:29
-msgid "Email"
-msgstr "Correo electrónico"
 
 #: templates/registration/login.html:33 templates/registration/login.html:34
 msgid "Password"
@@ -364,10 +503,6 @@ msgstr "Crear una nueva cuenta"
 msgid "Fill in the fields below to register."
 msgstr "Completa los campos a continuación para registrarte."
 
-#: templates/registration/register.html:22
-msgid "Please correct the errors below."
-msgstr "Corrige los errores a continuación."
-
 #: templates/registration/register.html:47
 msgid "Already have an account?"
 msgstr "¿Ya tienes una cuenta?"
@@ -389,6 +524,46 @@ msgstr ""
 #: templates/subscriptions/cancel.html:17
 msgid "Try again"
 msgstr "Intentar de nuevo"
+
+#: templates/subscriptions/cancel_subscription.html:5
+#: templates/subscriptions/cancel_subscription.html:21
+#, fuzzy
+#| msgid "Activate Subscription"
+msgid "Cancel Subscription"
+msgstr "Activar Suscripción"
+
+#: templates/subscriptions/cancel_subscription.html:16
+#, fuzzy
+#| msgid "Subscription Activated"
+msgid "Subscription Cancelled"
+msgstr "Suscripción Activada"
+
+#: templates/subscriptions/cancel_subscription.html:17
+msgid ""
+"Your Premium subscription has been cancelled. You will lose access to "
+"premium content at the end of your current billing period."
+msgstr ""
+
+#: templates/subscriptions/cancel_subscription.html:22
+msgid ""
+"Are you sure you want to cancel your Premium subscription? You will lose "
+"access to premium content at the end of your current billing period."
+msgstr ""
+
+#: templates/subscriptions/cancel_subscription.html:24
+#, python-format
+msgid "Active until: %(expires)s"
+msgstr ""
+
+#: templates/subscriptions/cancel_subscription.html:28
+msgid "Confirm Cancellation"
+msgstr ""
+
+#: templates/subscriptions/cancel_subscription.html:30
+#, fuzzy
+#| msgid "Activate Subscription"
+msgid "Keep subscription"
+msgstr "Activar Suscripción"
 
 #: templates/subscriptions/success.html:5
 msgid "Subscription Activated"
@@ -422,3 +597,30 @@ msgid ""
 msgstr ""
 "Las suscripciones Premium no están disponibles en este momento. Inténtalo de "
 "nuevo más tarde."
+
+#~ msgid "Published in:"
+#~ msgstr "Publicado en:"
+
+#~ msgid "Rating"
+#~ msgstr "Valoración"
+
+#~ msgid "Save Avatar"
+#~ msgstr "Guardar Avatar"
+
+#~ msgid "Update Password"
+#~ msgstr "Actualizar Contraseña"
+
+#~ msgid "Password Updated"
+#~ msgstr "Contraseña Actualizada"
+
+#~ msgid "Password Updated!"
+#~ msgstr "¡Contraseña Actualizada!"
+
+#~ msgid "Your password has been changed successfully."
+#~ msgstr "Su contraseña ha sido cambiada con éxito."
+
+#~ msgid ""
+#~ "Enter your current password and a new password to update your credentials."
+#~ msgstr ""
+#~ "Introduzca su contraseña actual y una nueva para actualizar sus "
+#~ "credenciales."
