@@ -4,30 +4,36 @@
     gap: 24px;
 }
 
-.card-wrapper { overflow: hidden; border-radius: var(--radius-md); }
+.card-wrapper {
+    border-radius: var(--radius-md);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    will-change: transform;
+}
+.card-wrapper:hover {
+    transform: scale(1.04);
+    z-index: 10;
+}
 
 .card {
-    background: var(--card-bg);
+    background: color-mix(in srgb, var(--primary-color) 35%, transparent);
     padding: 16px;
     border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-md), inset 0 1px 1px rgba(255, 255, 255, 0.25);
     text-align: center;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
     border: 1px solid var(--card-border);
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
-    will-change: transform;
+    transition: box-shadow 0.4s ease, background 0.4s ease;
     cursor: pointer;
 }
 
-.card:hover {
-    transform: scale(1.04);
-    box-shadow: var(--shadow-lg);
-    z-index: 10;
+.card-wrapper:hover .card {
+    box-shadow: var(--shadow-lg), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+    background: color-mix(in srgb, var(--primary-color) 45%, transparent);
 }
 
 .card-img-wrapper {
@@ -77,10 +83,25 @@
 }
 .info-row svg { width: 14px; height: 14px; vertical-align: middle; }
 
+.rating-row {
+    justify-content: flex-start !important;
+    margin-bottom: 10px !important;
+}
+.rating-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #ffc107;
+    font-weight: 700;
+}
+.rating-badge svg { width: 14px; height: 14px; }
+.rating-badge small { font-weight: 600; opacity: 0.8; }
+.rating-badge.rating-empty { color: var(--text-color); opacity: 0.55; font-weight: 600; }
+
 .btn-card {
     display: block;
-    background: var(--primary-color);
-    color: white;
+    background: var(--secondary-color);
+    color: var(--text-color);
     padding: 10px;
     text-decoration: none;
     border-radius: var(--radius-sm);
@@ -133,9 +154,9 @@
 }
 .page-link:hover { background: rgba(255, 255, 255, 0.12); }
 .page-link.active {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border-color: var(--secondary-color);
 }
 
 @media (max-width: 768px) {

@@ -34,6 +34,17 @@
                                 {{ publication.views_count }}
                             </span>
                         </div>
+                        <div class="info-row rating-row">
+                            <span class="rating-badge {% if publication.ratings_count == 0 %}rating-empty{% endif %}">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                {% if publication.ratings_count > 0 %}
+                                    {{ publication.avg_rating|floatformat:1 }}
+                                    <small>({{ publication.ratings_count }})</small>
+                                {% else %}
+                                    {% trans 'No rating' %}
+                                {% endif %}
+                            </span>
+                        </div>
                         <a href="{% url 'publications:detail' publication.slug %}" class="btn-card">{% trans 'Access' %}</a>
                     </div>
                 </div>

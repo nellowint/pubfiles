@@ -14,20 +14,69 @@
             {% if publication.cover %}
                 <img src="{{ publication.cover.url }}" alt="{{ publication.title }}" class="cover-img">
             {% endif %}
+            {% if publication.is_members_only %}
+                <span class="cover-badge">{% trans 'PREMIUM' %}</span>
+            {% endif %}
         </div>
 
         <div class="detail-content">
-            <h1>{{ publication.title }}</h1>
-            <p><strong>{% trans 'Published in:' %}</strong> {{ publication.published_at|date:"d/m/Y H:i" }}</p>
+            <div class="detail-title-row">
+                <h1>{{ publication.title }}</h1>
+                {% if publication.is_members_only %}
+                    <span class="detail-premium-pill">{% trans 'PREMIUM' %}</span>
+                {% endif %}
+            </div>
+
+            <div class="detail-meta-row">
+                <span class="meta-pill">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    {{ publication.published_at|date:"d/m/Y" }}
+                </span>
+                {% if publication.category %}
+                    <span class="meta-pill">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5a1.99 1.99 0 011.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z"/></svg>
+                        {{ publication.category.name }}
+                    </span>
+                {% endif %}
+                <span class="meta-pill">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    {{ publication.views_count }}
+                </span>
+            </div>
 
             {% if publication.updated_at|date:"U" > publication.published_at|date:"U" %}
                 <p class="meta-date">{% trans 'Edited in:' %} {{ publication.updated_at|date:"d/m/Y H:i" }}</p>
             {% endif %}
 
+            <div class="rating-inline" id="avaliacao">
+                <div class="rating-stars" id="ratingStars" data-url="{% url 'publications:rate' publication.slug %}">
+                    {% csrf_token %}
+                    {% for i in "12345" %}
+                        <button type="button"
+                                class="star {% if user_rating >= forloop.counter %}filled{% endif %}"
+                                data-score="{{ forloop.counter }}"
+                                aria-label="{{ forloop.counter }} {% trans 'stars' %}">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        </button>
+                    {% endfor %}
+                </div>
+                <div class="rating-summary">
+                    <strong id="avgRating">{{ publication.avg_rating|floatformat:1 }}</strong>
+                    <span class="rating-count">
+                        {% blocktrans count counter=publication.ratings_count %}{{ counter }} vote{% plural %}{{ counter }} votes{% endblocktrans %}
+                    </span>
+                </div>
+            </div>
+            {% if not request.user.is_authenticated %}
+                <p class="rating-login-hint">
+                    <a href="{% url 'login' %}?next={{ request.path }}">{% trans 'Log in to rate this publication.' %}</a>
+                </p>
+            {% endif %}
+
             <hr class="detail-divider">
 
             <h3 class="synopsis-title">{% trans 'Synopsis:' %}</h3>
-            <p style="line-height: 1.6; text-align: justify; margin-bottom: 0;">{{ publication.description|linebreaks }}</p>
+            <div class="synopsis-text">{{ publication.description|linebreaks }}</div>
 
             <div class="detail-actions-row">
                 <a href="{% url 'publications:home' %}" class="btn-detail btn-action-back">
@@ -42,4 +91,105 @@
             </div>
         </div>
     </div>
+
+    <section class="detail-section comments-section" id="comentarios">
+        <h2 class="section-title">
+            {% trans 'Comments' %}
+            {% if comments %}
+                <span class="section-count">{{ comments|length }}</span>
+            {% endif %}
+        </h2>
+
+        {% if comments %}
+            <ul class="comment-list">
+                {% for comment in comments %}
+                    <li class="comment-card">
+                        <div class="comment-avatar">
+                            {% if comment.user.avatar %}
+                                <img src="{{ comment.user.avatar.url }}" alt="{{ comment.user.email }}">
+                            {% else %}
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            {% endif %}
+                        </div>
+                        <div class="comment-body">
+                            <div class="comment-header">
+                                <span class="comment-author">{{ comment.user.email }}</span>
+                                <span class="comment-date">{{ comment.created_at|date:"d/m/Y H:i" }}</span>
+                            </div>
+                            <div class="comment-content" id="comment-content-{{ comment.pk }}">
+                                {{ comment.content|linebreaks }}
+                            </div>
+                            {% if comment.user == request.user %}
+                                <div class="comment-actions">
+                                    <button type="button" class="comment-btn js-edit-comment" data-id="{{ comment.pk }}">
+                                        {% trans 'Edit' %}
+                                    </button>
+                                    <form action="{% url 'publications:delete_comment' comment.pk %}" method="POST" class="comment-delete-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="comment-btn comment-btn-danger">
+                                            {% trans 'Delete' %}
+                                        </button>
+                                    </form>
+                                </div>
+                                <form action="{% url 'publications:edit_comment' comment.pk %}" method="POST" class="comment-edit-form" id="comment-edit-form-{{ comment.pk }}" style="display:none;">
+                                    {% csrf_token %}
+                                    <textarea name="content" rows="3">{{ comment.content }}</textarea>
+                                    <div class="comment-edit-actions">
+                                        <button type="submit" class="comment-btn">{% trans 'Save' %}</button>
+                                        <button type="button" class="comment-btn js-cancel-edit" data-id="{{ comment.pk }}">{% trans 'Cancel' %}</button>
+                                    </div>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="comments-empty">{% trans 'No comments yet. Be the first to comment!' %}</p>
+        {% endif %}
+
+        {% if request.user.is_authenticated %}
+            <form action="{% url 'publications:add_comment' publication.slug %}" method="POST" class="comment-form">
+                {% csrf_token %}
+                <div class="comment-form-header">
+                    <div class="comment-form-avatar">
+                        {% if request.user.avatar %}
+                            <img src="{{ request.user.avatar.url }}" alt="{{ request.user.email }}">
+                        {% else %}
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        {% endif %}
+                    </div>
+                    <textarea name="content" rows="3" placeholder="{% trans 'Write your comment...' %}" required></textarea>
+                </div>
+                <button type="submit" class="btn-comment-submit">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                    {% trans 'Comment' %}
+                </button>
+            </form>
+        {% else %}
+            <p class="rating-login-hint">
+                <a href="{% url 'login' %}?next={{ request.path }}#comentarios">{% trans 'Log in to leave a comment.' %}</a>
+            </p>
+        {% endif %}
+    </section>
+
+    {% if similar_publications %}
+        <section class="detail-section similar-section">
+            <h2 class="section-title">{% trans 'Similar publications' %}</h2>
+            <div class="similar-grid">
+                {% for similar in similar_publications %}
+                    <a href="{% url 'publications:detail' similar.slug %}" class="similar-card">
+                        {% if similar.cover %}
+                            <img src="{{ similar.cover.url }}" alt="{{ similar.title }}" loading="lazy">
+                        {% endif %}
+                        <span class="similar-title">{{ similar.title }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/publications-detail.js' %}"></script>
 {% endblock %}
