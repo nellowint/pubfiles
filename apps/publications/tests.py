@@ -199,6 +199,17 @@ class CommentTests(TestCase):
         resp = self.client.get(url)
         self.assertContains(resp, 'visible to all')
 
+    def test_email_not_exposed_in_comments(self):
+        Comment.objects.create(
+            publication=self.publication,
+            user=self.owner,
+            content='my comment',
+        )
+        url = reverse('publications:detail', args=[self.publication.slug])
+        resp = self.client.get(url)
+        self.assertContains(resp, 'owner')
+        self.assertNotContains(resp, 'owner@example.com')
+
 
 class RatingTests(TestCase):
     def setUp(self):

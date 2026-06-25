@@ -1,6 +1,7 @@
 {% extends "publications/base.html" %}
 {% load static %}
 {% load i18n %}
+{% load publications_extras %}
 
 {% block title %}{{ publication.title }} - {% trans "Details" %}{% endblock %}
 
@@ -106,14 +107,14 @@
                     <li class="comment-card">
                         <div class="comment-avatar">
                             {% if comment.user.avatar %}
-                                <img src="{{ comment.user.avatar.url }}" alt="{{ comment.user.email }}">
+                                <img src="{{ comment.user.avatar.url }}" alt="{{ comment.user.email|username_only }}">
                             {% else %}
                                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                             {% endif %}
                         </div>
                         <div class="comment-body">
                             <div class="comment-header">
-                                <span class="comment-author">{{ comment.user.email }}</span>
+                                <span class="comment-author">{{ comment.user.email|username_only }}</span>
                                 <span class="comment-date">{{ comment.created_at|date:"d/m/Y H:i" }}</span>
                             </div>
                             <div class="comment-content" id="comment-content-{{ comment.pk }}">
