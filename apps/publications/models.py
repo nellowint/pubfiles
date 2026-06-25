@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.text import slugify
 
@@ -66,6 +68,10 @@ class Publication(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('publications:detail', kwargs={'slug': self.slug})
+
     def save(self, *args, **kwargs):
         if not self.slug:
             temp_slug = slugify(self.title)
@@ -103,3 +109,72 @@ class Page(models.Model):
 
     def __str__(self):
         return f"{self.publication.title} - {self.page_order}"
+
+
+class Comment(models.Model):
+    publication = models.ForeignKey(
+        Publication,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Publication'
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='User'
+    )
+    content = models.TextField(
+        verbose_name='Content'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Created at'
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Updated at'
+    )
+
+    class Meta:
+        ordering = ['created_at']
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+    def __str__(self):
+        return f'{self.user.email} - {self.publication.title}'
+
+
+class Rating(models.Model):
+    publication = models.ForeignKey(
+        Publication,
+        on_delete=models.CASCADE,
+        related_name='ratings',
+        verbose_name='Publication'
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='ratings',
+        verbose_name='User'
+    )
+    score = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        verbose_name='Score'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Created at'
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Updated at'
+    )
+
+    class Meta:
+        unique_together = ('user', 'publication')
+        verbose_name = 'Rating'
+        verbose_name_plural = 'Ratings'
+
+    def __str__(self):
+        return f'{self.user.email} - {self.publication.title} - {self.score}'

@@ -2,7 +2,9 @@ from django import forms
 from django.contrib import admin
 from django.core.validators import validate_image_file_extension
 from django.template.loader import get_template
-from .models import Publication, Page
+
+from .models import Comment, Page, Publication, Rating
+
 
 class PublicationAdminForm(forms.ModelForm):
     batch_upload = forms.FileField(
@@ -65,3 +67,19 @@ class PublicationAdmin(admin.ModelAdmin):
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
         form.save_pages(form.instance)
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['user', 'publication', 'created_at', 'updated_at']
+    list_filter = ['publication']
+    search_fields = ['content', 'user__email', 'publication__title']
+    readonly_fields = ['created_at', 'updated_at']
+
+
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ['user', 'publication', 'score', 'updated_at']
+    list_filter = ['score', 'publication']
+    search_fields = ['user__email', 'publication__title']
+    readonly_fields = ['created_at', 'updated_at']
