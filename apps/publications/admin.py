@@ -2,6 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.core.validators import validate_image_file_extension
 from django.template.loader import get_template
+from modeltranslation.admin import TabbedTranslationAdmin
 
 from .models import Comment, Page, Publication, Rating
 
@@ -54,12 +55,12 @@ class PageInline(admin.TabularInline):
     page_thumbnail.short_description = "Thumbnail"
 
 @admin.register(Publication)
-class PublicationAdmin(admin.ModelAdmin):
+class PublicationAdmin(TabbedTranslationAdmin):
     form = PublicationAdminForm
     list_display = ['title', 'category', 'is_members_only', 'free_pages_count', 'views_count', 'published_at']
     list_filter = ['is_members_only', 'category']
     search_fields = ['title', 'description']
-    prepopulated_fields = {'slug': ('title',)}
+    prepopulated_fields = {'slug': ('title_pt_br',)}
     readonly_fields = ['views_count', 'published_at', 'updated_at']
 
     inlines = [PageInline]

@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -123,6 +124,10 @@ LANGUAGES = [
 ]
 
 LOCALE_PATHS = [BASE_DIR / 'locale']
+
+MODELTRANSLATION_LANGUAGES = ('pt-br', 'en', 'es')
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'pt-br'
+MODELTRANSLATION_FALLBACK_LANGUAGES = ('pt-br',)
 
 TIME_ZONE = 'America/Sao_Paulo'
 

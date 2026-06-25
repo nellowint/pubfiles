@@ -1,7 +1,8 @@
 import io
 
+from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from PIL import Image
 
@@ -314,3 +315,38 @@ class SimilarPublicationsTests(TestCase):
         url = reverse('publications:detail', args=[pub_no_cat.slug])
         resp = self.client.get(url)
         self.assertContains(resp, other.title)
+
+
+class TranslationTests(TestCase):
+    def setUp(self):
+        self.publication = Publication.objects.create(
+            title='Titulo em Portugues',
+            cover=page_image('cover.png'),
+        )
+
+    @override_settings(MIDDLEWARE=[
+        m for m in settings.MIDDLEWARE
+        if m != 'django.middleware.locale.LocaleMiddleware'
+    ])
+    def test_falls_back_to_default_when_translation_missing(self):
+        from django.utils import translation
+        url = reverse('publications:detail', args=[self.publication.slug])
+        with translation.override('en'):
+            resp = self.client.get(url)
+            content = resp.content.decode('utf-8')
+        self.assertIn('Titulo em Portugues', content)
+
+    @override_settings(MIDDLEWARE=[
+        m for m in settings.MIDDLEWARE
+        if m != 'django.middleware.locale.LocaleMiddleware'
+    ])
+    def test_shows_translated_title_when_available(self):
+        self.publication.title_en = 'English Title'
+        self.publication.save()
+        from django.utils import translation
+        url = reverse('publications:detail', args=[self.publication.slug])
+        with translation.override('en'):
+            resp = self.client.get(url)
+            content = resp.content.decode('utf-8')
+        self.assertIn('English Title', content)
+        self.assertNotIn('Titulo em Portugues', content)

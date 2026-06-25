@@ -5,6 +5,7 @@ click==8.4.1
 Django==6.0.6
 django-js-asset==4.0.1
 django-mptt==0.18.0
+django-modeltranslation==0.20.3
 flake8==4.0.1
 isort==8.0.1
 mccabe==0.6.1
