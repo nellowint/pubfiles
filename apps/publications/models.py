@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.text import slugify
 
 from apps.categories.models import Category
+from core.utils import MediaPath
 
 
 class Publication(models.Model):
@@ -34,7 +35,7 @@ class Publication(models.Model):
         verbose_name='Category'
     )
     cover = models.ImageField(
-        upload_to='covers/',
+        upload_to=MediaPath('covers'),
         verbose_name='Cover'
     )
     views_count = models.PositiveIntegerField(
@@ -95,7 +96,7 @@ class Page(models.Model):
         verbose_name='Publication'
     )
     image = models.ImageField(
-        upload_to='pages/',
+        upload_to=MediaPath('pages'),
         verbose_name='Page Content'
     )
     page_order = models.PositiveIntegerField(

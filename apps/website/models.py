@@ -2,6 +2,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+from core.utils import MediaPath
+
 
 class WebSettings(models.Model):
     title = models.CharField(
@@ -10,14 +12,21 @@ class WebSettings(models.Model):
         verbose_name='Website title'
     )
     logo = models.ImageField(
-        upload_to='website/logo',
+        upload_to=MediaPath('website/logo'),
         verbose_name='Website logo',
         blank=True,
         null=True
     )
     background = models.ImageField(
-        upload_to='website/background',
+        upload_to=MediaPath('website/background'),
         verbose_name='Website background',
+        blank=True,
+        null=True
+    )
+    background_mobile = models.ImageField(
+        upload_to=MediaPath('website/background'),
+        verbose_name='Website background (mobile)',
+        help_text='Background used only on mobile devices. Falls back to the main background if empty.',
         blank=True,
         null=True
     )
