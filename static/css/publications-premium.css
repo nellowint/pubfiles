@@ -67,7 +67,7 @@
 .btn-restricted-back {
     display: inline-block;
     margin-top: 25px;
-    color: var(--primary-color);
+    color: var(--secondary-color);
     font-weight: 600;
     font-size: 14px;
     text-decoration: none;

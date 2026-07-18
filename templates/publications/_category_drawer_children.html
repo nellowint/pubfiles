@@ -1,0 +1,17 @@
+{% load publications_extras %}
+{% load i18n %}
+<div class="drawer-cat-children children-of-{{ category.id }}" data-cat-id="{{ category.id }}">
+    <a href="{% url 'publications:home' %}?category={{ category.id }}"
+       class="drawer-sub-link cat-{{ category.id }} cat-see-all"
+       data-cat-id="{{ category.id }}"
+       data-parent-id="{{ category.parent_id }}">{% blocktrans with name=category.name %}See all of {{ name }}{% endblocktrans %}</a>
+    {% for child in category.get_children %}
+        <a href="{% url 'publications:home' %}?category={{ child.id }}"
+           class="drawer-sub-link cat-{{ child.id }}"
+           data-cat-id="{{ child.id }}"
+           data-parent-id="{{ child.parent_id }}">{{ child.name }}</a>
+        {% if not child.is_leaf_node %}
+            {% render_drawer_children child %}
+        {% endif %}
+    {% endfor %}
+</div>

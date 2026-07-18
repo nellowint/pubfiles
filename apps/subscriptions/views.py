@@ -81,6 +81,34 @@ def checkout_cancel(request):
     return render(request, 'subscriptions/cancel.html')
 
 
+@login_required
+def cancel_subscription(request):
+    subscription = Subscription.objects.active_for(request.user).first()
+
+    if not subscription:
+        return redirect('publications:home')
+
+    if request.method == 'POST':
+        if subscription.stripe_subscription_id:
+            try:
+                stripe.Subscription.cancel(subscription.stripe_subscription_id)
+            except stripe.error.StripeError:
+                pass
+
+        subscription.is_active = False
+        subscription.status = SubscriptionStatus.CANCELED
+        subscription.cancelled_at = timezone.now()
+        subscription.save()
+
+        return render(request, 'subscriptions/cancel_subscription.html', {
+            'cancelled': True,
+        })
+
+    return render(request, 'subscriptions/cancel_subscription.html', {
+        'subscription': subscription,
+    })
+
+
 @csrf_exempt
 def stripe_webhook(request):
     payload = request.body

@@ -12,9 +12,13 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+from django.apps import apps
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -149,28 +153,37 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DATA_UPLOAD_MAX_NUMBER_FILES = 500
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = "accounts.User"
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#Email Backend
+EMAIL_BACKEND=os.environ.get('EMAIL_BACKEND', '')
+EMAIL_HOST=os.environ.get('EMAIL_HOST', '')
+EMAIL_PORT=os.environ.get('EMAIL_PORT', 587)
+EMAIL_USE_TLS=os.environ.get('EMAIL_USE_TLS', True)
+EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL', '')
 
+#Login redirect
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'publications:home'
 LOGOUT_REDIRECT_URL = 'publications:home'
 
+#Email verification timeout (24 hours in seconds)
+PASSWORD_RESET_TIMEOUT = 86400
+
+#Stripe
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
 STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', '')
 STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
 STRIPE_CURRENCY = 'usd'
 
-from django.apps import apps
-
-
 def get_dynamic_logo():
     try:
-        WebsiteModel = apps.get_model('website', 'Website')
+        WebsiteModel = apps.get_model('website', 'WebSettings')
         config = WebsiteModel.objects.first()
         if config and config.logo:
-            return config.logo.url
+            return '..' + config.logo.url
     except Exception:
         pass
     return "img/default-logo.png"
@@ -183,7 +196,7 @@ JAZZMIN_SETTINGS = {
     "copyright": "VWTech Dev",
     "search_model": ["accounts.User"],
     "site_logo": get_dynamic_logo,
-    "login_logo_styles": "max-height: 45px; width: auto; margin-bottom: 5px; display: block; margin-left: auto; margin-right: auto;",
+    "login_logo_styles": "width: 30px; height: 30px; margin-bottom: 5px; display: block; margin-left: auto; margin-right: auto;",
     "site_logo_classes": "img-fluid",
     "changeform_format": "horizontal_tabs",
     "topmenu_links": [

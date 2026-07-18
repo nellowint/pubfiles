@@ -1,0 +1,34 @@
+{% extends "publications/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Cancel Subscription" %} - {{ site_title }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/subscriptions.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="sub-result-wrapper">
+    <div class="sub-result-box">
+        {% if cancelled %}
+            <div class="result-icon">✓</div>
+            <h2>{% trans 'Subscription Cancelled' %}</h2>
+            <p>{% trans 'Your Premium subscription has been cancelled. You will lose access to premium content at the end of your current billing period.' %}</p>
+            <a href="{% url 'publications:home' %}" class="btn-result btn-result-warning">{% trans 'Back to catalog' %}</a>
+        {% else %}
+            <div class="result-icon">⚠️</div>
+            <h2>{% trans 'Cancel Subscription' %}</h2>
+            <p>{% trans 'Are you sure you want to cancel your Premium subscription? You will lose access to premium content at the end of your current billing period.' %}</p>
+            {% if subscription.expires_at %}
+                <p class="restricted-subtext">{% blocktrans with expires=subscription.expires_at|date:"d/m/Y" %}Active until: {{ expires }}{% endblocktrans %}</p>
+            {% endif %}
+            <form method="POST" action="{% url 'subscriptions:cancel_subscription' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-result btn-result-warning">{% trans 'Confirm Cancellation' %}</button>
+            </form>
+            <a href="{% url 'publications:home' %}" class="btn-restricted-back">{% trans 'Keep subscription' %}</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

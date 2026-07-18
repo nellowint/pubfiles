@@ -1,0 +1,21 @@
+{% load publications_extras %}
+{% load i18n %}
+<div class="cat-children children-of-{{ category.id }}" data-cat-id="{{ category.id }}">
+    <div class="children-grid">
+        <a href="{% url 'publications:home' %}?category={{ category.id }}"
+           class="child-nav-button cat-{{ category.id }} cat-see-all"
+           data-cat-id="{{ category.id }}"
+           data-parent-id="{{ category.parent_id }}">{% blocktrans with name=category.name %}See all of {{ name }}{% endblocktrans %}</a>
+        {% for child in category.get_children %}
+            <a href="{% url 'publications:home' %}?category={{ child.id }}"
+               class="child-nav-button cat-{{ child.id }}"
+               data-cat-id="{{ child.id }}"
+               data-parent-id="{{ child.parent_id }}">{{ child.name }}</a>
+        {% endfor %}
+    </div>
+    {% for child in category.get_children %}
+        {% if not child.is_leaf_node %}
+            {% render_nav_children child %}
+        {% endif %}
+    {% endfor %}
+</div>

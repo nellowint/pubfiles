@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load publications_extras %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
@@ -12,27 +13,23 @@
 
     <style>
         :root {
-            --primary-color: {{ color_light_primary|default:"#007bff" }};
-            --secondary-color: {{ color_light_secondary|default:"#6c757d" }};
+            --primary-color: {{ color_light_primary|default:"#FFFFFF" }};
+            --secondary-color: {{ color_light_secondary|default:"#F8F9FA" }};
             --bg-image: url("{{ site_background }}");
-            --nav-bg: rgba(255, 255, 255, 0.25);
-            --nav-border: rgba(255, 255, 255, 0.3);
-            --dropdown-bg: rgba(255, 255, 255, 0.95);
+            --bg-image-mobile: url("{{ site_background_mobile }}");
+            --nav-bg: color-mix(in srgb, var(--primary-color) 25%, transparent);
+            --nav-border: color-mix(in srgb, var(--secondary-color) 30%, transparent);
+            --dropdown-bg: color-mix(in srgb, var(--primary-color) 95%, transparent);
             --dropdown-text: #333333;
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --card-border: rgba(255, 255, 255, 0.4);
+            --card-bg: color-mix(in srgb, var(--primary-color) 85%, transparent);
+            --card-border: color-mix(in srgb, var(--secondary-color) 40%, transparent);
             --text-color: #333333;
         }
 
         [data-theme="dark"] {
             --primary-color: {{ color_dark_primary|default:"#121212" }};
-            --secondary-color: {{ color_dark_secondary|default:"#1a1a1a" }};
-            --nav-bg: rgba(0, 0, 0, 0.4);
-            --nav-border: rgba(255, 255, 255, 0.1);
-            --dropdown-bg: rgba(26, 26, 26, 0.95);
+            --secondary-color: {{ color_dark_secondary|default:"#1A1A1A" }};
             --dropdown-text: #f8f9fa;
-            --card-bg: rgba(30, 30, 30, 0.85);
-            --card-border: rgba(255, 255, 255, 0.1);
             --text-color: #f8f9fa;
         }
     </style>
@@ -85,20 +82,30 @@
                     </div>
 
                     {% if request.user.is_authenticated %}
-                        <div class="user-logged-box">
-                            <div class="user-avatar" title="{{ request.user.email }}">
+                        <div class="user-menu-selector">
+                            <button class="user-avatar js-user-menu-toggle" id="userMenuToggle" title="{{ request.user.email }}" aria-label="{% trans 'Account menu' %}" aria-expanded="false">
                                 <div class="avatar-icon">
-                                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                    {% if request.user.avatar %}
+                                        <img src="{{ request.user.avatar.url }}" alt="{{ request.user.email }}">
+                                    {% else %}
+                                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                    {% endif %}
                                 </div>
-                                <span>{{ request.user.email|truncatechars:12 }}</span>
+                            </button>
+                            <div class="user-menu-dropdown js-user-menu-dropdown" id="userMenuDropdown">
+                                <div class="user-menu-email">{{ request.user.email }}</div>
+                                <a href="{% url 'profile' %}" class="user-menu-link">{% trans 'My profile' %}</a>
+                                {% if user_subscription and user_subscription.is_valid %}
+                                    <a href="{% url 'subscriptions:cancel_subscription' %}" class="user-menu-link user-menu-danger">{% trans 'Cancel subscription' %}</a>
+                                {% endif %}
+                                <form action="{% url 'logout' %}" method="POST" class="user-menu-logout-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="user-menu-link user-menu-logout">{% trans 'Logout' %}</button>
+                                </form>
                             </div>
-                            <form action="{% url 'logout' %}" method="POST" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-logout">{% trans 'Logout' %}</button>
-                            </form>
                         </div>
                     {% else %}
-                        <a href="{% url 'login' %}" class="btn-premium">{% trans 'Subscribe Premium' %}</a>
+                        <a href="{% url 'login' %}" class="btn-premium">{% trans 'Login' %}</a>
                     {% endif %}
 
                     <button class="nav-mobile-toggle" id="navMobileToggle" aria-label="Menu" aria-expanded="false">
@@ -107,36 +114,30 @@
                 </div>
             </div>
 
-            <div class="nav-categories-row" id="navCategories">
-                <div class="categories-grid">
-                    <a href="{% url 'publications:home' %}" class="category-nav-button {% if not request.GET.category %}active{% endif %}">{% trans 'All Categories' %}</a>
+            {% if categories %}
+                <div class="nav-categories-row" id="navCategories">
+                    <div class="categories-grid">
+                        <a href="{% url 'publications:home' %}" class="category-nav-button {% if not request.GET.category %}active{% endif %}">{% trans 'All Categories' %}</a>
 
-                    {% for category in categories %}
-                        {% if category.is_root_node %}
-                            <a href="{% url 'publications:home' %}?category={{ category.id }}"
-                               class="category-nav-button id-pai-{{ category.id }}">
-                                {{ category.name }}
-                            </a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-
-            {% for category in categories %}
-                {% if category.is_root_node and not category.is_leaf_node %}
-                    <div class="nav-children-row sub-bloco-pai-{{ category.id }}" style="display: none;">
-                        <div class="children-grid">
-                            <a href="{% url 'publications:home' %}?category={{ category.id }}" class="child-nav-button id-filha-{{ category.id }}">{% blocktrans with name=category.name %}See all of {{ name }}{% endblocktrans %}</a>
-
-                            {% for child in category.children.all %}
-                                <a href="{% url 'publications:home' %}?category={{ child.id }}" class="child-nav-button id-filha-{{ child.id }}">
-                                    {{ child.name }}
+                        {% for category in categories %}
+                            {% if category.is_root_node %}
+                                <a href="{% url 'publications:home' %}?category={{ category.id }}"
+                                   class="category-nav-button cat-{{ category.id }}"
+                                   data-cat-id="{{ category.id }}"
+                                   data-parent-id="{{ category.parent_id }}">
+                                    {{ category.name }}
                                 </a>
-                            {% endfor %}
-                        </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                {% endif %}
-            {% endfor %}
+                </div>
+
+                {% for category in categories %}
+                    {% if category.is_root_node and not category.is_leaf_node %}
+                        {% render_nav_children category %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </nav>
 
         <main>
@@ -158,9 +159,30 @@
         </div>
 
         <div class="drawer-body">
-            <form action="{% url 'publications:home' %}" method="GET" class="search-form drawer-search">
-                <input type="text" name="q" value="{{ request.GET.q }}" placeholder="{% trans 'Type to search...' %}" class="search-input">
-            </form>
+            <div class="drawer-auth">
+                {% if request.user.is_authenticated %}
+                    <div class="drawer-user">
+                        <div class="avatar-icon">
+                            {% if request.user.avatar %}
+                                <img src="{{ request.user.avatar.url }}" alt="{{ request.user.email }}">
+                            {% else %}
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            {% endif %}
+                        </div>
+                        <span>{{ request.user.email }}</span>
+                    </div>
+                    <a href="{% url 'profile' %}" class="drawer-profile-link">{% trans 'My profile' %}</a>
+                    {% if user_subscription and user_subscription.is_valid %}
+                        <a href="{% url 'subscriptions:cancel_subscription' %}" class="drawer-profile-link drawer-profile-danger">{% trans 'Cancel subscription' %}</a>
+                    {% endif %}
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-logout drawer-logout">{% trans 'Logout' %}</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn-premium drawer-premium">{% trans 'Login' %}</a>
+                {% endif %}
+            </div>
 
             <div class="drawer-controls">
                 <button class="drawer-control-btn js-theme-toggle" title="{% trans 'Toggle Theme' %}" aria-label="{% trans 'Toggle Theme' %}">
@@ -182,25 +204,26 @@
             </div>
 
             <nav class="drawer-categories">
+                {% if categories %}
                 <a href="{% url 'publications:home' %}" class="drawer-cat-link {% if not request.GET.category %}active{% endif %}">{% trans 'All Categories' %}</a>
                 {% for category in categories %}
                     {% if category.is_root_node %}
-                        <a href="{% url 'publications:home' %}?category={{ category.id }}" class="drawer-cat-link id-pai-{{ category.id }}">{{ category.name }}</a>
+                        <a href="{% url 'publications:home' %}?category={{ category.id }}"
+                           class="drawer-cat-link cat-{{ category.id }}"
+                           data-cat-id="{{ category.id }}"
+                           data-parent-id="{{ category.parent_id }}">{{ category.name }}</a>
                         {% if not category.is_leaf_node %}
-                            <div class="drawer-subcategories sub-bloco-pai-{{ category.id }}">
-                                <a href="{% url 'publications:home' %}?category={{ category.id }}" class="drawer-sub-link id-filha-{{ category.id }}">{% blocktrans with name=category.name %}See all of {{ name }}{% endblocktrans %}</a>
-                                {% for child in category.children.all %}
-                                    <a href="{% url 'publications:home' %}?category={{ child.id }}" class="drawer-sub-link id-filha-{{ child.id }}">{{ child.name }}</a>
-                                {% endfor %}
-                            </div>
+                            {% render_drawer_children category %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
+                {% endif %}
             </nav>
         </div>
     </aside>
 
     <script src="{% static 'js/publications-base.js' %}"></script>
+    <script src="{% static 'js/search-clear.js' %}"></script>
     {% block extra_js %}{% endblock %}
 
 </body>

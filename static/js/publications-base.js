@@ -18,7 +18,7 @@ document.querySelectorAll('.js-theme-toggle').forEach(btn => {
 
         toggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            document.querySelectorAll('.js-lang-dropdown.open').forEach(d => {
+            document.querySelectorAll('.js-lang-dropdown.open, .js-user-menu-dropdown.open').forEach(d => {
                 if (d !== dropdown) d.classList.remove('open');
             });
             dropdown.classList.toggle('open');
@@ -35,9 +35,28 @@ document.querySelectorAll('.js-theme-toggle').forEach(btn => {
     });
 
     document.addEventListener('click', () => {
-        document.querySelectorAll('.js-lang-dropdown.open').forEach(d => {
+        document.querySelectorAll('.js-lang-dropdown.open, .js-user-menu-dropdown.open').forEach(d => {
             d.classList.remove('open');
         });
+    });
+})();
+
+(function() {
+    document.querySelectorAll('.user-menu-selector').forEach(selector => {
+        const toggle = selector.querySelector('.js-user-menu-toggle');
+        const dropdown = selector.querySelector('.js-user-menu-dropdown');
+        if (!toggle || !dropdown) return;
+
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelectorAll('.js-lang-dropdown.open, .js-user-menu-dropdown.open').forEach(d => {
+                if (d !== dropdown) d.classList.remove('open');
+            });
+            const isOpen = dropdown.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        dropdown.addEventListener('click', (e) => e.stopPropagation());
     });
 })();
 
@@ -86,33 +105,16 @@ document.querySelectorAll('.js-theme-toggle').forEach(btn => {
 (function() {
     const urlParams = new URLSearchParams(window.location.search);
     const activeId = urlParams.get('category');
+    if (!activeId) return;
 
-    if (activeId) {
-        document.querySelectorAll(`.id-filha-${activeId}`).forEach(btn => {
-            btn.classList.add('active');
+    document.querySelectorAll('.cat-' + activeId).forEach(btn => btn.classList.add('active'));
+
+    let cur = activeId;
+    while (cur) {
+        document.querySelectorAll('.children-of-' + cur).forEach(block => {
+            block.classList.add('open');
         });
-
-        const activeParentBtns = document.querySelectorAll(`.id-pai-${activeId}`);
-        const targetSubBlocks = document.querySelectorAll(`.sub-bloco-pai-${activeId}`);
-
-        if (activeParentBtns.length > 0 && targetSubBlocks.length > 0) {
-            activeParentBtns.forEach(btn => btn.classList.add('active'));
-            targetSubBlocks.forEach(block => { block.style.display = 'block'; });
-        } else {
-            const activeChildBtns = document.querySelectorAll(`.id-filha-${activeId}`);
-            activeChildBtns.forEach(btn => {
-                const parentContainer = btn.closest('.nav-children-row, .drawer-subcategories');
-                if (parentContainer) {
-                    parentContainer.style.display = 'block';
-
-                    const classMatch = parentContainer.className.match(/sub-bloco-pai-(\d+)/);
-                    if (classMatch && classMatch[1]) {
-                        document.querySelectorAll(`.id-pai-${classMatch[1]}`).forEach(rootBtn => {
-                            rootBtn.classList.add('active');
-                        });
-                    }
-                }
-            });
-        }
+        const btn = document.querySelector('.cat-' + cur);
+        cur = btn ? (btn.dataset.parentId || '') : '';
     }
 })();

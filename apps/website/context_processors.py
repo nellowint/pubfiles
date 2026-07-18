@@ -6,6 +6,7 @@ def website_settings(request):
     
     logo_url = f"{settings.STATIC_URL}img/default-logo.png"
     background_url = f"{settings.STATIC_URL}img/default-background.png"
+    background_mobile_url = None
     site_title = "Publications Website"
     
     light_primary = "#FFFFFF"
@@ -24,12 +25,15 @@ def website_settings(request):
             logo_url = settings_obj.logo.url
         if settings_obj.background:
             background_url = settings_obj.background.url
+        if settings_obj.background_mobile:
+            background_mobile_url = settings_obj.background_mobile.url
 
     return {
         'site_title': site_title,
         'site_logo': logo_url,
         'site_favicon': logo_url,
         'site_background': background_url,
+        'site_background_mobile': background_mobile_url or background_url,
         'color_light_primary': light_primary,
         'color_light_secondary': light_secondary,
         'color_dark_primary': dark_primary,

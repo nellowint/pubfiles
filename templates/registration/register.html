@@ -14,10 +14,16 @@
         <h2>{% trans 'Create a new account' %}</h2>
         <p>{% trans 'Fill in the fields below to register.' %}</p>
 
+        {% if rate_limited %}
+            <div class="error-alert">
+                {% trans 'Too many registration attempts. Please try again later.' %}
+            </div>
+        {% endif %}
+
         <form method="POST" action="{% url 'register' %}">
             {% csrf_token %}
 
-            {% if form.errors %}
+            {% if form.errors and not rate_limited %}
                 <div class="errorlist">
                     {% trans 'Please correct the errors below.' %}
                 </div>
@@ -48,4 +54,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/password-toggle.js' %}"></script>
 {% endblock %}
