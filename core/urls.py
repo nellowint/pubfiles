@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import include, path
 
@@ -11,6 +12,8 @@ from apps.accounts.views import (
 )
 
 urlpatterns = [
+    path('health/', lambda request: HttpResponse('OK', content_type='text/plain')),
+
     path('admin/', admin.site.urls),
 
     path('i18n/', include('django.conf.urls.i18n')),

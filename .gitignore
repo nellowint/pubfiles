@@ -175,7 +175,10 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/django
 
-#Opencode files
+#Dev Files
 .opencode/
 AGENTS.md
 PRD.md
+docs/
+settings-dev.py
+requirements-dev.txt
