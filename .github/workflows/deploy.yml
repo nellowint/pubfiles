@@ -26,11 +26,11 @@ jobs:
             echo "Atualizando repositório..."
             git pull origin main
 
-            echo "Aplicando migrations..."
-            docker compose run --rm web python manage.py migrate --noinput
-
             echo "Subindo nova versão..."
             docker compose up -d --build --remove-orphans
+
+            echo "Aplicando migrations..."
+            docker compose exec web python manage.py migrate --noinput
 
             echo "Limpando imagens antigas..."
             docker image prune -f
