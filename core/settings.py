@@ -11,11 +11,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / '.env')
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-=zxta495i_u3l)5focemn58p34t5u+i=469l-c=afhqr#rws89')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = os.environ.get('DEBUG', '0') == '1'
+DEBUG = os.getenv('DEBUG', '0') == '1'
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',') if os.environ.get('DJANGO_ALLOWED_HOSTS') else ['*'] if DEBUG else []
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',') if os.getenv('DJANGO_ALLOWED_HOSTS') else ['*'] if DEBUG else []
 
 
 # Application definition
@@ -70,19 +70,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-if os.environ.get('POSTGRES_DB'):
+if os.getenv('POSTGRES_DB'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('POSTGRES_DB'),
-            'USER': os.environ.get('POSTGRES_USER'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-            'HOST': os.environ.get('POSTGRES_HOST', 'db'),
-            'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+            'NAME': os.getenv('POSTGRES_DB'),
+            'USER': os.getenv('POSTGRES_USER'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+            'HOST': os.getenv('POSTGRES_HOST', 'db'),
+            'PORT': os.getenv('POSTGRES_PORT', '5432'),
         }
     }
 else:
@@ -152,10 +154,17 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DATA_UPLOAD_MAX_NUMBER_FILES = 500
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if os.environ.get('CSRF_TRUSTED_ORIGINS') else []
+CSRF_TRUSTED_ORIGINS = [
+    f'https://{os.getenv("DOMAIN", "localhost")}',
+    f'https://www.{os.getenv("DOMAIN", "localhost")}',
+]
 
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
@@ -197,13 +206,13 @@ LOGGING = {
 }
 
 #Email Backend
-EMAIL_BACKEND=os.environ.get('EMAIL_BACKEND', '')
-EMAIL_HOST=os.environ.get('EMAIL_HOST', '')
-EMAIL_PORT=os.environ.get('EMAIL_PORT', 587)
-EMAIL_USE_TLS=os.environ.get('EMAIL_USE_TLS', True)
-EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL', '')
+EMAIL_BACKEND=os.getenv('EMAIL_BACKEND', '')
+EMAIL_HOST=os.getenv('EMAIL_HOST', '')
+EMAIL_PORT=os.getenv('EMAIL_PORT', 587)
+EMAIL_USE_TLS=os.getenv('EMAIL_USE_TLS', True)
+EMAIL_HOST_USER=os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL=os.getenv('DEFAULT_FROM_EMAIL', '')
 
 #Login redirect
 LOGIN_URL = 'login'
@@ -214,9 +223,9 @@ LOGOUT_REDIRECT_URL = 'publications:home'
 PASSWORD_RESET_TIMEOUT = 86400
 
 #Stripe
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
-STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', '')
-STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY', '')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET', '')
 STRIPE_CURRENCY = 'usd'
 
 def get_dynamic_logo():

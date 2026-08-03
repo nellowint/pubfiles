@@ -29,10 +29,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 64M
+          memory: 32M
           cpus: '0.3'
         reservations:
-          memory: 32M
+          memory: 16M
           cpus: '0.1'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/health"]
@@ -61,10 +61,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256M
+          memory: 128M
           cpus: '0.5'
         reservations:
-          memory: 128M
+          memory: 64M
           cpus: '0.3'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
@@ -85,10 +85,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 128M
+          memory: 96M
           cpus: '0.3'
         reservations:
-          memory: 64M
+          memory: 48M
           cpus: '0.1'
 
   redis:
@@ -102,10 +102,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 64M
+          memory: 32M
           cpus: '0.2'
         reservations:
-          memory: 32M
+          memory: 16M
           cpus: '0.1'
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]

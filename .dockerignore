@@ -17,6 +17,7 @@ media/
 staticfiles/
 
 .env
+.env-example
 
 .vscode/
 .idea/
