@@ -18,7 +18,7 @@ RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python manage.py compilemessages
+RUN mkdir -p /app/logs && python manage.py compilemessages
 
 RUN useradd -m appuser
 
