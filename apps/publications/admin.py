@@ -1,17 +1,27 @@
+import re
+
 from django import forms
 from django.contrib import admin
 from django.core.validators import validate_image_file_extension
 from django.template.loader import get_template
 from modeltranslation.admin import TabbedTranslationAdmin
 
+from core.utils import validate_file_size
+
 from .models import Comment, Page, Publication, Rating
+
+
+def _natural_sort_key(file):
+    return [int(part) if part.isdigit() else part.lower()
+            for part in re.split(r'(\d+)', file.name)]
 
 
 class PublicationAdminForm(forms.ModelForm):
     batch_upload = forms.FileField(
-        label="Batch page upload",
-        help_text="Select all images from the post at once.",
-        required=False
+        label="Upload em lote",
+        help_text="Selecione todas as imagens da publicação de uma vez.",
+        required=False,
+        validators=[validate_file_size],
     )
 
     class Meta:
@@ -25,12 +35,13 @@ class PublicationAdminForm(forms.ModelForm):
     def clean_batch_upload(self):
         for upload in self.files.getlist('batch_upload'):
             validate_image_file_extension(upload)
+            validate_file_size(upload)
         return self.cleaned_data.get('batch_upload')
 
     def save_pages(self, publication):
         uploaded_files = self.files.getlist('batch_upload')
         if uploaded_files:
-            uploaded_files.sort(key=lambda x: x.name)
+            uploaded_files.sort(key=_natural_sort_key)
             current_page_count = Page.objects.filter(publication=publication).count()
 
             for index, file in enumerate(uploaded_files, start=1):
@@ -52,7 +63,7 @@ class PageInline(admin.TabularInline):
         tpl = get_template("admin/thumbnail.html")
         return tpl.render({"page": instance})
 
-    page_thumbnail.short_description = "Thumbnail"
+    page_thumbnail.short_description = "Miniatura"
 
 @admin.register(Publication)
 class PublicationAdmin(TabbedTranslationAdmin):
@@ -64,6 +75,10 @@ class PublicationAdmin(TabbedTranslationAdmin):
     readonly_fields = ['views_count', 'published_at', 'updated_at']
 
     inlines = [PageInline]
+
+    def delete_queryset(self, request, queryset):
+        for obj in queryset:
+            obj.delete()
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)

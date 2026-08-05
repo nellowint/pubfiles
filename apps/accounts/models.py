@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
-from core.utils import MediaPath
+from core.utils import MediaPath, validate_file_size
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -21,25 +21,54 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True, max_length=255)
-    first_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
+    email = models.EmailField(
+        unique=True,
+        max_length=255,
+        verbose_name='E-mail',
+    )
+    first_name = models.CharField(
+        max_length=150,
+        blank=True,
+        verbose_name='Nome',
+    )
+    last_name = models.CharField(
+        max_length=150,
+        blank=True,
+        verbose_name='Sobrenome',
+    )
     avatar = models.ImageField(
         upload_to=MediaPath('avatars'),
         blank=True,
         null=True,
         verbose_name='Avatar',
+        validators=[validate_file_size],
     )
 
-    is_active = models.BooleanField(default=True)
-    email_verified = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='Ativo',
+    )
+    email_verified = models.BooleanField(
+        default=False,
+        verbose_name='E-mail verificado',
+    )
+    is_staff = models.BooleanField(
+        default=False,
+        verbose_name='Equipe',
+    )
+    date_joined = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Data de entrada',
+    )
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    class Meta:
+        verbose_name = 'Usuário'
+        verbose_name_plural = 'Usuários'
 
     def __str__(self):
         return self.email

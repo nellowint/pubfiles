@@ -1,7 +1,19 @@
 import os
 import uuid
 
+from django.core.exceptions import ValidationError
 from django.utils import timezone
+
+
+FILE_SIZE_LIMIT_MB = 1
+
+
+def validate_file_size(value):
+    limit = FILE_SIZE_LIMIT_MB * 1024 * 1024
+    if value.size > limit:
+        raise ValidationError(
+            f'Arquivo muito grande. Tamanho máximo permitido: {FILE_SIZE_LIMIT_MB} MB.'
+        )
 
 
 class MediaPath:

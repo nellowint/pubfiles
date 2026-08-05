@@ -9,8 +9,8 @@ class SubscriptionSettingsAdmin(admin.ModelAdmin):
     readonly_fields = ('updated_at',)
     fieldsets = (
         (None, {'fields': ('is_enabled',)}),
-        ('Pricing', {'fields': ('monthly_price', 'currency')}),
-        ('Metadata', {'fields': ('updated_at',)}),
+        ('Precificação', {'fields': ('monthly_price', 'currency')}),
+        ('Metadados', {'fields': ('updated_at',)}),
     )
 
     def has_add_permission(self, request):
@@ -51,11 +51,11 @@ class SubscriptionAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {'fields': ('user', 'status', 'is_active')}),
         ('Stripe', {'fields': ('stripe_customer_id', 'stripe_subscription_id')}),
-        ('Period', {'fields': ('started_at', 'expires_at', 'cancelled_at')}),
-        ('Metadata', {'fields': ('updated_at', 'is_valid')}),
+        ('Período', {'fields': ('started_at', 'expires_at', 'cancelled_at')}),
+        ('Metadados', {'fields': ('updated_at', 'is_valid')}),
     )
 
     def is_valid(self, obj):
         return obj.is_valid
     is_valid.boolean = True
-    is_valid.short_description = 'Valid now?'
+    is_valid.short_description = 'Válida agora?'

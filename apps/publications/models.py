@@ -4,27 +4,27 @@ from django.db import models
 from django.utils.text import slugify
 
 from apps.categories.models import Category
-from core.utils import MediaPath
+from core.utils import MediaPath, validate_file_size
 
 
 class Publication(models.Model):
     title = models.CharField(
         max_length=255,
-        verbose_name='Title',
-        help_text='Name of the magazine, comic book...'
+        verbose_name='Título',
+        help_text='Nome da revista, quadrinho...',
     )
     slug = models.SlugField(
         max_length=255,
         unique=True,
         blank=True,
-        verbose_name='url',
-        help_text='Automatically generated url'
+        verbose_name='URL',
+        help_text='URL gerada automaticamente',
     )
     description = models.TextField(
         null=True,
         blank=True,
-        verbose_name='Description',
-        help_text='Optional field'
+        verbose_name='Descrição',
+        help_text='Campo opcional',
     )
     category = models.ForeignKey(
         Category,
@@ -32,39 +32,40 @@ class Publication(models.Model):
         null=True,
         blank=True,
         related_name='publications',
-        verbose_name='Category'
+        verbose_name='Categoria',
     )
     cover = models.ImageField(
         upload_to=MediaPath('covers'),
-        verbose_name='Cover'
+        verbose_name='Capa',
+        validators=[validate_file_size],
     )
     views_count = models.PositiveIntegerField(
         default=0,
-        verbose_name='Views'
+        verbose_name='Visualizações',
     )
     is_members_only = models.BooleanField(
         default=False,
-        verbose_name='Exclusive content?',
-        help_text='Exclusive content for subscribers'
+        verbose_name='Conteúdo exclusivo?',
+        help_text='Conteúdo exclusivo para assinantes',
     )
     free_pages_count = models.PositiveIntegerField(
         default=1,
-        verbose_name='Free pages',
-        help_text='How many pages can a non-paying user read before being blocked? Default: 1.'
+        verbose_name='Páginas gratuitas',
+        help_text='Quantas páginas um usuário não pagante pode ler antes de ser bloqueado? Padrão: 1.',
     )
     published_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Published in'
+        verbose_name='Publicado em',
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name='Edited in'
+        verbose_name='Atualizado em',
     )
 
     class Meta:
         ordering = ['-views_count', '-published_at']
-        verbose_name = 'Publication'
-        verbose_name_plural = 'Publications'
+        verbose_name = 'Publicação'
+        verbose_name_plural = 'Publicações'
 
     def __str__(self):
         return self.title
@@ -93,20 +94,21 @@ class Page(models.Model):
         Publication,
         on_delete=models.CASCADE,
         related_name='pages',
-        verbose_name='Publication'
+        verbose_name='Publicação',
     )
     image = models.ImageField(
         upload_to=MediaPath('pages'),
-        verbose_name='Page Content'
+        verbose_name='Conteúdo da página',
+        validators=[validate_file_size],
     )
     page_order = models.PositiveIntegerField(
-        verbose_name='Page Order'
+        verbose_name='Ordem da página',
     )
 
     class Meta:
-        ordering=['page_order']
-        verbose_name='Page'
-        verbose_name_plural='Pages'
+        ordering = ['page_order']
+        verbose_name = 'Página'
+        verbose_name_plural = 'Páginas'
 
     def __str__(self):
         return f"{self.publication.title} - {self.page_order}"
@@ -117,30 +119,30 @@ class Comment(models.Model):
         Publication,
         on_delete=models.CASCADE,
         related_name='comments',
-        verbose_name='Publication'
+        verbose_name='Publicação',
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='comments',
-        verbose_name='User'
+        verbose_name='Usuário',
     )
     content = models.TextField(
-        verbose_name='Content'
+        verbose_name='Conteúdo',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Created at'
+        verbose_name='Criado em',
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name='Updated at'
+        verbose_name='Atualizado em',
     )
 
     class Meta:
         ordering = ['created_at']
-        verbose_name = 'Comment'
-        verbose_name_plural = 'Comments'
+        verbose_name = 'Comentário'
+        verbose_name_plural = 'Comentários'
 
     def __str__(self):
         return f'{self.user.email} - {self.publication.title}'
@@ -151,31 +153,31 @@ class Rating(models.Model):
         Publication,
         on_delete=models.CASCADE,
         related_name='ratings',
-        verbose_name='Publication'
+        verbose_name='Publicação',
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='ratings',
-        verbose_name='User'
+        verbose_name='Usuário',
     )
     score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
-        verbose_name='Score'
+        verbose_name='Nota',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Created at'
+        verbose_name='Criado em',
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name='Updated at'
+        verbose_name='Atualizado em',
     )
 
     class Meta:
         unique_together = ('user', 'publication')
-        verbose_name = 'Rating'
-        verbose_name_plural = 'Ratings'
+        verbose_name = 'Avaliação'
+        verbose_name_plural = 'Avaliações'
 
     def __str__(self):
         return f'{self.user.email} - {self.publication.title} - {self.score}'

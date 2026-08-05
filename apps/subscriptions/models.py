@@ -5,13 +5,13 @@ from django.utils import timezone
 
 
 class SubscriptionStatus(models.TextChoices):
-    PENDING = 'pending', 'Pending'
-    ACTIVE = 'active', 'Active'
-    TRIALING = 'trialing', 'Trialing'
-    PAST_DUE = 'past_due', 'Past due'
-    CANCELED = 'canceled', 'Canceled'
-    UNPAID = 'unpaid', 'Unpaid'
-    INCOMPLETE = 'incomplete', 'Incomplete'
+    PENDING = 'pending', 'Pendente'
+    ACTIVE = 'active', 'Ativa'
+    TRIALING = 'trialing', 'Em teste'
+    PAST_DUE = 'past_due', 'Atrasada'
+    CANCELED = 'canceled', 'Cancelada'
+    UNPAID = 'unpaid', 'Não paga'
+    INCOMPLETE = 'incomplete', 'Incompleta'
 
 
 class SubscriptionSettings(models.Model):
@@ -19,28 +19,28 @@ class SubscriptionSettings(models.Model):
         max_digits=10,
         decimal_places=2,
         default=0,
-        verbose_name='Monthly price',
-        help_text='Value charged monthly for the premium subscription.'
+        verbose_name='Preço mensal',
+        help_text='Valor cobrado mensalmente pela assinatura premium.',
     )
     currency = models.CharField(
         max_length=3,
         default='usd',
-        verbose_name='Currency',
-        help_text='ISO 4217 code. Example: usd, brl, eur.'
+        verbose_name='Moeda',
+        help_text='Código ISO 4217. Exemplo: usd, brl, eur.',
     )
     is_enabled = models.BooleanField(
         default=False,
-        verbose_name='Enabled',
-        help_text='Enable the subscription checkout for users.'
+        verbose_name='Habilitado',
+        help_text='Habilita o checkout de assinatura para os usuários.',
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name='Updated at'
+        verbose_name='Atualizado em',
     )
 
     class Meta:
-        verbose_name = 'Subscription Settings'
-        verbose_name_plural = 'Subscription Settings'
+        verbose_name = 'Configuração de assinatura'
+        verbose_name_plural = 'Configurações de assinatura'
 
     def __str__(self):
         return f'Subscription Settings - {self.currency.upper()} {self.monthly_price}/mo'
@@ -75,56 +75,56 @@ class Subscription(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='subscriptions',
-        verbose_name='User'
+        verbose_name='Usuário',
     )
     is_active = models.BooleanField(
         default=True,
-        verbose_name='Active'
+        verbose_name='Ativa',
     )
     status = models.CharField(
         max_length=20,
         choices=SubscriptionStatus.choices,
         default=SubscriptionStatus.ACTIVE,
-        verbose_name='Status'
+        verbose_name='Status',
     )
     stripe_customer_id = models.CharField(
         max_length=255,
         blank=True,
         default='',
-        verbose_name='Stripe Customer ID'
+        verbose_name='ID do cliente Stripe',
     )
     stripe_subscription_id = models.CharField(
         max_length=255,
         blank=True,
         default='',
-        verbose_name='Stripe Subscription ID'
+        verbose_name='ID da assinatura Stripe',
     )
     started_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Started at'
+        verbose_name='Iniciada em',
     )
     expires_at = models.DateTimeField(
         null=True,
         blank=True,
-        verbose_name='Expires at',
-        help_text='Leave blank for a subscription that does not expire.'
+        verbose_name='Expira em',
+        help_text='Deixe em branco para uma assinatura que não expira.',
     )
     cancelled_at = models.DateTimeField(
         null=True,
         blank=True,
-        verbose_name='Cancelled at'
+        verbose_name='Cancelada em',
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name='Updated at'
+        verbose_name='Atualizada em',
     )
 
     objects = SubscriptionManager()
 
     class Meta:
         ordering = ['-started_at']
-        verbose_name = 'Subscription'
-        verbose_name_plural = 'Subscriptions'
+        verbose_name = 'Assinatura'
+        verbose_name_plural = 'Assinaturas'
 
     def __str__(self):
         status = 'Active' if self.is_valid else 'Inactive'
