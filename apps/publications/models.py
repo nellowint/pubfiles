@@ -26,13 +26,11 @@ class Publication(models.Model):
         verbose_name='Descrição',
         help_text='Campo opcional',
     )
-    category = models.ForeignKey(
+    category = models.ManyToManyField(
         Category,
-        on_delete=models.SET_NULL,
-        null=True,
         blank=True,
         related_name='publications',
-        verbose_name='Categoria',
+        verbose_name='Categorias',
     )
     cover = models.ImageField(
         upload_to=MediaPath('covers'),
@@ -73,6 +71,13 @@ class Publication(models.Model):
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('publications:detail', kwargs={'slug': self.slug})
+
+    @property
+    def ordered_categories(self):
+        return sorted(
+            self.category.all(),
+            key=lambda c: (c.tree_id, c.lft),
+        )
 
     def save(self, *args, **kwargs):
         if not self.slug:

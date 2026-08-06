@@ -261,10 +261,6 @@ msgstr "Padrão"
 msgid "No rating"
 msgstr "Sem avaliação"
 
-#: templates/publications/index.html:48
-msgid "Access"
-msgstr "Acessar"
-
 #: templates/publications/index.html:53
 msgid "No publications found."
 msgstr "Nenhuma publicação encontrada."
@@ -700,6 +696,9 @@ msgstr ""
 
 #~ msgid "Your password has been changed successfully."
 #~ msgstr "Sua senha foi alterada com sucesso."
+
+msgid "Visualizar"
+msgstr "Visualizar"
 
 #~ msgid ""
 #~ "Enter your current password and a new password to update your credentials."

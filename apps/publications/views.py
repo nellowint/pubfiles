@@ -17,7 +17,7 @@ class HomeView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        queryset = Publication.objects.annotate(
+        queryset = Publication.objects.prefetch_related('category').annotate(
             avg_rating=Avg('ratings__score'),
             ratings_count=Count('ratings'),
         )
@@ -50,7 +50,7 @@ class PublicationDetailView(DetailView):
     context_object_name = 'publication'
 
     def get_queryset(self):
-        return Publication.objects.annotate(
+        return Publication.objects.prefetch_related('category').annotate(
             avg_rating=Avg('ratings__score'),
             ratings_count=Count('ratings'),
         )
@@ -79,7 +79,7 @@ class PublicationDetailView(DetailView):
     def get_similar(self, publication):
         base = Publication.objects.exclude(pk=publication.pk)
         similar = list(
-            base.filter(category=publication.category)[:4]
+            base.filter(category__in=publication.category.all())[:4]
         )
 
         if len(similar) < 4:

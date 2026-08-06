@@ -74,13 +74,13 @@ class Command(BaseCommand):
             pub = Publication(
                 title=title,
                 description=f'Fake description for {title}. Generated for local testing.',
-                category=cat,
                 is_members_only=(i % 4 == 0),
                 free_pages_count=max(1, (i % 3) + 1),
                 views_count=random.randint(0, 5000),
             )
             pub.cover.save(f'{pub.slug or title}.jpg', cover, save=False)
             pub.save()
+            pub.category.add(cat)
 
             for p in range(1, pages + 1):
                 page_img = fetch_image(800, 1200, f'page-{pub.id}-{p}')

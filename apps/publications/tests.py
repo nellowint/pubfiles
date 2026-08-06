@@ -281,15 +281,15 @@ class SimilarPublicationsTests(TestCase):
         self.pub = Publication.objects.create(
             title='Batman Issue',
             cover=page_image('cover.png'),
-            category=self.category,
         )
+        self.pub.category.add(self.category)
 
     def test_same_category_appears_as_similar(self):
         other = Publication.objects.create(
             title='Batman Returns',
             cover=page_image('cover2.png'),
-            category=self.category,
         )
+        other.category.add(self.category)
         url = reverse('publications:detail', args=[self.pub.slug])
         resp = self.client.get(url)
         self.assertContains(resp, other.title)

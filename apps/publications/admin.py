@@ -68,13 +68,18 @@ class PageInline(admin.TabularInline):
 @admin.register(Publication)
 class PublicationAdmin(TabbedTranslationAdmin):
     form = PublicationAdminForm
-    list_display = ['title', 'category', 'is_members_only', 'free_pages_count', 'views_count', 'published_at']
+    autocomplete_fields = ['category']
+    list_display = ['title', 'display_categories', 'is_members_only', 'free_pages_count', 'views_count', 'published_at']
     list_filter = ['is_members_only', 'category']
     search_fields = ['title', 'description']
     prepopulated_fields = {'slug': ('title_pt_br',)}
     readonly_fields = ['views_count', 'published_at', 'updated_at']
 
     inlines = [PageInline]
+
+    @admin.display(description='Categorias')
+    def display_categories(self, obj):
+        return ', '.join(c.name for c in obj.ordered_categories)
 
     def delete_queryset(self, request, queryset):
         for obj in queryset:
