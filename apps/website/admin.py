@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin
+from modeltranslation.admin import TabbedTranslationAdmin
 from .models import WebSettings
 
 class WebSettingsAdminForm(forms.ModelForm):
@@ -14,7 +15,7 @@ class WebSettingsAdminForm(forms.ModelForm):
         }
 
 @admin.register(WebSettings)
-class WebSettingsAdmin(admin.ModelAdmin):
+class WebSettingsAdmin(TabbedTranslationAdmin):
     form = WebSettingsAdminForm
     fieldsets = (
         ('Título', {'fields': ('title', 'logo')}),

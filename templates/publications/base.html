@@ -11,6 +11,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    {% block head_meta %}
+    <meta name="description" content="{% block description %}{{ site_title }}{% endblock %}">
+    {% if seo_keywords %}<meta name="keywords" content="{{ seo_keywords|join:", " }}">{% endif %}
+    <link rel="canonical" href="{{ seo_canonical_domain }}{{ request.path }}">
+    <meta property="og:title" content="{{ site_title }} - {% block og_title %}{% trans "Home" %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ site_title }}{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ seo_canonical_domain }}{{ request.path }}">
+    <meta property="og:image" content="{{ site_logo }}">
+    <meta property="og:site_name" content="{{ site_title }}">
+    <meta property="og:locale" content="{{ LANGUAGE_CODE }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ site_title }}">
+    <meta name="twitter:url" content="{{ seo_canonical_domain }}{{ request.path }}">
+    <meta name="twitter:image" content="{{ site_logo }}">
+    {% endblock head_meta %}
+
     <style>
         :root {
             --primary-color: {{ color_light_primary|default:"#FFFFFF" }};
@@ -53,6 +70,27 @@
 </head>
 <body>
 
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+        <symbol id="flag-br" viewBox="0 0 640 480">
+            <g fill-rule="evenodd" stroke-width="1pt">
+                <path fill="#009c3b" d="M0 0h640v480H0z"/>
+                <path fill="#ffdf00" d="M320 55L589.3 240 320 425 50.7 240z"/>
+                <circle cx="320" cy="240" r="90" fill="#002776"/>
+                <circle cx="320" cy="240" r="110" fill="none" stroke="#fff" stroke-width="18"/>
+            </g>
+        </symbol>
+        <symbol id="flag-us" viewBox="0 0 640 480">
+            <path fill="#bd3d44" d="M0 0h640v480H0z"/>
+            <path stroke="#fff" stroke-width="37" d="M0 55.3h640M0 129.4h640M0 203.5h640M0 277.6h640M0 351.7h640M0 425.8h640"/>
+            <path fill="#192f5d" d="M0 0h364.8v258.7H0z"/>
+            <path fill="#fff" d="M16.6 5.5l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM16.6 42l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM49.4 5.5l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM49.4 42l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM82.2 5.5l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM82.2 42l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4z"/>
+        </symbol>
+        <symbol id="flag-es" viewBox="0 0 640 480">
+            <path fill="#aa151b" d="M0 0h640v480H0z"/>
+            <path fill="#f1bf00" d="M0 120h640v240H0z"/>
+        </symbol>
+    </svg>
+
     <div class="site-wrapper">
 
         <nav class="floating-nav">
@@ -82,12 +120,12 @@
 
                     <div class="lang-selector">
                         <div class="lang-dropdown js-lang-dropdown" id="langDropdown">
-                            <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'pt-br' %}selected{% endif %}" data-lang="pt-br" title="Português" aria-label="Português">🇧🇷</button>
-                            <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'en' %}selected{% endif %}" data-lang="en" title="English" aria-label="English">🇺🇸</button>
-                            <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'es' %}selected{% endif %}" data-lang="es" title="Español" aria-label="Español">🇪🇸</button>
+                            <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'pt-br' %}selected{% endif %}" data-lang="pt-br" title="Português" aria-label="Português"><svg class="flag-icon"><use href="#flag-br"/></svg></button>
+                            <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'en' %}selected{% endif %}" data-lang="en" title="English" aria-label="English"><svg class="flag-icon"><use href="#flag-us"/></svg></button>
+                            <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'es' %}selected{% endif %}" data-lang="es" title="Español" aria-label="Español"><svg class="flag-icon"><use href="#flag-es"/></svg></button>
                         </div>
                         <button class="lang-toggle-btn js-lang-toggle" id="langToggle" title="{% trans 'Language' %}" aria-label="{% trans 'Language' %}">
-                            {% if LANGUAGE_CODE == 'en' %}🇺🇸{% elif LANGUAGE_CODE == 'es' %}🇪🇸{% else %}🇧🇷{% endif %}
+                            {% if LANGUAGE_CODE == 'en' %}<svg class="flag-icon"><use href="#flag-us"/></svg>{% elif LANGUAGE_CODE == 'es' %}<svg class="flag-icon"><use href="#flag-es"/></svg>{% else %}<svg class="flag-icon"><use href="#flag-br"/></svg>{% endif %}
                         </button>
                     </div>
 
@@ -156,7 +194,7 @@
 
         <footer class="site-footer">
             <div class="footer-line">
-                <span>{% now "Y" %} © {{ site_title }}. {% trans 'All rights reserved.' %}</span>
+                <span>{% now "Y" %} © {{ site_title }}. {% trans 'Os direitos sobre as obras pertencem aos seus respectivos titulares.' %}</span>
                 {% if web_settings and web_settings.privacy_policy %}
                     <span class="footer-sep">|</span>
                     <a href="{% url 'privacy_policy' %}">{% trans 'Privacy Policy' %}</a>
@@ -169,6 +207,10 @@
         </footer>
 
     </div>
+
+    <button type="button" class="back-top-btn js-back-top" id="backTop" aria-label="{% trans 'Back to top' %}" title="{% trans 'Back to top' %}" tabindex="-1">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+    </button>
 
     <div class="drawer-overlay" id="drawerOverlay"></div>
     <aside class="drawer-nav" id="drawerNav" aria-hidden="true">
@@ -216,12 +258,12 @@
 
                 <div class="lang-selector drawer-lang">
                     <div class="lang-dropdown js-lang-dropdown" id="langDropdownDrawer">
-                        <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'pt-br' %}selected{% endif %}" data-lang="pt-br" title="Português" aria-label="Português">🇧🇷</button>
-                        <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'en' %}selected{% endif %}" data-lang="en" title="English" aria-label="English">🇺🇸</button>
-                        <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'es' %}selected{% endif %}" data-lang="es" title="Español" aria-label="Español">🇪🇸</button>
+                        <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'pt-br' %}selected{% endif %}" data-lang="pt-br" title="Português" aria-label="Português"><svg class="flag-icon"><use href="#flag-br"/></svg></button>
+                        <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'en' %}selected{% endif %}" data-lang="en" title="English" aria-label="English"><svg class="flag-icon"><use href="#flag-us"/></svg></button>
+                        <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'es' %}selected{% endif %}" data-lang="es" title="Español" aria-label="Español"><svg class="flag-icon"><use href="#flag-es"/></svg></button>
                     </div>
                     <button class="lang-toggle-btn js-lang-toggle" id="langToggleDrawer" title="{% trans 'Language' %}" aria-label="{% trans 'Language' %}">
-                        {% if LANGUAGE_CODE == 'en' %}🇺🇸{% elif LANGUAGE_CODE == 'es' %}🇪🇸{% else %}🇧🇷{% endif %}
+                        {% if LANGUAGE_CODE == 'en' %}<svg class="flag-icon"><use href="#flag-us"/></svg>{% elif LANGUAGE_CODE == 'es' %}<svg class="flag-icon"><use href="#flag-es"/></svg>{% else %}<svg class="flag-icon"><use href="#flag-br"/></svg>{% endif %}
                         <span>{% trans 'Language' %}</span>
                     </button>
                 </div>

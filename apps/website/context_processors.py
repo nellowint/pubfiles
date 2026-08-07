@@ -39,4 +39,6 @@ def website_settings(request):
         'color_dark_primary': dark_primary,
         'color_dark_secondary': dark_secondary,
         'web_settings': settings_obj,
+        'seo_keywords': settings.SEO_KEYWORDS,
+        'seo_canonical_domain': settings.SEO_CANONICAL_DOMAIN,
     }

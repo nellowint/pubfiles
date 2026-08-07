@@ -103,6 +103,23 @@ document.querySelectorAll('.js-theme-toggle').forEach(btn => {
 })();
 
 (function() {
+    const backTop = document.getElementById('backTop');
+    if (!backTop) return;
+    const SCROLL_THRESHOLD = 200;
+
+    const onScroll = () => {
+        backTop.classList.toggle('is-visible', window.scrollY > SCROLL_THRESHOLD);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    backTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+})();
+
+(function() {
     const urlParams = new URLSearchParams(window.location.search);
     const activeId = urlParams.get('category');
     if (!activeId) return;

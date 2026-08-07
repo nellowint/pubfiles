@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.contrib.sitemaps.views import sitemap
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import include, path
@@ -10,9 +11,19 @@ from apps.accounts.views import (
     register_view, RememberMeLoginView, profile_view,
     verification_sent_view, confirm_email_view,
 )
+from apps.publications.sitemaps import PublicationSitemap, StaticSitemap
+from apps.website.views import robots_txt
+
+sitemaps = {
+    'publications': PublicationSitemap,
+    'static': StaticSitemap,
+}
 
 urlpatterns = [
     path('health/', lambda request: HttpResponse('OK', content_type='text/plain')),
+
+    path('robots.txt', robots_txt, name='robots_txt'),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
 
     path('admin/', admin.site.urls),
 

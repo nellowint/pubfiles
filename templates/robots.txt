@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: {{ seo_canonical_domain }}/sitemap.xml

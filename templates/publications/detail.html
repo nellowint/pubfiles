@@ -5,6 +5,19 @@
 
 {% block title %}{{ publication.title }} - {% trans "Details" %}{% endblock %}
 
+{% block head_meta %}
+    {% if publication.description %}<meta name="description" content="{{ publication.description|truncatechars:160 }}">{% endif %}
+    <link rel="canonical" href="{{ seo_canonical_domain }}{{ request.path }}">
+    <meta property="og:title" content="{{ publication.title }}">
+    {% if publication.description %}<meta property="og:description" content="{{ publication.description|truncatechars:160 }}">{% endif %}
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ seo_canonical_domain }}{{ request.path }}">
+    {% if publication.cover %}<meta property="og:image" content="{{ seo_canonical_domain }}{{ publication.cover.url }}">{% endif %}
+    <meta property="og:site_name" content="{{ site_title }}">
+    <meta name="twitter:card" content="summary_large_image">
+    {% if publication.cover %}<meta name="twitter:image" content="{{ seo_canonical_domain }}{{ publication.cover.url }}">{% endif %}
+{% endblock head_meta %}
+
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/publications-detail.css' %}">
 {% endblock %}
