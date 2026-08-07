@@ -404,7 +404,8 @@
     transition: background var(--transition-fast), border-color var(--transition-fast);
 }
 .comment-btn:hover {
-    background: rgba(128, 128, 128, 0.15);
+    background: color-mix(in srgb, var(--secondary-color) 20%, transparent);
+    border-color: var(--secondary-color);
 }
 .comment-btn-danger { border-color: #dc3545; color: #dc3545; }
 .comment-btn-danger:hover { background: rgba(220, 53, 69, 0.12); }

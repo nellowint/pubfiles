@@ -1,0 +1,11 @@
+{% extends "publications/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Terms of Use' %}{% endblock %}
+
+{% block content %}
+<div class="legal-page">
+    <h1>{% trans 'Terms of Use' %}</h1>
+    <div class="legal-content">{{ content|safe }}</div>
+</div>
+{% endblock %}

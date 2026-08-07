@@ -58,6 +58,15 @@ class WebSettings(models.Model):
         help_text='Exemplo: #1A1A1A',
     )
 
+    privacy_policy = models.TextField(
+        blank=True,
+        verbose_name='Política de Privacidade',
+    )
+    terms = models.TextField(
+        blank=True,
+        verbose_name='Termos de Uso',
+    )
+
     class Meta:
         verbose_name = 'Configuração do site'
         verbose_name_plural = 'Configurações do site'

@@ -40,6 +40,16 @@
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9P4J6P7J0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-T9P4J6P7J0');
+    </script>
 </head>
 <body>
 
@@ -143,6 +153,20 @@
         <main>
             {% block content %}{% endblock %}
         </main>
+
+        <footer class="site-footer">
+            <div class="footer-line">
+                <span>{% now "Y" %} © {{ site_title }}. {% trans 'All rights reserved.' %}</span>
+                {% if web_settings and web_settings.privacy_policy %}
+                    <span class="footer-sep">|</span>
+                    <a href="{% url 'privacy_policy' %}">{% trans 'Privacy Policy' %}</a>
+                {% endif %}
+                {% if web_settings and web_settings.terms %}
+                    <span class="footer-sep">|</span>
+                    <a href="{% url 'terms' %}">{% trans 'Terms of Use' %}</a>
+                {% endif %}
+            </div>
+        </footer>
 
     </div>
 

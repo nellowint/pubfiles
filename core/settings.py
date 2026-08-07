@@ -241,8 +241,8 @@ def get_dynamic_logo():
 JAZZMIN_SETTINGS = {
     "site_title": "Pubfiles",
     "site_header": "Pubfiles",
-    "site_brand": "Admin Panel",
-    "welcome_sign": "Welcome!",
+    "site_brand": "Painel Admin",
+    "welcome_sign": "Seja Bem-Vindo!",
     "copyright": "VWTech Dev",
     "search_model": ["accounts.User"],
     "site_logo": get_dynamic_logo,

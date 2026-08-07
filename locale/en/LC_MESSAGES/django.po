@@ -659,6 +659,15 @@ msgstr ""
 msgid "Visualizar"
 msgstr "View"
 
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+msgid "Terms of Use"
+msgstr "Terms of Use"
+
+msgid "All rights reserved."
+msgstr "All rights reserved."
+
 #~ msgid ""
 #~ "Enter your current password and a new password to update your credentials."
 #~ msgstr ""

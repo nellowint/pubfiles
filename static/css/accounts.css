@@ -238,7 +238,7 @@
     width: 100%;
     background: transparent;
     color: var(--text-color) !important;
-    border: 2px solid var(--nav-border);
+    border: 2px solid var(--secondary-color);
     padding: 12px;
     min-height: 44px;
     font-size: 15px;
@@ -250,8 +250,7 @@
     cursor: pointer;
 }
 .btn-back-login:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--text-color);
+    background: var(--secondary-color);
 }
 
 .btn-complete-login {

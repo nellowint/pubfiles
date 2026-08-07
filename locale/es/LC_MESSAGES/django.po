@@ -704,6 +704,15 @@ msgstr ""
 msgid "Visualizar"
 msgstr "Visualizar"
 
+msgid "Privacy Policy"
+msgstr "Política de Privacidad"
+
+msgid "Terms of Use"
+msgstr "Términos de Uso"
+
+msgid "All rights reserved."
+msgstr "Todos los derechos reservados."
+
 #~ msgid ""
 #~ "Enter your current password and a new password to update your credentials."
 #~ msgstr ""

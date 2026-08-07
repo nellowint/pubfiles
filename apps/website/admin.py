@@ -16,6 +16,13 @@ class WebSettingsAdminForm(forms.ModelForm):
 @admin.register(WebSettings)
 class WebSettingsAdmin(admin.ModelAdmin):
     form = WebSettingsAdminForm
+    fieldsets = (
+        ('Título', {'fields': ('title', 'logo')}),
+        ('Backgrounds', {'fields': ('background', 'background_mobile')}),
+        ('Tema Claro', {'fields': ('light_theme_primary', 'light_theme_secondary')}),
+        ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),
+        ('Termos', {'fields': ('privacy_policy', 'terms')}),
+    )
 
     def has_add_permission(self, request):
         if WebSettings.objects.exists():
