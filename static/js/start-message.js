@@ -39,7 +39,14 @@
         exitBtn.addEventListener('click', () => {
             remember();
             close();
-            window.close();
+            try {
+                const blankTab = window.open('about:blank', '_blank');
+                if (blankTab) blankTab.focus();
+            } catch (e) { /* popup bloqueado */ }
+            setTimeout(() => {
+                window.location.href = 'about:blank';
+                setTimeout(() => window.close(), 50);
+            }, 50);
         });
     }
 

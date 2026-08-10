@@ -106,12 +106,30 @@ document.querySelectorAll('.js-theme-toggle').forEach(btn => {
     const backTop = document.getElementById('backTop');
     if (!backTop) return;
     const SCROLL_THRESHOLD = 200;
+    const GAP = 12;
 
     const onScroll = () => {
-        backTop.classList.toggle('is-visible', window.scrollY > SCROLL_THRESHOLD);
+        const visible = window.scrollY > SCROLL_THRESHOLD;
+        backTop.classList.toggle('is-visible', visible);
+
+        const footer = document.querySelector('.site-footer');
+        if (!footer || !visible) {
+            backTop.classList.remove('lift');
+            return;
+        }
+
+        const footerTop = footer.getBoundingClientRect().top;
+        if (footerTop < window.innerHeight) {
+            const lift = Math.max(0, window.innerHeight - footerTop + GAP);
+            backTop.style.setProperty('--lift-offset', lift + 'px');
+            backTop.classList.add('lift');
+        } else {
+            backTop.classList.remove('lift');
+        }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
     onScroll();
 
     backTop.addEventListener('click', () => {

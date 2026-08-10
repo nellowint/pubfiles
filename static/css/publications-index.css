@@ -206,7 +206,8 @@
     width: 100%;
     max-width: 520px;
     max-height: 85vh;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     background: color-mix(in srgb, var(--primary-color) 92%, transparent);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -233,6 +234,10 @@
     line-height: 1.7;
     color: var(--text-color);
     margin-bottom: 20px;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .start-modal-body p {
@@ -298,6 +303,7 @@
     .start-modal {
         padding: 20px;
         max-width: 100%;
+        max-height: 92vh;
     }
     .start-modal-actions {
         flex-direction: column-reverse;

@@ -898,6 +898,9 @@ main { min-height: 0; }
     visibility: visible;
     pointer-events: auto;
 }
+.back-top-btn.is-visible.lift {
+    transform: translateY(calc(-1 * var(--lift-offset, 0px)));
+}
 .back-top-btn:hover {
     background: var(--secondary-color);
     color: var(--secondary-contrast);
