@@ -69,8 +69,8 @@ class PageInline(admin.TabularInline):
 class PublicationAdmin(TabbedTranslationAdmin):
     form = PublicationAdminForm
     autocomplete_fields = ['category']
-    list_display = ['title', 'display_categories', 'is_members_only', 'free_pages_count', 'views_count', 'published_at']
-    list_filter = ['is_members_only', 'category']
+    list_display = ['title', 'display_categories', 'is_members_only', 'is_active', 'free_pages_count', 'views_count', 'published_at']
+    list_filter = ['is_members_only', 'is_active', 'category']
     search_fields = ['title', 'description']
     prepopulated_fields = {'slug': ('title_pt_br',)}
     readonly_fields = ['views_count', 'published_at', 'updated_at']

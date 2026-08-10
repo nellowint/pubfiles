@@ -78,3 +78,28 @@
     </div>
     {% endif %}
 {% endblock %}
+
+{% block extra_js %}
+    {% if web_settings.start_message %}
+    <script src="{% static 'js/start-message.js' %}"></script>
+    {% endif %}
+{% endblock %}
+
+{% block after_content %}
+    {% if web_settings.start_message %}
+    <div class="start-modal-overlay" id="startModal" aria-hidden="true">
+        <div class="start-modal" role="dialog" aria-modal="true" aria-labelledby="startModalTitle">
+            <h2 id="startModalTitle">{% trans 'Aviso' %}</h2>
+            <div class="start-modal-body">{{ web_settings.start_message|linebreaks }}</div>
+            <label class="start-modal-check">
+                <input type="checkbox" id="startModalDontShow">
+                <span>{% trans 'Não mostrar novamente' %}</span>
+            </label>
+            <div class="start-modal-actions">
+                <button type="button" class="start-modal-btn btn-confirm" id="startModalConfirm">{% trans 'Confirmar' %}</button>
+                <button type="button" class="start-modal-btn btn-exit" id="startModalExit">{% trans 'Sair' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

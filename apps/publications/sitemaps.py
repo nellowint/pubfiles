@@ -8,7 +8,7 @@ class PublicationSitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        return Publication.objects.all()
+        return Publication.objects.filter(is_active=True)
 
     def location(self, obj):
         return obj.get_absolute_url()

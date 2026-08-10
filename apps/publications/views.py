@@ -17,7 +17,7 @@ class HomeView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        queryset = Publication.objects.prefetch_related('category').annotate(
+        queryset = Publication.objects.filter(is_active=True).prefetch_related('category').annotate(
             avg_rating=Avg('ratings__score'),
             ratings_count=Count('ratings'),
         )
@@ -50,7 +50,7 @@ class PublicationDetailView(DetailView):
     context_object_name = 'publication'
 
     def get_queryset(self):
-        return Publication.objects.prefetch_related('category').annotate(
+        return Publication.objects.filter(is_active=True).prefetch_related('category').annotate(
             avg_rating=Avg('ratings__score'),
             ratings_count=Count('ratings'),
         )
@@ -77,7 +77,7 @@ class PublicationDetailView(DetailView):
         return context
 
     def get_similar(self, publication):
-        base = Publication.objects.exclude(pk=publication.pk)
+        base = Publication.objects.filter(is_active=True).exclude(pk=publication.pk)
         similar = list(
             base.filter(category__in=publication.category.all())[:4]
         )
@@ -99,7 +99,7 @@ class PublicationDetailView(DetailView):
 
 @never_cache
 def reader_view(request, slug, page_number):
-    publication = get_object_or_404(Publication, slug=slug)
+    publication = get_object_or_404(Publication, slug=slug, is_active=True)
     all_pages = publication.pages.all().order_by('page_order')
     total_pages = all_pages.count()
 
@@ -149,7 +149,7 @@ def add_comment(request, slug):
     if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'])
 
-    publication = get_object_or_404(Publication, slug=slug)
+    publication = get_object_or_404(Publication, slug=slug, is_active=True)
     content = request.POST.get('content', '').strip()
 
     if content:
@@ -196,7 +196,7 @@ def rate_publication(request, slug):
     if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'])
 
-    publication = get_object_or_404(Publication, slug=slug)
+    publication = get_object_or_404(Publication, slug=slug, is_active=True)
 
     try:
         score = int(request.POST.get('score', 0))

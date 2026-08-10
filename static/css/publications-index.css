@@ -9,6 +9,7 @@
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     will-change: transform;
     min-width: 0;
+    display: flex;
 }
 .card-wrapper:hover {
     transform: scale(1.04);
@@ -33,6 +34,8 @@
     text-decoration: none;
     color: inherit;
     min-width: 0;
+    width: 100%;
+    flex: 1;
 }
 
 .card-wrapper:hover .card {
@@ -175,3 +178,131 @@
 }
 
 @keyframes fade { from { opacity: 0.6; } to { opacity: 1; } }
+
+/* ===== Start message modal ===== */
+.start-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
+}
+.start-modal-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.start-modal {
+    width: 100%;
+    max-width: 520px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: color-mix(in srgb, var(--primary-color) 92%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--nav-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 28px;
+    color: var(--text-color);
+    transform: translateY(16px) scale(0.97);
+    transition: transform var(--transition-smooth);
+}
+.start-modal-overlay.is-open .start-modal {
+    transform: translateY(0) scale(1);
+}
+
+.start-modal h2 {
+    font-size: 20px;
+    margin-bottom: 14px;
+    color: var(--text-color);
+}
+
+.start-modal-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.start-modal-body p {
+    margin-bottom: 10px;
+}
+.start-modal-body p:last-child {
+    margin-bottom: 0;
+}
+
+.start-modal-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-color);
+    cursor: pointer;
+    margin-bottom: 22px;
+    user-select: none;
+}
+.start-modal-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.start-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.start-modal-btn {
+    padding: 12px 28px;
+    min-height: 44px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--nav-border);
+    transition: background var(--transition-fast), transform var(--transition-fast);
+}
+.start-modal-btn:hover {
+    transform: translateY(-1px);
+}
+
+.start-modal-btn.btn-confirm {
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border-color: var(--secondary-color);
+}
+
+.start-modal-btn.btn-exit {
+    background: transparent;
+    color: var(--text-color);
+}
+.start-modal-btn.btn-exit:hover {
+    background: color-mix(in srgb, var(--secondary-color) 15%, transparent);
+}
+
+@media (max-width: 480px) {
+    .start-modal {
+        padding: 20px;
+        max-width: 100%;
+    }
+    .start-modal-actions {
+        flex-direction: column-reverse;
+    }
+    .start-modal-btn {
+        width: 100%;
+    }
+}

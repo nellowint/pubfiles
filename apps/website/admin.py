@@ -23,6 +23,7 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
         ('Tema Claro', {'fields': ('light_theme_primary', 'light_theme_secondary')}),
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),
         ('Termos', {'fields': ('privacy_policy', 'terms')}),
+        ('Avisos', {'fields': ('start_message',)}),
     )
 
     def has_add_permission(self, request):

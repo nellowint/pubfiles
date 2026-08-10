@@ -23,8 +23,8 @@ Plataforma web para gerenciamento, publicação e leitura de revistas digitais c
 ```bash
 python -m venv venv
 source venv/bin/activate
-pip install -r requirements-dev.txt
-cp .env.example .env  # configure DEBUG=1 e DJANGO_SETTINGS_MODULE=core.settings-dev
+pip install -r requirements.txt
+cp .env.example .env
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
@@ -32,11 +32,11 @@ python manage.py runserver
 
 ## Deploy em produção (VPS)
 
-Pré-requisitos na VPS: Docker, Traefik rodando em `reverse-proxy/`, script `scripts/new-project.sh`.
+Pré-requisitos: Docker e Docker Compose instalados na VPS, e um reverse proxy (ex.: Traefik) configurado para rotear o domínio para o contêiner do projeto.
 
 ```bash
-git clone <repo> ~/projects/pubfiles
-bash ~/scripts/new-project.sh pubfiles
+git clone <repo>
+cd <repo>
 cp .env.example .env
 # Preencher .env com DOMAIN, SECRET_KEY, POSTGRES_DB, etc
 docker compose up -d --build

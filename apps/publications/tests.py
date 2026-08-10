@@ -212,6 +212,46 @@ class CommentTests(TestCase):
         self.assertNotContains(resp, 'owner@example.com')
 
 
+class PublicationActiveTests(TestCase):
+    def setUp(self):
+        self.active = Publication.objects.create(
+            title='Active Magazine',
+            cover=page_image('cover.png'),
+            is_active=True,
+        )
+        self.inactive = Publication.objects.create(
+            title='Inactive Magazine',
+            cover=page_image('cover2.png'),
+            is_active=False,
+        )
+
+    def test_home_lists_only_active(self):
+        resp = self.client.get(reverse('publications:home'))
+        self.assertContains(resp, 'Active Magazine')
+        self.assertNotContains(resp, 'Inactive Magazine')
+
+    def test_inactive_detail_returns_404(self):
+        url = reverse('publications:detail', args=[self.inactive.slug])
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 404)
+
+    def test_inactive_reader_returns_404(self):
+        url = reverse('publications:reader', args=[self.inactive.slug, 1])
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 404)
+
+    def test_inactive_excluded_from_sitemap(self):
+        Publication.objects.create(
+            title='Active Magazine Two',
+            cover=page_image('cover3.png'),
+            is_active=True,
+        )
+        resp = self.client.get(reverse('sitemap'))
+        content = resp.content.decode('utf-8')
+        self.assertIn(self.active.slug, content)
+        self.assertNotIn(self.inactive.slug, content)
+
+
 class RatingTests(TestCase):
     def setUp(self):
         self.publication = Publication.objects.create(

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-07 17:00-0300\n"
+"POT-Creation-Date: 2026-08-10 19:47-0300\n"
 "PO-Revision-Date: 2026-06-22 21:32-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -82,7 +82,7 @@ msgid "Save"
 msgstr "Guardar"
 
 #: templates/accounts/profile.html:105 templates/publications/base.html:147
-#: templates/publications/base.html:242
+#: templates/publications/base.html:243
 msgid "Cancel subscription"
 msgstr "Cancelar suscripción"
 
@@ -142,12 +142,12 @@ msgstr "Inicio"
 msgid "Type to search..."
 msgstr "Escribe para buscar..."
 
-#: templates/publications/base.html:110 templates/publications/base.html:254
+#: templates/publications/base.html:110 templates/publications/base.html:255
 msgid "Toggle Theme"
 msgstr "Cambiar Tema"
 
-#: templates/publications/base.html:127 templates/publications/base.html:265
-#: templates/publications/base.html:267
+#: templates/publications/base.html:127 templates/publications/base.html:266
+#: templates/publications/base.html:268
 msgid "Language"
 msgstr "Idioma"
 
@@ -155,44 +155,44 @@ msgstr "Idioma"
 msgid "Account menu"
 msgstr "Menú de cuenta"
 
-#: templates/publications/base.html:145 templates/publications/base.html:240
+#: templates/publications/base.html:145 templates/publications/base.html:241
 msgid "My profile"
 msgstr "Mi perfil"
 
-#: templates/publications/base.html:151 templates/publications/base.html:246
+#: templates/publications/base.html:151 templates/publications/base.html:247
 msgid "Logout"
 msgstr "Salir"
 
-#: templates/publications/base.html:156 templates/publications/base.html:249
+#: templates/publications/base.html:156 templates/publications/base.html:250
 #: templates/registration/login.html:5
 msgid "Login"
 msgstr "Iniciar Sesión"
 
-#: templates/publications/base.html:168 templates/publications/base.html:274
+#: templates/publications/base.html:168 templates/publications/base.html:275
 msgid "All Categories"
 msgstr "Todas las Categorías"
 
-#: templates/publications/base.html:197
+#: templates/publications/base.html:198
 msgid "Os direitos sobre as obras pertencem aos seus respectivos titulares."
 msgstr "Los derechos sobre las obras pertenecen a sus respectivos titulares."
 
-#: templates/publications/base.html:200 templates/website/privacy.html:4
+#: templates/publications/base.html:201 templates/website/privacy.html:4
 #: templates/website/privacy.html:8
 msgid "Privacy Policy"
 msgstr "Política de Privacidad"
 
-#: templates/publications/base.html:204 templates/website/terms.html:4
+#: templates/publications/base.html:205 templates/website/terms.html:4
 #: templates/website/terms.html:8
 msgid "Terms of Use"
 msgstr "Términos de Uso"
 
-#: templates/publications/base.html:211
+#: templates/publications/base.html:212
 #, fuzzy
 #| msgid "Back to catalog"
 msgid "Back to top"
 msgstr "Volver arriba"
 
-#: templates/publications/base.html:222
+#: templates/publications/base.html:223
 #, fuzzy
 #| msgid "Close"
 msgid "Close menu"
@@ -302,6 +302,24 @@ msgstr "Siguiente"
 #: templates/publications/index.html:76
 msgid "Last"
 msgstr "Última"
+
+#: templates/publications/index.html:92
+msgid "Aviso"
+msgstr "Aviso"
+
+#: templates/publications/index.html:96
+msgid "Não mostrar novamente"
+msgstr "No volver a mostrar"
+
+#: templates/publications/index.html:99
+#, fuzzy
+#| msgid "Confirm new password"
+msgid "Confirmar"
+msgstr "Confirmar"
+
+#: templates/publications/index.html:100
+msgid "Sair"
+msgstr "Salir"
 
 #: templates/publications/premium.html:5
 msgid "Restricted Content"

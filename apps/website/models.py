@@ -66,6 +66,11 @@ class WebSettings(models.Model):
         blank=True,
         verbose_name='Termos de Uso',
     )
+    start_message = models.TextField(
+        blank=True,
+        verbose_name='Mensagem de aviso',
+        help_text='Exibida em um modal na página inicial. Deixe vazio para desativar.',
+    )
 
     class Meta:
         verbose_name = 'Configuração do site'

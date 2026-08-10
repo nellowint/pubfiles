@@ -51,6 +51,11 @@ class Publication(models.Model):
         verbose_name='Páginas gratuitas',
         help_text='Quantas páginas um usuário não pagante pode ler antes de ser bloqueado? Padrão: 1.',
     )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='Ativo',
+        help_text='Desative para ocultar do site (permanece no admin)',
+    )
     published_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Publicado em',
