@@ -6,24 +6,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ site_title }} - {% block title %}{% trans "Home" %}{% endblock %}</title>
+    <title>{{ site_title }} - {% block title %}{% endblock %}</title>
     <link rel="icon" type="image/png" href="{{ site_favicon }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     {% block head_meta %}
-    <meta name="description" content="{% block description %}{{ site_title }}{% endblock %}">
+    <meta name="description" content="{% block description %}{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}{% endblock %}">
     {% if seo_keywords %}<meta name="keywords" content="{{ seo_keywords|join:", " }}">{% endif %}
     <link rel="canonical" href="{{ seo_canonical_domain }}{{ request.path }}">
-    <meta property="og:title" content="{{ site_title }} - {% block og_title %}{% trans "Home" %}{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}{{ site_title }}{% endblock %}">
+    <meta property="og:title" content="{% if site_subtitle %}{{ site_title }} - {{ site_subtitle }}{% else %}{{ site_title }}{% endif %}">
+    <meta property="og:description" content="{% block og_description %}{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}{% endblock %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ seo_canonical_domain }}{{ request.path }}">
     <meta property="og:image" content="{{ site_logo }}">
     <meta property="og:site_name" content="{{ site_title }}">
     <meta property="og:locale" content="{{ LANGUAGE_CODE }}">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="{{ site_title }}">
+    <meta name="twitter:title" content="{% if site_subtitle %}{{ site_title }} - {{ site_subtitle }}{% else %}{{ site_title }}{% endif %}">
+    <meta name="twitter:description" content="{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}">
     <meta name="twitter:url" content="{{ seo_canonical_domain }}{{ request.path }}">
     <meta name="twitter:image" content="{{ site_logo }}">
     {% endblock head_meta %}

@@ -5,5 +5,5 @@ from .models import WebSettings
 
 @register(WebSettings)
 class WebSettingsTranslationOptions(TranslationOptions):
-    fields = ('privacy_policy', 'terms', 'start_message')
+    fields = ('subtitle', 'description', 'privacy_policy', 'terms', 'start_message')
     empty_values = ''

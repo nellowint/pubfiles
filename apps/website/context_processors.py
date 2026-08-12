@@ -8,6 +8,8 @@ def website_settings(request):
     background_url = f"{settings.STATIC_URL}img/default-background.png"
     background_mobile_url = None
     site_title = "Publications Website"
+    site_subtitle = ""
+    site_description = ""
     
     light_primary = "#FFFFFF"
     light_secondary = "#F8F9FA"
@@ -16,6 +18,8 @@ def website_settings(request):
 
     if settings_obj:
         site_title = settings_obj.title
+        site_subtitle = settings_obj.subtitle
+        site_description = settings_obj.description
         light_primary = settings_obj.light_theme_primary
         light_secondary = settings_obj.light_theme_secondary
         dark_primary = settings_obj.dark_theme_primary
@@ -30,6 +34,8 @@ def website_settings(request):
 
     return {
         'site_title': site_title,
+        'site_subtitle': site_subtitle,
+        'site_description': site_description,
         'site_logo': logo_url,
         'site_favicon': logo_url,
         'site_background': background_url,

@@ -18,7 +18,7 @@ class WebSettingsAdminForm(forms.ModelForm):
 class WebSettingsAdmin(TabbedTranslationAdmin):
     form = WebSettingsAdminForm
     fieldsets = (
-        ('Título', {'fields': ('title', 'logo')}),
+        ('Título', {'fields': ('title', 'subtitle', 'description', 'logo')}),
         ('Backgrounds', {'fields': ('background', 'background_mobile')}),
         ('Tema Claro', {'fields': ('light_theme_primary', 'light_theme_secondary')}),
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),

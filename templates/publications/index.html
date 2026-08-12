@@ -2,12 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Home" %}{% endblock %}
-
-{% block head_meta %}
-    <meta name="description" content="{{ site_title }}">
-    <link rel="canonical" href="{{ seo_canonical_domain }}{{ request.path }}">
-{% endblock head_meta %}
+{% block title %}{{ site_subtitle }}{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/publications-index.css' %}">

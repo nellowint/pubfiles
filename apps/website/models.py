@@ -11,6 +11,20 @@ class WebSettings(models.Model):
         default='Site',
         verbose_name='Título do site',
     )
+    subtitle = models.CharField(
+        max_length=160,
+        blank=True,
+        null=True,
+        verbose_name='Subtítulo',
+        help_text='Exibido após o título nas meta tags de SEO (Limite de 160 caracteres)',
+    )
+    description = models.TextField(
+        max_length=160,
+        blank=True,
+        null=True,
+        verbose_name='Descrição',
+        help_text='Usada como meta description de SEO (Limite de 160 caracteres)',
+    )
     logo = models.ImageField(
         upload_to=MediaPath('website/logo'),
         verbose_name='Logo do site',

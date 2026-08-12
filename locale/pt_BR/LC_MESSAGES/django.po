@@ -161,12 +161,12 @@ msgstr "Meu perfil"
 
 #: templates/publications/base.html:151 templates/publications/base.html:247
 msgid "Logout"
-msgstr "Sair"
+msgstr "Logout"
 
 #: templates/publications/base.html:156 templates/publications/base.html:250
 #: templates/registration/login.html:5
 msgid "Login"
-msgstr "Entrar"
+msgstr "Login"
 
 #: templates/publications/base.html:168 templates/publications/base.html:275
 msgid "All Categories"
