@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count, F, Q
 from django.http import HttpResponseNotAllowed, JsonResponse
@@ -14,18 +16,21 @@ class HomeView(ListView):
     model = Publication
     template_name = 'publications/index.html'
     context_object_name = 'publications'
-    paginate_by = 12
+    paginate_by = 20
 
     def get_queryset(self):
         queryset = Publication.objects.filter(is_active=True).prefetch_related('category').annotate(
             avg_rating=Avg('ratings__score'),
             ratings_count=Count('ratings'),
         )
-        category_id = self.request.GET.get('category')
+        category_param = self.request.GET.get('category')
 
-        if category_id:
+        if category_param:
             try:
-                category = Category.objects.get(id=category_id)
+                # Tenta buscar por slug primeiro, depois por ID (compatibilidade)
+                category = Category.objects.filter(slug=category_param).first()
+                if not category:
+                    category = Category.objects.get(id=category_param)
                 queryset = queryset.filter(
                     category__in=category.get_descendants(include_self=True)
                 )
@@ -37,11 +42,6 @@ class HomeView(ListView):
             queryset = queryset.filter(title__icontains=search_query)
 
         return queryset.order_by('-id')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        return context
 
 
 class PublicationDetailView(DetailView):
@@ -78,23 +78,40 @@ class PublicationDetailView(DetailView):
 
     def get_similar(self, publication):
         base = Publication.objects.filter(is_active=True).exclude(pk=publication.pk)
-        similar = list(
-            base.filter(category__in=publication.category.all())[:4]
-        )
+        original_categories = set(publication.category.values_list('id', flat=True))
+        original_words = set(w.lower() for w in publication.title.split() if len(w) > 3)
 
-        if len(similar) < 4:
-            palavras = [
-                w for w in publication.title.split() if len(w) > 3
-            ]
-            cond = Q()
-            for w in palavras:
-                cond |= Q(title__icontains=w)
-            excluidos = [publication.pk] + [s.pk for s in similar]
-            similar += list(
-                base.filter(cond).exclude(pk__in=excluidos)[:4 - len(similar)]
-            )
+        candidates = []
+        for pub in base:
+            score = 0
 
-        return similar[:4]
+            # Categoria (peso 10)
+            pub_categories = set(pub.category.values_list('id', flat=True))
+            if original_categories & pub_categories:
+                score += 10
+
+            # Título (peso 2 por palavra em comum)
+            pub_words = set(w.lower() for w in pub.title.split() if len(w) > 3)
+            score += len(original_words & pub_words) * 2
+
+            # Popularidade (até 3 pontos)
+            score += min(pub.views_count / 1000, 3)
+
+            if score > 0:
+                candidates.append((pub, score))
+
+        # Ordenar por score (desc)
+        candidates.sort(key=lambda x: -x[1])
+
+        # Rotação inteligente: embaralhar dentro de grupos de 3
+        groups = [candidates[i:i+3] for i in range(0, len(candidates), 3)]
+        for group in groups:
+            random.shuffle(group)
+
+        # Extrair apenas as publicações (remover scores)
+        result = [pub for group in groups for pub, _ in group]
+
+        return result[:6]
 
 
 @never_cache
@@ -108,7 +125,7 @@ def reader_view(request, slug, page_number):
     if page_number < 1 or page_number > total_pages:
         return render(request, 'errors/404.html', status=404)
 
-    if page_number == 1:
+    if page_number == total_pages:
         Publication.objects.filter(pk=publication.pk).update(
             views_count=F('views_count') + 1
         )
@@ -139,6 +156,7 @@ def reader_view(request, slug, page_number):
         'has_next': has_next,
         'previous_page_number': page_number - 1,
         'next_page_number': page_number + 1,
+        'pages': all_pages,
     }
 
     return render(request, 'publications/reader.html', context)

@@ -12,6 +12,12 @@
     border: 1px solid var(--card-border);
     transition: background 0.3s, border 0.3s;
     margin-top: 10px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.detail-container * {
+    box-sizing: border-box;
 }
 
 .detail-content-top {
@@ -237,9 +243,9 @@
     font-size: 13px;
     font-weight: 600;
     color: #fff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     border-radius: var(--radius-sm);
-    background: rgba(255,255,255,0.08);
+    background: rgba(200, 200, 200, 0.5);
     text-decoration: none;
     border: 1px solid transparent;
     transition: background var(--transition-fast), border-color var(--transition-fast);
@@ -282,10 +288,9 @@
     .detail-title-row h1 { font-size: 22px; }
     .detail-meta-row { justify-content: center; }
     .rating-inline { justify-content: center; }
-    .detail-section { padding: 20px 16px; }
+    .detail-section { padding: 20px 16px; width: 100%; box-sizing: border-box; }
     .section-title { font-size: 18px; }
     .rating-stars .star svg { width: 22px; height: 22px; }
-    .similar-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
     .comment-form-header { flex-direction: column; }
     .btn-comment-submit { align-self: stretch; text-align: center; justify-content: center; }
 }
@@ -305,6 +310,8 @@
     -webkit-backdrop-filter: blur(10px);
     box-shadow: var(--shadow-md);
     transition: background 0.3s, border 0.3s;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .section-title {
@@ -496,9 +503,13 @@
 
 /* ===== Similar publications ===== */
 .similar-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 16px;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: hidden;
 }
 .similar-card {
     display: flex;
@@ -512,6 +523,8 @@
     text-align: center;
     transition: transform var(--transition-smooth), box-shadow var(--transition-fast);
     will-change: transform;
+    width: 160px;
+    box-sizing: border-box;
 }
 .similar-card:hover {
     transform: translateY(-4px);
@@ -530,4 +543,23 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+/* Desktop: mostrar apenas 5 publicações */
+@media (min-width: 769px) {
+    .similar-card:nth-child(n+6) {
+        display: none;
+    }
+}
+@media (max-width: 768px) {
+    .similar-grid {
+        gap: 12px;
+    }
+    .similar-card {
+        width: calc(50% - 6px);
+        padding: 10px;
+    }
+    /* Mobile: mostrar apenas 4 publicações */
+    .similar-card:nth-child(n+5) {
+        display: none;
+    }
 }

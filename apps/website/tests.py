@@ -42,8 +42,8 @@ class WebSettingsStartMessageTests(TestCase):
 class WebSettingsSeoTests(TestCase):
     def test_subtitle_description_defaults_blank(self):
         settings = WebSettings.objects.create()
-        self.assertEqual(settings.subtitle, '')
-        self.assertEqual(settings.description, '')
+        self.assertIsNone(settings.subtitle)
+        self.assertIsNone(settings.description)
 
     def test_subtitle_description_translatable(self):
         settings = WebSettings.objects.create(subtitle='Sub pt', description='Desc pt')

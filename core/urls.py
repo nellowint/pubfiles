@@ -1,11 +1,11 @@
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.static import serve
 
 from apps.accounts.views import (
     register_view, RememberMeLoginView, profile_view,
@@ -13,6 +13,17 @@ from apps.accounts.views import (
 )
 from apps.publications.sitemaps import PublicationSitemap, StaticSitemap
 from apps.website.views import robots_txt
+
+
+def no_cache_serve(request, path, document_root=None, **kwargs):
+    """Serve arquivos estáticos/mídia com headers anti-cache em desenvolvimento."""
+    response = serve(request, path, document_root=document_root, **kwargs)
+    if settings.DEBUG:
+        response['Cache-Control'] = 'no-cache, no-store, must-revalidate, max-age=0'
+        response['Pragma'] = 'no-cache'
+        response['Expires'] = '0'
+        response['Last-Modified'] = None
+    return response
 
 sitemaps = {
     'publications': PublicationSitemap,
@@ -47,9 +58,10 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL,
-        document_root=settings.MEDIA_ROOT
-    )
+    from django.urls import re_path
+    urlpatterns += [
+        re_path(r'^static/(?P<path>.*)$', no_cache_serve, {'document_root': settings.STATICFILES_DIRS[0]}),
+        re_path(r'^media/(?P<path>.*)$', no_cache_serve, {'document_root': settings.MEDIA_ROOT}),
+    ]
 
 handler404 = lambda request, exception: render(request, 'errors/404.html', status=404)

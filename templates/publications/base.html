@@ -59,15 +59,17 @@
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9P4J6P7J0"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    {% if not debug %}
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9P4J6P7J0"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
 
-      gtag('config', 'G-T9P4J6P7J0');
-    </script>
+          gtag('config', 'G-T9P4J6P7J0');
+        </script>
+    {% endif %}
 </head>
 <body>
 
@@ -170,9 +172,9 @@
 
                         {% for category in categories %}
                             {% if category.is_root_node %}
-                                <a href="{% url 'publications:home' %}?category={{ category.id }}"
-                                   class="category-nav-button cat-{{ category.id }}"
-                                   data-cat-id="{{ category.id }}"
+                                <a href="{% url 'publications:home' %}?category={{ category.slug }}"
+                                   class="category-nav-button cat-{{ category.slug }}"
+                                   data-cat-id="{{ category.slug }}"
                                    data-parent-id="{{ category.parent_id }}">
                                     {{ category.name }}
                                 </a>
@@ -194,21 +196,21 @@
             {% block after_content %}{% endblock %}
         </main>
 
-        <footer class="site-footer">
-            <div class="footer-line">
-                <span>{% now "Y" %} © {{ site_title }}. {% trans 'Os direitos sobre as obras pertencem aos seus respectivos titulares.' %}</span>
-                {% if web_settings and web_settings.privacy_policy %}
-                    <span class="footer-sep">|</span>
-                    <a href="{% url 'privacy_policy' %}">{% trans 'Privacy Policy' %}</a>
-                {% endif %}
-                {% if web_settings and web_settings.terms %}
-                    <span class="footer-sep">|</span>
-                    <a href="{% url 'terms' %}">{% trans 'Terms of Use' %}</a>
-                {% endif %}
-            </div>
-        </footer>
-
     </div>
+
+    <footer class="site-footer">
+        <div class="footer-line">
+            <span>{% now "Y" %} © {{ site_title }}. {% trans 'Os direitos sobre as obras pertencem aos seus respectivos titulares.' %}</span>
+            {% if web_settings and web_settings.privacy_policy %}
+                <span class="footer-sep">|</span>
+                <a href="{% url 'privacy_policy' %}">{% trans 'Privacy Policy' %}</a>
+            {% endif %}
+            {% if web_settings and web_settings.terms %}
+                <span class="footer-sep">|</span>
+                <a href="{% url 'terms' %}">{% trans 'Terms of Use' %}</a>
+            {% endif %}
+        </div>
+    </footer>
 
     <button type="button" class="back-top-btn js-back-top" id="backTop" aria-label="{% trans 'Back to top' %}" title="{% trans 'Back to top' %}" tabindex="-1">
         <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
@@ -276,9 +278,9 @@
                 <a href="{% url 'publications:home' %}" class="drawer-cat-link {% if not request.GET.category %}active{% endif %}">{% trans 'All Categories' %}</a>
                 {% for category in categories %}
                     {% if category.is_root_node %}
-                        <a href="{% url 'publications:home' %}?category={{ category.id }}"
-                           class="drawer-cat-link cat-{{ category.id }}"
-                           data-cat-id="{{ category.id }}"
+                        <a href="{% url 'publications:home' %}?category={{ category.slug }}"
+                           class="drawer-cat-link cat-{{ category.slug }}"
+                           data-cat-id="{{ category.slug }}"
                            data-parent-id="{{ category.parent_id }}">{{ category.name }}</a>
                         {% if not category.is_leaf_node %}
                             {% render_drawer_children category %}

@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'apps.website.context_processors.website_settings',
                 'apps.subscriptions.context_processors.subscription_settings',
+                'apps.publications.context_processors.categories_processor',
             ],
         },
     },

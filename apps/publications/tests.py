@@ -96,17 +96,23 @@ class ViewsCountTests(TestCase):
         self.publication.refresh_from_db()
         self.assertEqual(self.publication.views_count, 0)
 
-    def test_reader_page_1_increments_views(self):
+    def test_reader_first_page_does_not_increment_views(self):
         reader_url = reverse('publications:reader', args=[self.publication.slug, 1])
         self.client.get(reader_url)
         self.publication.refresh_from_db()
-        self.assertEqual(self.publication.views_count, 1)
+        self.assertEqual(self.publication.views_count, 0)
 
-    def test_reader_page_2_does_not_increment_views(self):
+    def test_reader_middle_page_does_not_increment_views(self):
         reader_url = reverse('publications:reader', args=[self.publication.slug, 2])
         self.client.get(reader_url)
         self.publication.refresh_from_db()
         self.assertEqual(self.publication.views_count, 0)
+
+    def test_reader_last_page_increments_views(self):
+        reader_url = reverse('publications:reader', args=[self.publication.slug, 3])
+        self.client.get(reader_url)
+        self.publication.refresh_from_db()
+        self.assertEqual(self.publication.views_count, 1)
 
 
 class CommentTests(TestCase):

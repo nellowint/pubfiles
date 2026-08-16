@@ -30,7 +30,7 @@
         {{ page_number }} / {{ total_pages }}
     </div>
 
-    <a href="{% url 'publications:detail' publication.slug %}" class="cinema-btn btn-cinema-close" title="{% trans 'Close reader' %}">✕ {% trans 'Close' %}</a>
+    <a href="{% url 'publications:detail' publication.slug %}" class="cinema-btn btn-cinema-close" title="{% trans 'Close reader' %}">✕</a>
 
     {% if has_previous %}
         <a href="{% url 'publications:reader' publication.slug previous_page_number %}" class="cinema-btn btn-cinema-prev">◀</a>
@@ -56,6 +56,22 @@
         <span class="cinema-btn btn-cinema-next disabled">🏁</span>
     {% endif %}
 
+</div>
+
+<div class="reels-container">
+    <a href="{% url 'publications:detail' publication.slug %}" class="reels-close" title="{% trans 'Close reader' %}">✕</a>
+
+    <div class="reels-wrapper" data-current-page="{{ page_number }}" data-total-pages="{{ total_pages }}" data-slug="{{ publication.slug }}">
+        {% for page in pages %}
+            <div class="reel-page" data-page-number="{{ page.page_order }}">
+                <img src="{{ page.image.url }}" alt="{% blocktrans with num=page.page_order %}Page {{ num }}{% endblocktrans %}" class="reel-image">
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="reels-counter">
+        <span class="reels-current">{{ page_number }}</span> / {{ total_pages }}
+    </div>
 </div>
 {% endblock %}
 
