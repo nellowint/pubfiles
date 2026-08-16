@@ -34,6 +34,9 @@ class Category(MPTTModel):
         ordering = ['name']
         verbose_name = 'Categoria'
         verbose_name_plural = 'Categorias'
+        indexes = [
+            models.Index(fields=['slug'], name='category_slug_idx'),
+        ]
 
     def __str__(self):
         return self.name

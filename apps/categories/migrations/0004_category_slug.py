@@ -26,15 +26,20 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # Passo 1: Adicionar campo sem unique
+        # Passo 1: Adicionar campo sem índice automático
         migrations.AddField(
             model_name='category',
             name='slug',
-            field=models.SlugField(blank=True, help_text='URL gerada automaticamente a partir do nome', max_length=255, verbose_name='URL'),
+            field=models.SlugField(blank=True, db_index=False, help_text='URL gerada automaticamente a partir do nome', max_length=255, verbose_name='URL'),
         ),
         # Passo 2: Popular slugs
         migrations.RunPython(populate_slugs, migrations.RunPython.noop),
-        # Passo 3: Alterar para unique
+        # Passo 3: Adicionar índice manualmente
+        migrations.AddIndex(
+            model_name='category',
+            index=models.Index(fields=['slug'], name='category_slug_idx'),
+        ),
+        # Passo 4: Alterar para unique
         migrations.AlterField(
             model_name='category',
             name='slug',
