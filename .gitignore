@@ -182,3 +182,4 @@ PRD.md
 docs/
 settings-dev.py
 requirements-dev.txt
+apps/publications/management/commands/seed_dev_data.py
