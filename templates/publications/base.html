@@ -146,9 +146,6 @@
                             <div class="user-menu-dropdown js-user-menu-dropdown" id="userMenuDropdown">
                                 <div class="user-menu-email">{{ request.user.email }}</div>
                                 <a href="{% url 'profile' %}" class="user-menu-link">{% trans 'My profile' %}</a>
-                                {% if user_subscription and user_subscription.is_valid %}
-                                    <a href="{% url 'subscriptions:cancel_subscription' %}" class="user-menu-link user-menu-danger">{% trans 'Cancel subscription' %}</a>
-                                {% endif %}
                                 <form action="{% url 'logout' %}" method="POST" class="user-menu-logout-form">
                                     {% csrf_token %}
                                     <button type="submit" class="user-menu-link user-menu-logout">{% trans 'Logout' %}</button>
@@ -242,9 +239,6 @@
                         <span>{{ request.user.email }}</span>
                     </div>
                     <a href="{% url 'profile' %}" class="drawer-profile-link">{% trans 'My profile' %}</a>
-                    {% if user_subscription and user_subscription.is_valid %}
-                        <a href="{% url 'subscriptions:cancel_subscription' %}" class="drawer-profile-link drawer-profile-danger">{% trans 'Cancel subscription' %}</a>
-                    {% endif %}
                     <form action="{% url 'logout' %}" method="POST">
                         {% csrf_token %}
                         <button type="submit" class="btn-logout drawer-logout">{% trans 'Logout' %}</button>

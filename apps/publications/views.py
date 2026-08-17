@@ -117,46 +117,58 @@ class PublicationDetailView(DetailView):
 @never_cache
 def reader_view(request, slug, page_number):
     publication = get_object_or_404(Publication, slug=slug, is_active=True)
-    all_pages = publication.pages.all().order_by('page_order')
-    total_pages = all_pages.count()
+    all_pages = list(publication.pages.all().order_by('page_order'))
+    real_total_pages = len(all_pages)
 
     page_number = int(page_number)
 
-    if page_number < 1 or page_number > total_pages:
+    if page_number < 1 or page_number > real_total_pages:
         return render(request, 'errors/404.html', status=404)
 
-    if page_number == total_pages:
+    if page_number == real_total_pages:
         Publication.objects.filter(pk=publication.pk).update(
             views_count=F('views_count') + 1
         )
 
-    current_page = all_pages[page_number - 1]
-
-    if publication.is_members_only and page_number > publication.free_pages_count:
-        has_access = (
+    # Acesso total: publicações livres ou assinantes ativos.
+    has_full_access = (
+        not publication.is_members_only
+        or (
             request.user.is_authenticated
             and Subscription.objects.is_active_for(request.user)
         )
-        if not has_access:
+    )
+
+    if not has_full_access:
+        accessible_pages = all_pages[:publication.free_pages_count]
+        if page_number > len(accessible_pages):
             return render(
                 request,
                 'publications/premium.html',
                 {'publication': publication},
             )
+    else:
+        accessible_pages = all_pages
+
+    current_page = accessible_pages[page_number - 1]
 
     has_previous = page_number > 1
-    has_next = page_number < total_pages
+    has_next = page_number < real_total_pages
 
     context = {
         'publication': publication,
         'current_page': current_page,
         'page_number': page_number,
-        'total_pages': total_pages,
+        'total_pages': real_total_pages,
+        'real_total_pages': real_total_pages,
+        'free_pages_count': publication.free_pages_count,
         'has_previous': has_previous,
         'has_next': has_next,
         'previous_page_number': page_number - 1,
         'next_page_number': page_number + 1,
-        'pages': all_pages,
+        'pages': accessible_pages,
+        'is_members_only': publication.is_members_only,
+        'has_full_access': has_full_access,
     }
 
     return render(request, 'publications/reader.html', context)

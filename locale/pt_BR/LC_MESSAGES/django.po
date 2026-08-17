@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 19:47-0300\n"
+"POT-Creation-Date: 2026-08-17 15:27-0300\n"
 "PO-Revision-Date: 2026-06-22 21:32-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,94 +20,120 @@ msgstr ""
 msgid "Profile"
 msgstr "Perfil"
 
-#: templates/accounts/profile.html:14
-msgid "My Profile"
-msgstr "Meu Perfil"
-
 #: templates/accounts/profile.html:15
-msgid "Manage your avatar and account information."
-msgstr "Gerencie seu avatar e informações da conta."
-
-#: templates/accounts/profile.html:19 templates/registration/register.html:28
-msgid "Please correct the errors below."
-msgstr "Corrija os erros abaixo."
-
-#: templates/accounts/profile.html:37
-msgid "Change"
-msgstr "Alterar"
-
-#: templates/accounts/profile.html:47
-msgid "Remove Avatar"
-msgstr "Remover Avatar"
-
-#: templates/accounts/profile.html:53 templates/registration/login.html:32
-#: templates/registration/login.html:33
-msgid "Email"
-msgstr "E-mail"
-
-#: templates/accounts/profile.html:57
-msgid "Member since"
-msgstr "Membro desde"
-
-#: templates/accounts/profile.html:62
-msgid "Subscription"
-msgstr "Assinatura"
-
-#: templates/accounts/profile.html:63
-msgid "Premium"
-msgstr "Premium"
-
-#: templates/accounts/profile.html:69
-msgid "Change password"
-msgstr "Alterar senha"
-
-#: templates/accounts/profile.html:70
-msgid "Leave blank to keep your current password."
-msgstr "Deixe em branco para manter sua senha atual."
-
-#: templates/accounts/profile.html:72
-msgid "Current password"
-msgstr "Senha atual"
-
-#: templates/accounts/profile.html:81
-msgid "New password"
-msgstr "Nova senha"
-
-#: templates/accounts/profile.html:90
-msgid "Confirm new password"
-msgstr "Confirmar nova senha"
-
-#: templates/accounts/profile.html:100 templates/publications/detail.html:148
-msgid "Save"
-msgstr "Salvar"
-
-#: templates/accounts/profile.html:105 templates/publications/base.html:147
-#: templates/publications/base.html:243
-msgid "Cancel subscription"
-msgstr "Cancelar assinatura"
-
-#: templates/accounts/profile.html:108
 #: templates/subscriptions/cancel_subscription.html:18
 msgid "Back to catalog"
 msgstr "Voltar ao catálogo"
 
-#: templates/accounts/profile.html:114
+#: templates/accounts/profile.html:18 templates/accounts/profile.html:24
+msgid "My Profile"
+msgstr "Meu Perfil"
+
+#: templates/accounts/profile.html:19
+msgid "Manage your avatar, account information and subscription."
+msgstr "Gerencie seu avatar, informações da conta e assinatura."
+
+#: templates/accounts/profile.html:28
+msgid "Passwords"
+msgstr "Senhas"
+
+#: templates/accounts/profile.html:32 templates/accounts/profile.html:129
+#: templates/accounts/profile.html:147
+msgid "Subscription"
+msgstr "Assinatura"
+
+#: templates/accounts/profile.html:36 templates/accounts/profile.html:160
 msgid "Danger zone"
 msgstr "Zona de perigo"
 
-#: templates/accounts/profile.html:115
+#: templates/accounts/profile.html:42 templates/registration/register.html:29
+msgid "Please correct the errors below."
+msgstr "Corrija os erros abaixo."
+
+#: templates/accounts/profile.html:61
+msgid "Change"
+msgstr "Alterar"
+
+#: templates/accounts/profile.html:71
+msgid "Remove Avatar"
+msgstr "Remover Avatar"
+
+#: templates/accounts/profile.html:77 templates/registration/login.html:32
+#: templates/registration/login.html:33
+msgid "Email"
+msgstr "E-mail"
+
+#: templates/accounts/profile.html:81
+msgid "Member since"
+msgstr "Membro desde"
+
+#: templates/accounts/profile.html:86 templates/accounts/profile.html:122
+#: templates/publications/detail.html:150
+msgid "Save"
+msgstr "Salvar"
+
+#: templates/accounts/profile.html:91
+msgid "Change password"
+msgstr "Alterar senha"
+
+#: templates/accounts/profile.html:92
+msgid "Leave blank to keep your current password."
+msgstr "Deixe em branco para manter sua senha atual."
+
+#: templates/accounts/profile.html:94
+msgid "Current password"
+msgstr "Senha atual"
+
+#: templates/accounts/profile.html:103
+msgid "New password"
+msgstr "Nova senha"
+
+#: templates/accounts/profile.html:112
+msgid "Confirm new password"
+msgstr "Confirmar nova senha"
+
+#: templates/accounts/profile.html:130
+msgid "Premium"
+msgstr "Premium"
+
+#: templates/accounts/profile.html:134
+msgid "Active until"
+msgstr "Válida até"
+
+#: templates/accounts/profile.html:139
+msgid "Next charge"
+msgstr "Próxima cobrança"
+
+#: templates/accounts/profile.html:140
+#, python-format
+msgid "%(currency)s %(price)s on %(date)s"
+msgstr "%(currency)s %(price)s em %(date)s"
+
+#: templates/accounts/profile.html:144
+msgid "Cancel subscription"
+msgstr "Cancelar assinatura"
+
+#: templates/accounts/profile.html:148
+msgid "Free"
+msgstr "Grátis"
+
+#: templates/accounts/profile.html:151 templates/publications/reader.html:83
+msgid "Subscribe Premium"
+msgstr "Assinar Premium"
+
+#: templates/accounts/profile.html:161
 msgid ""
 "Once you delete your account, there is no going back. Please be certain."
 msgstr ""
 "Depois que você excluir sua conta, não há como voltar atrás. Tenha certeza."
 
-#: templates/accounts/profile.html:123
+#: templates/accounts/profile.html:169
 msgid ""
 "Are you sure you want to delete your account? This action cannot be undone."
 msgstr ""
 "Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita."
 
-#: templates/accounts/profile.html:134
+#: templates/accounts/profile.html:180
 msgid "Delete my account"
 msgstr "Excluir minha conta"
 
@@ -133,191 +159,180 @@ msgstr "Voltar ao Catálogo"
 msgid "See all of %(name)s"
 msgstr "Ver tudo de %(name)s"
 
-#: templates/publications/base.html:9 templates/publications/base.html:18
-#: templates/publications/index.html:5
-msgid "Home"
-msgstr "Início"
-
-#: templates/publications/base.html:106
+#: templates/publications/base.html:109
 msgid "Type to search..."
 msgstr "Digite para buscar..."
 
-#: templates/publications/base.html:110 templates/publications/base.html:255
+#: templates/publications/base.html:113 templates/publications/base.html:252
 msgid "Toggle Theme"
 msgstr "Alternar Tema"
 
-#: templates/publications/base.html:127 templates/publications/base.html:266
-#: templates/publications/base.html:268
+#: templates/publications/base.html:130 templates/publications/base.html:263
+#: templates/publications/base.html:265
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/publications/base.html:134
+#: templates/publications/base.html:137
 msgid "Account menu"
 msgstr "Menu da conta"
 
-#: templates/publications/base.html:145 templates/publications/base.html:241
+#: templates/publications/base.html:148 templates/publications/base.html:241
 msgid "My profile"
 msgstr "Meu perfil"
 
-#: templates/publications/base.html:151 templates/publications/base.html:247
+#: templates/publications/base.html:151 templates/publications/base.html:244
 msgid "Logout"
 msgstr "Logout"
 
-#: templates/publications/base.html:156 templates/publications/base.html:250
+#: templates/publications/base.html:156 templates/publications/base.html:247
 #: templates/registration/login.html:5
 msgid "Login"
 msgstr "Login"
 
-#: templates/publications/base.html:168 templates/publications/base.html:275
+#: templates/publications/base.html:168 templates/publications/base.html:272
 msgid "All Categories"
 msgstr "Todas as Categorias"
 
-#: templates/publications/base.html:198
+#: templates/publications/base.html:200
 msgid "Os direitos sobre as obras pertencem aos seus respectivos titulares."
 msgstr "Os direitos sobre as obras pertencem aos seus respectivos titulares."
 
-#: templates/publications/base.html:201 templates/website/privacy.html:4
+#: templates/publications/base.html:203 templates/website/privacy.html:4
 #: templates/website/privacy.html:8
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
-#: templates/publications/base.html:205 templates/website/terms.html:4
+#: templates/publications/base.html:207 templates/website/terms.html:4
 #: templates/website/terms.html:8
 msgid "Terms of Use"
 msgstr "Termos de Uso"
 
 #: templates/publications/base.html:212
-#, fuzzy
-#| msgid "Back to catalog"
 msgid "Back to top"
 msgstr "Voltar ao topo"
 
 #: templates/publications/base.html:223
-#, fuzzy
-#| msgid "Close"
 msgid "Close menu"
-msgstr "Fechar"
+msgstr "Fechar menu"
 
 #: templates/publications/detail.html:6
 msgid "Details"
 msgstr "Detalhes"
 
-#: templates/publications/detail.html:33 templates/publications/detail.html:95
-#: templates/publications/index.html:23
+#: templates/publications/detail.html:35 templates/publications/detail.html:97
+#: templates/publications/index.html:18
 msgid "PREMIUM"
 msgstr "PREMIUM"
 
-#: templates/publications/detail.html:57
+#: templates/publications/detail.html:59
 msgid "Edited in:"
 msgstr "Editado em:"
 
-#: templates/publications/detail.html:67
+#: templates/publications/detail.html:69
 msgid "stars"
 msgstr "estrelas"
 
-#: templates/publications/detail.html:75
+#: templates/publications/detail.html:77
 #, python-format
 msgid "%(counter)s vote"
 msgid_plural "%(counter)s votes"
 msgstr[0] "%(counter)s voto"
 msgstr[1] "%(counter)s votos"
 
-#: templates/publications/detail.html:81
+#: templates/publications/detail.html:83
 msgid "Log in to rate this publication."
 msgstr "Entre para avaliar esta publicação."
 
-#: templates/publications/detail.html:87
+#: templates/publications/detail.html:89
 msgid "Synopsis:"
 msgstr "Sinopse:"
 
-#: templates/publications/detail.html:99
+#: templates/publications/detail.html:101
 msgid "Visualizar"
 msgstr "Visualizar"
 
-#: templates/publications/detail.html:107
+#: templates/publications/detail.html:109
 msgid "Comments"
 msgstr "Comentários"
 
-#: templates/publications/detail.html:135
+#: templates/publications/detail.html:137
 msgid "Edit"
 msgstr "Editar"
 
-#: templates/publications/detail.html:140
+#: templates/publications/detail.html:142
 msgid "Delete"
 msgstr "Excluir"
 
-#: templates/publications/detail.html:149
+#: templates/publications/detail.html:151
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: templates/publications/detail.html:158
+#: templates/publications/detail.html:160
 msgid "No comments yet. Be the first to comment!"
 msgstr "Nenhum comentário ainda. Seja o primeiro a comentar!"
 
-#: templates/publications/detail.html:172
+#: templates/publications/detail.html:174
 msgid "Write your comment..."
 msgstr "Escreva seu comentário..."
 
-#: templates/publications/detail.html:176
+#: templates/publications/detail.html:178
 msgid "Comment"
 msgstr "Comentar"
 
-#: templates/publications/detail.html:181
+#: templates/publications/detail.html:183
 msgid "Log in to leave a comment."
 msgstr "Entre para deixar um comentário."
 
-#: templates/publications/detail.html:190
+#: templates/publications/detail.html:192
 msgid "Similar publications"
 msgstr "Publicações semelhantes"
 
-#: templates/publications/index.html:38
+#: templates/publications/index.html:33
 msgid "Default"
 msgstr "Padrão"
 
-#: templates/publications/index.html:53
+#: templates/publications/index.html:48
 msgid "No rating"
 msgstr "Sem avaliação"
 
-#: templates/publications/index.html:61
+#: templates/publications/index.html:56
 msgid "No publications found."
 msgstr "Nenhuma publicação encontrada."
 
-#: templates/publications/index.html:68
+#: templates/publications/index.html:63
 msgid "First"
 msgstr "Primeira"
 
-#: templates/publications/index.html:69
+#: templates/publications/index.html:64
 msgid "Previous"
 msgstr "Anterior"
 
-#: templates/publications/index.html:72
+#: templates/publications/index.html:67
 #, python-format
 msgid "%(current)s of %(total)s"
 msgstr "%(current)s de %(total)s"
 
-#: templates/publications/index.html:75
+#: templates/publications/index.html:70
 msgid "Next"
 msgstr "Próxima"
 
-#: templates/publications/index.html:76
+#: templates/publications/index.html:71
 msgid "Last"
 msgstr "Última"
 
-#: templates/publications/index.html:92
+#: templates/publications/index.html:87
 msgid "Aviso"
 msgstr "Aviso"
 
-#: templates/publications/index.html:96
+#: templates/publications/index.html:91
 msgid "Não mostrar novamente"
 msgstr "Não mostrar novamente"
 
-#: templates/publications/index.html:99
-#, fuzzy
-#| msgid "Confirm new password"
+#: templates/publications/index.html:94
 msgid "Confirmar"
 msgstr "Confirmar"
 
-#: templates/publications/index.html:100
+#: templates/publications/index.html:95
 msgid "Sair"
 msgstr "Sair"
 
@@ -343,7 +358,19 @@ msgstr ""
 msgid "Premium subscription: <strong>%(currency)s %(price)s</strong> / month."
 msgstr "Assinatura Premium: <strong>%(currency)s %(price)s</strong> / mês."
 
+#: templates/publications/premium.html:26
+msgid "Read every page of every premium publication"
+msgstr "Leia todas as páginas de todas as publicações premium"
+
+#: templates/publications/premium.html:27
+msgid "Unlimited access to the entire catalog"
+msgstr "Acesso ilimitado a todo o catálogo"
+
 #: templates/publications/premium.html:28
+msgid "Cancel anytime"
+msgstr "Cancele quando quiser"
+
+#: templates/publications/premium.html:34
 msgid ""
 "Create your account or log in now and subscribe to unlock unlimited access "
 "to our entire catalog of magazines and comics."
@@ -351,11 +378,21 @@ msgstr ""
 "Crie sua conta ou faça login agora e assine para desbloquear acesso "
 "ilimitado a todo o nosso catálogo de revistas e quadrinhos."
 
-#: templates/publications/premium.html:31
-msgid "Subscribe Premium"
-msgstr ""
+#: templates/publications/premium.html:37
+msgid "Create account and subscribe"
+msgstr "Criar conta e assinar"
 
-#: templates/publications/premium.html:34
+#: templates/publications/premium.html:39
+#: templates/registration/register.html:54
+msgid "Already have an account?"
+msgstr "Já tem uma conta?"
+
+#: templates/publications/premium.html:40
+#: templates/registration/register.html:54
+msgid "Log in"
+msgstr "Entrar"
+
+#: templates/publications/premium.html:44
 #, python-format
 msgid ""
 "Hi <strong>%(email)s</strong>, your account does not have an active "
@@ -366,34 +403,41 @@ msgstr ""
 "ativa. Assine o Premium para desbloquear esta página e o restante de "
 "<strong>\"%(title)s\"</strong>."
 
-#: templates/publications/premium.html:37
+#: templates/publications/premium.html:47 templates/publications/reader.html:81
 msgid "Activate Subscription"
 msgstr "Ativar Assinatura"
 
-#: templates/publications/premium.html:43
+#: templates/publications/premium.html:53
 msgid "Back to publication details"
 msgstr "Voltar aos detalhes da publicação"
 
-#: templates/publications/reader.html:5
+#: templates/publications/reader.html:5 templates/publications/reader.html:10
+#: templates/publications/reader.html:17
 msgid "Page"
 msgstr "Página"
 
-#: templates/publications/reader.html:18
+#: templates/publications/reader.html:33 templates/publications/reader.html:62
 msgid "Close reader"
 msgstr "Fechar leitor"
 
-#: templates/publications/reader.html:18
-msgid "Close"
-msgstr "Fechar"
-
-#: templates/publications/reader.html:28
+#: templates/publications/reader.html:43
 msgid "Click to advance"
 msgstr "Clique para avançar"
 
-#: templates/publications/reader.html:29 templates/publications/reader.html:33
+#: templates/publications/reader.html:44 templates/publications/reader.html:48
+#: templates/publications/reader.html:67
 #, python-format
 msgid "Page %(num)s"
 msgstr "Página %(num)s"
+
+#: templates/publications/reader.html:74
+msgid "This publication is exclusive to Subscribers"
+msgstr "Esta publicação é exclusiva para Assinantes"
+
+#: templates/publications/reader.html:77
+#, python-format
+msgid "%(currency)s %(price)s/month"
+msgstr "%(currency)s %(price)s/mês"
 
 #: templates/registration/account_verification_email.html:1
 msgid "Hi"
@@ -436,9 +480,8 @@ msgid "Your account is now active. You can log in."
 msgstr "Sua conta está ativa. Você já pode fazer login."
 
 #: templates/registration/email_verified.html:30
-#: templates/registration/register.html:53
-msgid "Log in"
-msgstr "Entrar"
+msgid "Log in and continue"
+msgstr "Entrar e continuar"
 
 #: templates/registration/login.html:14
 msgid "Welcome"
@@ -473,7 +516,7 @@ msgid "Don't have an account?"
 msgstr "Não tem uma conta?"
 
 #: templates/registration/login.html:55 templates/registration/register.html:5
-#: templates/registration/register.html:49
+#: templates/registration/register.html:50
 msgid "Register"
 msgstr "Registrar"
 
@@ -602,18 +645,8 @@ msgid "Fill in the fields below to register."
 msgstr "Preencha os campos abaixo para se registrar."
 
 #: templates/registration/register.html:19
-#, fuzzy
-#| msgid ""
-#| "Premium subscriptions are not available at the moment. Please try again "
-#| "later."
 msgid "Too many registration attempts. Please try again later."
-msgstr ""
-"Assinaturas Premium não estão disponíveis no momento. Tente novamente mais "
-"tarde."
-
-#: templates/registration/register.html:53
-msgid "Already have an account?"
-msgstr "Já tem uma conta?"
+msgstr "Muitas tentativas de registro. Tente novamente mais tarde."
 
 #: templates/registration/verification_sent.html:5
 msgid "Verify your email"
@@ -645,59 +678,82 @@ msgid ""
 msgstr ""
 "Sua assinatura não foi concluída. Você pode tentar novamente quando quiser."
 
-#: templates/subscriptions/cancel.html:17
+#: templates/subscriptions/cancel.html:18
+#: templates/subscriptions/cancel.html:21
 msgid "Try again"
 msgstr "Tentar novamente"
 
+#: templates/subscriptions/cancel.html:19
+msgid "Back"
+msgstr ""
+
 #: templates/subscriptions/cancel_subscription.html:5
-#: templates/subscriptions/cancel_subscription.html:21
-#, fuzzy
-#| msgid "Activate Subscription"
+#: templates/subscriptions/cancel_subscription.html:24
 msgid "Cancel Subscription"
-msgstr "Ativar Assinatura"
+msgstr "Cancelar Assinatura"
 
 #: templates/subscriptions/cancel_subscription.html:16
-#, fuzzy
-#| msgid "Subscription Activated"
 msgid "Subscription Cancelled"
-msgstr "Assinatura Ativada"
+msgstr "Assinatura Cancelada"
 
 #: templates/subscriptions/cancel_subscription.html:17
 msgid ""
 "Your Premium subscription has been cancelled. You will lose access to "
 "premium content at the end of your current billing period."
 msgstr ""
+"Sua assinatura Premium foi cancelada. Você perderá o acesso ao conteúdo "
+"premium ao final do período de cobrança atual."
 
-#: templates/subscriptions/cancel_subscription.html:22
+#: templates/subscriptions/cancel_subscription.html:21
+msgid "Back to Profile"
+msgstr "Voltar ao Perfil"
+
+#: templates/subscriptions/cancel_subscription.html:25
 msgid ""
 "Are you sure you want to cancel your Premium subscription? You will lose "
 "access to premium content at the end of your current billing period."
 msgstr ""
+"Tem certeza de que deseja cancelar sua assinatura Premium? Você perderá o "
+"acesso ao conteúdo premium ao final do período de cobrança atual."
 
-#: templates/subscriptions/cancel_subscription.html:24
+#: templates/subscriptions/cancel_subscription.html:27
 #, python-format
 msgid "Active until: %(expires)s"
-msgstr ""
-
-#: templates/subscriptions/cancel_subscription.html:28
-msgid "Confirm Cancellation"
-msgstr ""
+msgstr "Ativa até: %(expires)s"
 
 #: templates/subscriptions/cancel_subscription.html:30
-#, fuzzy
-#| msgid "Activate Subscription"
-msgid "Keep subscription"
-msgstr "Ativar Assinatura"
+msgid ""
+"No refunds: you will keep access until the end of the paid period, with no "
+"proportional refund."
+msgstr ""
+"Sem reembolso: você mantém o acesso até o fim do período já pago, sem "
+"devolução proporcional."
+
+#: templates/subscriptions/cancel_subscription.html:34
+msgid "Confirm Cancellation"
+msgstr "Confirmar Cancelamento"
 
 #: templates/subscriptions/success.html:5
 msgid "Subscription Activated"
 msgstr "Assinatura Ativada"
 
-#: templates/subscriptions/success.html:15
+#: templates/subscriptions/success.html:16
+msgid "Almost there!"
+msgstr "Quase lá!"
+
+#: templates/subscriptions/success.html:17
+msgid ""
+"Your payment is being confirmed. If you were just redirected from Stripe, "
+"your subscription will be activated in a moment."
+msgstr ""
+"Seu pagamento está sendo confirmado. Se você acabou de ser redirecionado do "
+"Stripe, sua assinatura será ativada em instantes."
+
+#: templates/subscriptions/success.html:19
 msgid "Subscription Activated!"
 msgstr "Assinatura Ativada!"
 
-#: templates/subscriptions/success.html:16
+#: templates/subscriptions/success.html:20
 msgid ""
 "Your Premium subscription is now active. You can read every page of every "
 "premium publication without limits."
@@ -705,7 +761,11 @@ msgstr ""
 "Sua assinatura Premium está agora ativa. Você pode ler todas as páginas de "
 "todas as publicações premium sem limites."
 
-#: templates/subscriptions/success.html:17
+#: templates/subscriptions/success.html:23
+msgid "Continue reading"
+msgstr "Continuar lendo"
+
+#: templates/subscriptions/success.html:25
 msgid "Browse the catalog"
 msgstr "Navegar pelo catálogo"
 
@@ -721,6 +781,15 @@ msgid ""
 msgstr ""
 "Assinaturas Premium não estão disponíveis no momento. Tente novamente mais "
 "tarde."
+
+#~ msgid "Keep subscription"
+#~ msgstr "Manter assinatura"
+
+#~ msgid "Home"
+#~ msgstr "Início"
+
+#~ msgid "Close"
+#~ msgstr "Fechar"
 
 #~ msgid "Return to Catalog"
 #~ msgstr "Voltar ao Catálogo"

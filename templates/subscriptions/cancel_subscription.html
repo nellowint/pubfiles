@@ -17,17 +17,22 @@
             <p>{% trans 'Your Premium subscription has been cancelled. You will lose access to premium content at the end of your current billing period.' %}</p>
             <a href="{% url 'publications:home' %}" class="btn-result btn-result-warning">{% trans 'Back to catalog' %}</a>
         {% else %}
+            <div class="sub-back-link">
+                <a href="{% url 'profile' %}">{% trans 'Back to Profile' %}</a>
+            </div>
             <div class="result-icon">⚠️</div>
             <h2>{% trans 'Cancel Subscription' %}</h2>
             <p>{% trans 'Are you sure you want to cancel your Premium subscription? You will lose access to premium content at the end of your current billing period.' %}</p>
             {% if subscription.expires_at %}
                 <p class="restricted-subtext">{% blocktrans with expires=subscription.expires_at|date:"d/m/Y" %}Active until: {{ expires }}{% endblocktrans %}</p>
             {% endif %}
+            <div class="sub-refund-note">
+                {% trans 'No refunds: you will keep access until the end of the paid period, with no proportional refund.' %}
+            </div>
             <form method="POST" action="{% url 'subscriptions:cancel_subscription' %}">
                 {% csrf_token %}
-                <button type="submit" class="btn-result btn-result-warning">{% trans 'Confirm Cancellation' %}</button>
+                <button type="submit" class="btn-result btn-result-danger">{% trans 'Confirm Cancellation' %}</button>
             </form>
-            <a href="{% url 'publications:home' %}" class="btn-restricted-back">{% trans 'Keep subscription' %}</a>
         {% endif %}
     </div>
 </div>

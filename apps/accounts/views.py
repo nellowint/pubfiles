@@ -15,6 +15,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from .models import User
 from .tokens import account_verification_token
@@ -103,12 +104,20 @@ class ProfileForm(forms.ModelForm):
 
 @rate_limit('register', max_attempts=3, timeout=3600)
 def register_view(request):
+    next_url = request.GET.get('next') or request.POST.get('next') or ''
+    if next_url and url_has_allowed_host_and_scheme(
+        next_url,
+        allowed_hosts={request.get_host()},
+    ):
+        request.session['next_after_register'] = next_url
+
     if request.method == 'POST':
         if getattr(request, 'limited', False):
             form = CustomUserCreationForm()
             return render(request, 'registration/register.html', {
                 'form': form,
                 'rate_limited': True,
+                'next_url': next_url,
             })
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -132,7 +141,10 @@ def register_view(request):
             return redirect('verification_sent')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'registration/register.html', {
+        'form': form,
+        'next_url': next_url,
+    })
 
 
 def verification_sent_view(request):
@@ -146,13 +158,18 @@ def confirm_email_view(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
+    next_url = request.session.pop('next_after_register', '')
+
     if user is not None and account_verification_token.check_token(user, token):
         user.email_verified = True
         user.save(update_fields=['email_verified'])
-        return render(request, 'registration/email_verified.html')
+        return render(request, 'registration/email_verified.html', {
+            'next_url': next_url,
+        })
     else:
         return render(request, 'registration/email_verified.html', {
             'invalid_token': True,
+            'next_url': next_url,
         })
 
 

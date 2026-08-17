@@ -21,6 +21,12 @@
             <p class="restricted-subtext">
                 {% blocktrans with currency=subscription_settings.currency|upper price=subscription_settings.monthly_price %}Premium subscription: <strong>{{ currency }} {{ price }}</strong> / month.{% endblocktrans %}
             </p>
+
+            <ul class="premium-benefits">
+                <li>{% trans 'Read every page of every premium publication' %}</li>
+                <li>{% trans 'Unlimited access to the entire catalog' %}</li>
+                <li>{% trans 'Cancel anytime' %}</li>
+            </ul>
         {% endif %}
 
         {% if not request.user.is_authenticated %}
@@ -28,13 +34,17 @@
                 {% trans 'Create your account or log in now and subscribe to unlock unlimited access to our entire catalog of magazines and comics.' %}
             </p>
 
-            <a href="{% url 'login' %}" class="btn-restricted-login">{% trans 'Subscribe Premium' %}</a>
+            <a href="{% url 'register' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Create account and subscribe' %}</a>
+            <div class="premium-alt-action">
+                {% trans 'Already have an account?' %}
+                <a href="{% url 'login' %}?next={{ request.path }}">{% trans 'Log in' %}</a>
+            </div>
         {% else %}
             <p class="restricted-subtext">
                 {% blocktrans with email=request.user.email title=publication.title %}Hi <strong>{{ email }}</strong>, your account does not have an active subscription yet. Subscribe to Premium to unlock this page and the rest of <strong>"{{ title }}"</strong>.{% endblocktrans %}
             </p>
 
-            <a href="{% url 'subscriptions:checkout' %}" class="btn-restricted-login">{% trans 'Activate Subscription' %}</a>
+            <a href="{% url 'subscriptions:checkout' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Activate Subscription' %}</a>
         {% endif %}
 
         <br>

@@ -27,7 +27,7 @@
             </svg>
             <h2>{% trans 'Email verified!' %}</h2>
             <p>{% trans 'Your account is now active. You can log in.' %}</p>
-            <a href="{% url 'login' %}" class="btn-back-login">{% trans 'Log in' %}</a>
+            <a href="{% url 'login' %}{% if next_url %}?next={{ next_url }}{% endif %}" class="btn-back-login">{% trans 'Log in and continue' %}</a>
         {% endif %}
     </div>
 </div>

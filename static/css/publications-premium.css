@@ -43,6 +43,45 @@
     font-size: 14px !important;
 }
 
+.premium-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 6px;
+    text-align: left;
+}
+
+.premium-benefits li {
+    padding: 6px 0;
+    font-size: 14px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.premium-benefits li::before {
+    content: "✓";
+    color: #28a745;
+    font-weight: 700;
+}
+
+.premium-alt-action {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.premium-alt-action a {
+    color: var(--secondary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.premium-alt-action a:hover {
+    text-decoration: underline;
+}
+
 .btn-restricted-login {
     display: inline-block;
     background: linear-gradient(135deg, #ffc107, #ffb300);

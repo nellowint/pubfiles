@@ -5,11 +5,13 @@ from .models import Subscription, SubscriptionSettings
 
 @admin.register(SubscriptionSettings)
 class SubscriptionSettingsAdmin(admin.ModelAdmin):
-    list_display = ('monthly_price', 'currency', 'is_enabled', 'updated_at')
-    readonly_fields = ('updated_at',)
+    list_display = ('product_name', 'monthly_price', 'currency', 'is_enabled', 'updated_at')
+    readonly_fields = ('updated_at', 'stripe_product_id', 'stripe_price_id')
     fieldsets = (
         (None, {'fields': ('is_enabled',)}),
+        ('Produto', {'fields': ('product_name', 'product_description', 'product_image')}),
         ('Precificação', {'fields': ('monthly_price', 'currency')}),
+        ('Stripe', {'fields': ('stripe_product_id', 'stripe_price_id')}),
         ('Metadados', {'fields': ('updated_at',)}),
     )
 
@@ -45,12 +47,14 @@ class SubscriptionAdmin(admin.ModelAdmin):
         'is_valid',
         'stripe_customer_id',
         'stripe_subscription_id',
+        'stripe_session_id',
+        'last_event_id',
     )
     ordering = ('-started_at',)
 
     fieldsets = (
         (None, {'fields': ('user', 'status', 'is_active')}),
-        ('Stripe', {'fields': ('stripe_customer_id', 'stripe_subscription_id')}),
+        ('Stripe', {'fields': ('stripe_customer_id', 'stripe_subscription_id', 'stripe_session_id', 'last_event_id')}),
         ('Período', {'fields': ('started_at', 'expires_at', 'cancelled_at')}),
         ('Metadados', {'fields': ('updated_at', 'is_valid')}),
     )

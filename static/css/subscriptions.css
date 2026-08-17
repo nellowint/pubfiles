@@ -39,6 +39,24 @@
     opacity: 0.85;
 }
 
+.sub-back-link {
+    margin-bottom: 18px;
+    text-align: left;
+}
+.sub-back-link a {
+    font-size: 14px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.sub-back-link a:hover {
+    text-decoration: underline;
+    opacity: 0.85;
+}
+
 .btn-result {
     display: inline-block;
     font-weight: 600;
@@ -71,6 +89,29 @@
 .btn-result-warning:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255, 193, 7, 0.5);
+}
+
+.btn-result-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white !important;
+    border: none;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+}
+.btn-result-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.55);
+}
+
+.sub-refund-note {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: rgba(220, 53, 69, 0.08);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    border-radius: var(--radius-sm);
+    color: #dc3545;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
 }
 
 @keyframes pulse {

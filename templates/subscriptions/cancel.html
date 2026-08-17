@@ -14,7 +14,12 @@
         <div class="result-icon">⚠️</div>
         <h2>{% trans 'Payment Cancelled' %}</h2>
         <p>{% trans 'Your subscription was not completed. You can try again whenever you want.' %}</p>
-        <a href="{% url 'subscriptions:checkout' %}" class="btn-result btn-result-warning">{% trans 'Try again' %}</a>
+        {% if next_url %}
+            <a href="{% url 'subscriptions:checkout' %}?next={{ next_url }}" class="btn-result btn-result-warning">{% trans 'Try again' %}</a>
+            <a href="{{ next_url }}" class="btn-restricted-back">{% trans 'Back' %}</a>
+        {% else %}
+            <a href="{% url 'subscriptions:checkout' %}" class="btn-result btn-result-warning">{% trans 'Try again' %}</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -75,6 +75,47 @@ class ReaderGatingTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'publications/premium.html')
 
+    def test_anonymous_only_receives_free_pages_in_context(self):
+        """Não assinante recebe apenas as páginas gratuitas no contexto do reader."""
+        resp = self.client.get(self._url(1))
+        self.assertEqual(resp.status_code, 200)
+        pages = resp.context['pages']
+        self.assertEqual(len(pages), 2)
+        self.assertEqual(resp.context['total_pages'], 4)
+        self.assertEqual(resp.context['free_pages_count'], 2)
+        self.assertTrue(resp.context['has_next'])
+
+    def test_anonymous_free_page_has_next_button_leading_to_premium(self):
+        """A última página gratuita deve ter botão 'next' que cai no premium.html."""
+        resp = self.client.get(self._url(2))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp.context['has_next'])
+        self.assertEqual(resp.context['next_page_number'], 3)
+        # Seguir o next deve renderizar o premium
+        next_resp = self.client.get(self._url(3))
+        self.assertEqual(next_resp.status_code, 200)
+        self.assertTemplateUsed(next_resp, 'publications/premium.html')
+
+    def test_members_only_not_leaked_in_reels_dom(self):
+        """O HTML do reader não pode conter páginas além das gratuitas para anônimos."""
+        resp = self.client.get(self._url(1))
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode()
+        # Páginas 3 e 4 não podem aparecer no DOM
+        self.assertNotIn('page-3.png', html)
+        self.assertNotIn('page-4.png', html)
+        # Bloco de bloqueio deve estar presente
+        self.assertIn('reel-page-locked', html)
+
+    def test_subscriber_receives_all_pages_in_context(self):
+        Subscription.objects.create(user=self.user)
+        self.client.login(email='reader@example.com', password='secret123')
+        resp = self.client.get(self._url(1))
+        self.assertEqual(resp.status_code, 200)
+        pages = resp.context['pages']
+        self.assertEqual(len(pages), 4)
+        self.assertEqual(resp.context['total_pages'], 4)
+
 
 class ViewsCountTests(TestCase):
     def setUp(self):

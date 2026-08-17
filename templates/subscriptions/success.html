@@ -12,9 +12,18 @@
 <div class="sub-result-wrapper">
     <div class="sub-result-box">
         <div class="result-icon">🎉</div>
-        <h2>{% trans 'Subscription Activated!' %}</h2>
-        <p>{% trans 'Your Premium subscription is now active. You can read every page of every premium publication without limits.' %}</p>
-        <a href="{% url 'publications:home' %}" class="btn-result btn-result-success">{% trans 'Browse the catalog' %}</a>
+        {% if pending %}
+            <h2>{% trans 'Almost there!' %}</h2>
+            <p>{% trans 'Your payment is being confirmed. If you were just redirected from Stripe, your subscription will be activated in a moment.' %}</p>
+        {% else %}
+            <h2>{% trans 'Subscription Activated!' %}</h2>
+            <p>{% trans 'Your Premium subscription is now active. You can read every page of every premium publication without limits.' %}</p>
+        {% endif %}
+        {% if next_url %}
+            <a href="{{ next_url }}" class="btn-result btn-result-success">{% trans 'Continue reading' %}</a>
+        {% else %}
+            <a href="{% url 'publications:home' %}" class="btn-result btn-result-success">{% trans 'Browse the catalog' %}</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

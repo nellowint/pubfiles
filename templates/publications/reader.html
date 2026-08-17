@@ -67,6 +67,24 @@
                 <img src="{{ page.image.url }}" alt="{% blocktrans with num=page.page_order %}Page {{ num }}{% endblocktrans %}" class="reel-image">
             </div>
         {% endfor %}
+        {% if is_members_only and not has_full_access %}
+            <div class="reel-page reel-page-locked" data-page-number="{{ free_pages_count|add:1 }}">
+                <div class="reel-locked-box">
+                    <div class="crown-icon">👑⭐👑</div>
+                    <h2>{% trans 'This publication is exclusive to Subscribers' %}</h2>
+                    {% if subscription_settings and subscription_settings.is_enabled %}
+                        <p class="reel-locked-price">
+                            {% blocktrans with currency=subscription_settings.currency|upper price=subscription_settings.monthly_price %}{{ currency }} {{ price }}/month{% endblocktrans %}
+                        </p>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'subscriptions:checkout' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Activate Subscription' %}</a>
+                    {% else %}
+                        <a href="{% url 'login' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Subscribe Premium' %}</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 
     <div class="reels-counter">

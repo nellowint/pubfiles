@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
+from core.utils import validate_file_size
+
 
 class SubscriptionStatus(models.TextChoices):
     PENDING = 'pending', 'Pendente'
@@ -28,6 +30,39 @@ class SubscriptionSettings(models.Model):
         verbose_name='Moeda',
         help_text='Código ISO 4217. Exemplo: usd, brl, eur.',
     )
+    product_name = models.CharField(
+        max_length=255,
+        default='Premium Subscription',
+        verbose_name='Nome do produto',
+        help_text='Nome exibido no Stripe durante o checkout.',
+    )
+    product_description = models.TextField(
+        blank=True,
+        verbose_name='Descrição do produto',
+        help_text='Descrição exibida no Stripe durante o checkout (opcional).',
+    )
+    product_image = models.ImageField(
+        upload_to='subscriptions',
+        blank=True,
+        null=True,
+        validators=[validate_file_size],
+        verbose_name='Imagem do produto',
+        help_text='Imagem exibida no Stripe durante o checkout (opcional).',
+    )
+    stripe_product_id = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+        verbose_name='ID do produto Stripe',
+        help_text='Preenchido automaticamente após a criação no Stripe.',
+    )
+    stripe_price_id = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+        verbose_name='ID do preço Stripe',
+        help_text='Preenchido automaticamente após a criação no Stripe.',
+    )
     is_enabled = models.BooleanField(
         default=False,
         verbose_name='Habilitado',
@@ -48,6 +83,10 @@ class SubscriptionSettings(models.Model):
     def clean(self):
         if SubscriptionSettings.objects.exclude(pk=self.pk).exists():
             raise ValidationError('A configuration already exists. Edit the existing record.')
+        if self.is_enabled and not self.product_name:
+            raise ValidationError({'product_name': 'Informe o nome do produto.'})
+        if self.is_enabled and self.monthly_price is not None and self.monthly_price <= 0:
+            raise ValidationError({'monthly_price': 'Informe um preço mensal maior que zero.'})
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -98,6 +137,20 @@ class Subscription(models.Model):
         blank=True,
         default='',
         verbose_name='ID da assinatura Stripe',
+    )
+    stripe_session_id = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+        verbose_name='ID da sessão de checkout Stripe',
+        help_text='Sessão de checkout em andamento (usada para evitar duplicidade).',
+    )
+    last_event_id = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+        verbose_name='Último evento Stripe',
+        help_text='ID do último evento Stripe processado (idempotência).',
     )
     started_at = models.DateTimeField(
         auto_now_add=True,
