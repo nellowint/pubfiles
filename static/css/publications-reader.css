@@ -5,6 +5,10 @@ body {
     overflow: hidden;
 }
 
+body::before {
+    display: none !important;
+}
+
 .floating-nav {
     display: none !important;
 }

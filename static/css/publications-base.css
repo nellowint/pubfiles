@@ -21,20 +21,47 @@ body { min-height: 100vh; margin: 0; }
 body {
     font-family: var(--font-body);
     color: var(--text-color);
-    background-image: var(--bg-image);
-    background-attachment: scroll;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
     transition: color 0.3s ease;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
 }
 
+/* Fundo em camada fixa atrás do conteúdo, cobre a viewport inteira */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--bg-image);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    pointer-events: none;
+}
+
+/* Scrollbar personalizado no desktop: thumb na cor secundária, track transparente */
 @media (min-width: 769px) {
-    body {
-        background-attachment: fixed;
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: var(--secondary-color);
+        border-radius: 8px;
+        border: 3px solid transparent;
+        background-clip: padding-box;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--secondary-color);
+        border: 3px solid transparent;
+        background-clip: padding-box;
+    }
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--secondary-color) transparent;
     }
 }
 
@@ -45,7 +72,7 @@ a { text-decoration: none; color: inherit; }
     max-width: 1300px;
     margin: 0 auto;
     padding: 20px 20px 0;
-    overflow-x: hidden;
+    overflow: clip;
     display: grid;
     grid-template-rows: auto 1fr auto;
     min-height: 100vh;
@@ -770,7 +797,7 @@ main { min-height: 0; }
 }
 
 @media (max-width: 768px) {
-    .site-wrapper { padding: 12px 12px 0; overflow-x: hidden; }
+    .site-wrapper { padding: 12px 12px 0; overflow: clip; }
     body { overflow-x: hidden; }
     .floating-nav { top: 10px; margin-bottom: 20px; }
     .nav-main-row { padding: 12px 16px; gap: 10px; }
@@ -792,7 +819,7 @@ main { min-height: 0; }
     .drawer-overlay { display: block; }
     .drawer-nav { display: flex; }
 
-    body { background-image: var(--bg-image-mobile); }
+    body::before { background-image: var(--bg-image-mobile); }
 }
 
 @media (max-width: 480px) {
