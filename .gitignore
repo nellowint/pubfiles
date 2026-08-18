@@ -180,6 +180,6 @@ cython_debug/
 AGENTS.md
 PRD.md
 docs/
-settings-dev.py
+settings_dev.py
 requirements-dev.txt
 apps/publications/management/commands/seed_dev_data.py
