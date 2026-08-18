@@ -53,7 +53,7 @@
     {% if has_next %}
         <a href="{% url 'publications:reader' publication.slug next_page_number %}" class="cinema-btn btn-cinema-next">▶</a>
     {% else %}
-        <span class="cinema-btn btn-cinema-next disabled">🏁</span>
+        <span class="cinema-btn btn-cinema-next disabled"><svg width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>
     {% endif %}
 
 </div>
@@ -70,7 +70,7 @@
         {% if is_members_only and not has_full_access %}
             <div class="reel-page reel-page-locked" data-page-number="{{ free_pages_count|add:1 }}">
                 <div class="reel-locked-box">
-                    <div class="crown-icon">👑⭐👑</div>
+                    <div class="crown-icon"><svg width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path d="M3 17l2-9 5 5 2-8 2 8 5-5 2 9H3z"/></svg></div>
                     <h2>{% trans 'This publication is exclusive to Subscribers' %}</h2>
                     {% if subscription_settings and subscription_settings.is_enabled %}
                         <p class="reel-locked-price">

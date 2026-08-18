@@ -11,7 +11,7 @@
 {% block content %}
 <div class="restricted-wrapper">
     <div class="restricted-box">
-        <div class="crown-icon">👑⭐👑</div>
+        <div class="crown-icon"><svg width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path d="M3 17l2-9 5 5 2-8 2 8 5-5 2 9H3z"/></svg></div>
 
         <h2>{% trans 'This page is exclusive to Subscribers' %}</h2>
 
@@ -50,7 +50,7 @@
         <br>
 
         <a href="{% url 'publications:detail' publication.slug %}" class="btn-restricted-back">
-            ⬅️ {% trans 'Back to publication details' %}
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:middle"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/></svg> {% trans 'Back to publication details' %}
         </a>
     </div>
 </div>

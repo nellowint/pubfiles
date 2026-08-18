@@ -20,7 +20,7 @@
             <div class="sub-back-link">
                 <a href="{% url 'profile' %}">{% trans 'Back to Profile' %}</a>
             </div>
-            <div class="result-icon">⚠️</div>
+            <div class="result-icon"><svg width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
             <h2>{% trans 'Cancel Subscription' %}</h2>
             <p>{% trans 'Are you sure you want to cancel your Premium subscription? You will lose access to premium content at the end of your current billing period.' %}</p>
             {% if subscription.expires_at %}

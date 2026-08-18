@@ -24,6 +24,12 @@
     margin-bottom: 20px;
     animation: pulse 2s infinite ease-in-out;
 }
+.crown-icon svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+    margin: 0 auto;
+}
 
 .restricted-box h2 {
     font-size: 24px;
