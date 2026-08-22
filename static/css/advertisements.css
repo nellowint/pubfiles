@@ -96,6 +96,13 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+}
+
+a.ad-card:hover {
+    text-decoration: none;
+    color: inherit;
 }
 
 .ad-card-content {
