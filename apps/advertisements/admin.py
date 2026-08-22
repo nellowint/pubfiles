@@ -10,6 +10,9 @@ class AdvertisementsAdmin(admin.ModelAdmin):
     list_filter = ['type', 'position', 'is_active']
     search_fields = ['link']
 
+    class Media:
+        js = ('js/admin-clickable-rows.js',)
+
     def link_preview(self, obj):
         if obj.is_script:
             return mark_safe('<span style="color: #28a745;">Script</span>')
