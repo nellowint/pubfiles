@@ -3,7 +3,7 @@ import re
 from django import forms
 from django.contrib import admin
 from django.core.validators import validate_image_file_extension
-from modeltranslation.admin import TabbedTranslationAdmin
+from modeltranslation.admin import TranslationAdmin
 
 from core.utils import validate_file_size
 
@@ -50,7 +50,7 @@ class WebSettingsAdminForm(forms.ModelForm):
         return self.cleaned_data.get('batch_upload')
 
 @admin.register(WebSettings)
-class WebSettingsAdmin(TabbedTranslationAdmin):
+class WebSettingsAdmin(TranslationAdmin):
     form = WebSettingsAdminForm
     fieldsets = (
         ('Título', {'fields': ('title', 'subtitle', 'description', 'logo')}),
