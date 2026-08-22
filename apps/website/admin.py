@@ -49,6 +49,20 @@ class WebSettingsAdminForm(forms.ModelForm):
             validate_file_size(upload)
         return self.cleaned_data.get('batch_upload')
 
+    def save_banners(self, web_settings):
+        uploaded_files = self.files.getlist('batch_upload')
+        if uploaded_files:
+            uploaded_files.sort(key=_natural_sort_key)
+            current_count = Banner.objects.filter(website=web_settings).count()
+
+            for index, file in enumerate(uploaded_files, start=1):
+                Banner.objects.create(
+                    website=web_settings,
+                    image=file,
+                    order=current_count + index,
+                    is_active=True
+                )
+
 @admin.register(WebSettings)
 class WebSettingsAdmin(TabbedTranslationAdmin):
     form = WebSettingsAdminForm
@@ -73,17 +87,4 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
-
-        # Processa batch_upload do form principal
-        batch_files = form.files.getlist('batch_upload')
-        if batch_files:
-            batch_files.sort(key=_natural_sort_key)
-            current_count = Banner.objects.filter(website=form.instance).count()
-
-            for index, file in enumerate(batch_files, start=1):
-                Banner.objects.create(
-                    website=form.instance,
-                    image=file,
-                    order=current_count + index,
-                    is_active=True
-                )
+        form.save_banners(form.instance)
