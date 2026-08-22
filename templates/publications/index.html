@@ -39,7 +39,9 @@
         {% if ads_card %}
         <div class="card-wrapper ad-card-wrapper" id="adCard" style="display:none">
             <div class="card ad-card">
-                {% include "advertisements/_ad_render.html" with ad=ads_card %}
+                <div class="ad-card-content">
+                    {% include "advertisements/_ad_render.html" with ad=ads_card %}
+                </div>
             </div>
         </div>
         {% endif %}
