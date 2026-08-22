@@ -131,7 +131,9 @@
         </div>
     </div>
     {% endif %}
+{% endblock %}
 
+{% block fixed_ads %}
     {% if ads_left %}
     <div class="ad-sidebar ad-sidebar-left">
         {% include "advertisements/_ad_render.html" with ad=ads_left.0 %}
