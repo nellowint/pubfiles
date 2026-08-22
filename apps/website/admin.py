@@ -3,7 +3,7 @@ import re
 from django import forms
 from django.contrib import admin
 from django.core.validators import validate_image_file_extension
-from modeltranslation.admin import TranslationAdmin
+from modeltranslation.admin import TabbedTranslationAdmin
 
 from core.utils import validate_file_size
 
@@ -50,7 +50,7 @@ class WebSettingsAdminForm(forms.ModelForm):
         return self.cleaned_data.get('batch_upload')
 
 @admin.register(WebSettings)
-class WebSettingsAdmin(TranslationAdmin):
+class WebSettingsAdmin(TabbedTranslationAdmin):
     form = WebSettingsAdminForm
     fieldsets = (
         ('Título', {'fields': ('title', 'subtitle', 'description', 'logo')}),
@@ -59,7 +59,7 @@ class WebSettingsAdmin(TranslationAdmin):
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),
         ('Termos', {'fields': ('privacy_policy', 'terms')}),
         ('Avisos', {'fields': ('start_message',)}),
-        ('Banners', {'fields': ('batch_upload',), 'description': 'Upload em lote de imagens para o carrossel de banners.'}),
+        ('Banners', {'fields': ('batch_upload',), 'description': 'Upload em lote de imagens para o carrossel de banners.', 'classes': ('no-tabbed-translation',)}),
     )
     inlines = [BannerInline]
 
