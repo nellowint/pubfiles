@@ -59,7 +59,7 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),
         ('Termos', {'fields': ('privacy_policy', 'terms')}),
         ('Avisos', {'fields': ('start_message',)}),
-        ('Banners', {'fields': ('batch_upload',), 'description': 'Upload em lote de imagens para o carrossel de banners.', 'classes': ('no-tabbed-translation',)}),
+        ('Banners', {'fields': ('batch_upload',), 'description': 'Upload em lote de imagens para o carrossel de banners.'}),
     )
     inlines = [BannerInline]
 
@@ -71,18 +71,18 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
-    def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
 
         # Processa batch_upload do form principal
         batch_files = form.files.getlist('batch_upload')
         if batch_files:
             batch_files.sort(key=_natural_sort_key)
-            current_count = Banner.objects.filter(website=obj).count()
+            current_count = Banner.objects.filter(website=form.instance).count()
 
             for index, file in enumerate(batch_files, start=1):
                 Banner.objects.create(
-                    website=obj,
+                    website=form.instance,
                     image=file,
                     order=current_count + index,
                     is_active=True
