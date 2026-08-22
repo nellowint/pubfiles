@@ -212,7 +212,9 @@
         right: 8px;
         max-width: 260px;
     }
+}
 
+@media (max-width: 480px) {
     .ad-sidebar {
         display: none;
     }
