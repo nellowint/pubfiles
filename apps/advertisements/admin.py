@@ -7,7 +7,6 @@ from .models import Advertisements
 class AdvertisementsAdmin(admin.ModelAdmin):
     list_display = ['link_preview', 'type', 'position', 'is_active']
     list_filter = ['type', 'position', 'is_active']
-    list_editable = ['is_active']
     search_fields = ['link']
 
     def link_preview(self, obj):
