@@ -18,7 +18,7 @@ def _natural_sort_key(file):
 class BannerInline(admin.TabularInline):
     model = Banner
     extra = 0
-    fields = ('order', 'title', 'subtitle', 'image', 'link', 'script', 'is_active')
+    fields = ('order', 'title', 'subtitle', 'image', 'advertisement', 'is_active')
 
 
 class WebSettingsAdminForm(forms.ModelForm):

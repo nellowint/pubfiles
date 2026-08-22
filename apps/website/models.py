@@ -125,16 +125,16 @@ class Banner(models.Model):
         blank=True,
         null=True,
         verbose_name='Imagem',
-        help_text='Obrigatório se não for script.',
+        help_text='Obrigatório se não houver anúncio vinculado.',
     )
-    link = models.URLField(
+    advertisement = models.ForeignKey(
+        'advertisements.Advertisements',
+        on_delete=models.SET_NULL,
+        null=True,
         blank=True,
-        verbose_name='Link',
-    )
-    script = models.TextField(
-        blank=True,
-        verbose_name='Script',
-        help_text='Cole o script HTML. Se preenchido, ignora imagem/link.',
+        related_name='banners',
+        verbose_name='Anúncio',
+        help_text='Se preenchido, ignora a imagem.',
     )
     order = models.PositiveSmallIntegerField(
         default=0,
@@ -152,7 +152,3 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.title or f'Banner {self.pk}'
-
-    @property
-    def is_script(self):
-        return bool(self.script and self.script.strip().startswith('<script'))
