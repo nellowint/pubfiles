@@ -71,13 +71,12 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
     search_fields = ['title', 'subtitle', 'description']
     readonly_fields = ['title']
     fieldsets = (
-        ('Título', {'fields': ('title', 'subtitle', 'description', 'logo')}),
+        ('Título', {'fields': ('title', 'subtitle', 'description', 'logo', 'batch_upload')}),
         ('Backgrounds', {'fields': ('background', 'background_mobile')}),
         ('Tema Claro', {'fields': ('light_theme_primary', 'light_theme_secondary')}),
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),
         ('Termos', {'fields': ('privacy_policy', 'terms')}),
         ('Avisos', {'fields': ('start_message',)}),
-        ('Upload de Banners', {'fields': ('batch_upload',), 'description': 'Upload em lote de imagens para o carrossel de banners.'}),
     )
     inlines = [BannerInline]
 
