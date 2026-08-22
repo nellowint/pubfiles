@@ -6,6 +6,7 @@ from .models import Advertisements
 @admin.register(Advertisements)
 class AdvertisementsAdmin(admin.ModelAdmin):
     list_display = ['link_preview', 'type', 'position', 'is_active']
+    list_display_links = ['link_preview']
     list_filter = ['type', 'position', 'is_active']
     search_fields = ['link']
 
