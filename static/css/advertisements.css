@@ -179,6 +179,27 @@
     }
 }
 
+/* Sidebars laterais na home */
+.ad-sidebar {
+    position: fixed;
+    bottom: 16px;
+    z-index: 9998;
+    max-width: 160px;
+}
+
+.ad-sidebar-left {
+    left: 16px;
+}
+
+.ad-sidebar-right {
+    right: 16px;
+}
+
+.ad-sidebar .ad-link {
+    display: block;
+    text-decoration: none;
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
     .ad-carousel {
@@ -190,5 +211,9 @@
         bottom: 8px;
         right: 8px;
         max-width: 260px;
+    }
+
+    .ad-sidebar {
+        display: none;
     }
 }

@@ -131,4 +131,16 @@
         </div>
     </div>
     {% endif %}
+
+    {% if ads_left %}
+    <div class="ad-sidebar ad-sidebar-left">
+        {% include "advertisements/_ad_render.html" with ad=ads_left.0 %}
+    </div>
+    {% endif %}
+
+    {% if ads_right %}
+    <div class="ad-sidebar ad-sidebar-right">
+        {% include "advertisements/_ad_render.html" with ad=ads_right.0 %}
+    </div>
+    {% endif %}
 {% endblock %}
