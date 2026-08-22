@@ -77,7 +77,7 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),
         ('Termos', {'fields': ('privacy_policy', 'terms')}),
         ('Avisos', {'fields': ('start_message',)}),
-        ('Banners', {'fields': ('batch_upload',), 'description': 'Upload em lote de imagens para o carrossel de banners.'}),
+        ('Upload de Banners', {'fields': ('batch_upload',), 'description': 'Upload em lote de imagens para o carrossel de banners.'}),
     )
     inlines = [BannerInline]
 
