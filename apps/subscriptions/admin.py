@@ -21,6 +21,9 @@ class SubscriptionSettingsAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+    class Media:
+        js = ('js/admin-clickable-rows.js',)
+
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
@@ -63,3 +66,6 @@ class SubscriptionAdmin(admin.ModelAdmin):
         return obj.is_valid
     is_valid.boolean = True
     is_valid.short_description = 'Válida agora?'
+
+    class Media:
+        js = ('js/admin-clickable-rows.js',)

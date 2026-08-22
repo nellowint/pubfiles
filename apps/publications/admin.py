@@ -89,6 +89,9 @@ class PublicationAdmin(TabbedTranslationAdmin):
         super().save_related(request, form, formsets, change)
         form.save_pages(form.instance)
 
+    class Media:
+        js = ('js/admin-clickable-rows.js',)
+
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
@@ -97,6 +100,9 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ['content', 'user__email', 'publication__title']
     readonly_fields = ['created_at', 'updated_at']
 
+    class Media:
+        js = ('js/admin-clickable-rows.js',)
+
 
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
@@ -104,3 +110,6 @@ class RatingAdmin(admin.ModelAdmin):
     list_filter = ['score', 'publication']
     search_fields = ['user__email', 'publication__title']
     readonly_fields = ['created_at', 'updated_at']
+
+    class Media:
+        js = ('js/admin-clickable-rows.js',)

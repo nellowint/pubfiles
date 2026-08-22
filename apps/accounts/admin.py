@@ -23,4 +23,7 @@ class CustomUserAdmin(UserAdmin):
 
     readonly_fields = ('last_login',)
 
+    class Media:
+        js = ('js/admin-clickable-rows.js',)
+
 admin.site.register(User, CustomUserAdmin)

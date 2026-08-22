@@ -91,3 +91,6 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
         form.save_banners(form.instance)
+
+    class Media:
+        js = ('js/admin-clickable-rows.js',)

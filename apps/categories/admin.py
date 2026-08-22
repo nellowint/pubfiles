@@ -11,3 +11,6 @@ class CategoryAdmin(DraggableMPTTAdmin, TabbedTranslationAdmin):
     list_display = ('tree_actions', 'indented_title')
     list_display_links = ('indented_title',)
     search_fields = ['name']
+
+    class Media:
+        js = ('js/admin-clickable-rows.js',)
