@@ -1,0 +1,7 @@
+{% if ad.is_script %}
+{{ ad.link|safe }}
+{% else %}
+<a href="{{ ad.link }}" target="_blank" rel="noopener sponsored" class="ad-link">
+    <span class="ad-badge">ADS</span>
+</a>
+{% endif %}

@@ -32,6 +32,10 @@ def website_settings(request):
         if settings_obj.background_mobile:
             background_mobile_url = settings_obj.background_mobile.url
 
+    website_banners = []
+    if settings_obj:
+        website_banners = list(settings_obj.banners.filter(is_active=True))
+
     return {
         'site_title': site_title,
         'site_subtitle': site_subtitle,
@@ -47,4 +51,5 @@ def website_settings(request):
         'web_settings': settings_obj,
         'seo_keywords': settings.SEO_KEYWORDS,
         'seo_canonical_domain': settings.SEO_CANONICAL_DOMAIN,
+        'website_banners': website_banners,
     }

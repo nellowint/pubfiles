@@ -21,6 +21,7 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/publications-reader.css' %}">
+    <link rel="stylesheet" href="{% static 'css/advertisements.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -90,9 +91,22 @@
     <div class="reels-counter">
         <span class="reels-current">{{ page_number }}</span> / {{ total_pages }}
     </div>
+
+    {% if ads_preview %}
+    <div class="ad-preview-popup" id="adPreviewPopup">
+        <button class="ad-preview-close" id="adPreviewClose" aria-label="Fechar">&times;</button>
+        <div class="ad-preview-content" id="adPreviewContent" data-ads='[
+            {% for ad in ads_preview %}
+                "{{ ad.link|escapejs }}"{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]'>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/publications-reader.js' %}"></script>
+<script src="{% static 'js/advertisements.js' %}"></script>
 {% endblock %}

@@ -6,10 +6,51 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/publications-index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/advertisements.css' %}">
 {% endblock %}
 
 {% block content %}
+    {% if website_banners %}
+    <div class="ad-carousel" id="adCarousel">
+        <div class="ad-carousel-track">
+            {% for banner in website_banners %}
+            <div class="ad-carousel-slide">
+                {% if banner.is_script %}
+                    {{ banner.script|safe }}
+                {% elif banner.link %}
+                    <a href="{{ banner.link }}" target="_blank" rel="noopener">
+                        {% if banner.image %}
+                        <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
+                        {% endif %}
+                    </a>
+                {% else %}
+                    {% if banner.image %}
+                    <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
+                    {% endif %}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% if website_banners|length > 1 %}
+        <button class="ad-carousel-btn ad-carousel-prev" aria-label="Anterior">&lsaquo;</button>
+        <button class="ad-carousel-btn ad-carousel-next" aria-label="Próximo">&rsaquo;</button>
+        <div class="ad-carousel-dots">
+            {% for banner in website_banners %}
+            <span class="ad-carousel-dot{% if forloop.first %} active{% endif %}"></span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
     <div class="grid">
+        {% if ads_card %}
+        <div class="card-wrapper ad-card-wrapper" id="adCard" style="display:none">
+            <div class="card ad-card">
+                {% include "advertisements/_ad_render.html" with ad=ads_card %}
+            </div>
+        </div>
+        {% endif %}
         {% for publication in publications %}
             <div class="card-wrapper">
                 <a href="{% url 'publications:detail' publication.slug %}" class="card">
@@ -78,6 +119,7 @@
     {% if web_settings.start_message %}
     <script src="{% static 'js/start-message.js' %}"></script>
     {% endif %}
+    <script src="{% static 'js/advertisements.js' %}"></script>
 {% endblock %}
 
 {% block after_content %}

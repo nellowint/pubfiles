@@ -1,7 +1,13 @@
 from django import forms
 from django.contrib import admin
 from modeltranslation.admin import TabbedTranslationAdmin
-from .models import WebSettings
+from .models import WebSettings, Banner
+
+
+class BannerInline(admin.TabularInline):
+    model = Banner
+    extra = 0
+    fields = ('order', 'title', 'subtitle', 'image', 'link', 'script', 'is_active')
 
 class WebSettingsAdminForm(forms.ModelForm):
     class Meta:
@@ -25,6 +31,7 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
         ('Termos', {'fields': ('privacy_policy', 'terms')}),
         ('Avisos', {'fields': ('start_message',)}),
     )
+    inlines = [BannerInline]
 
     def has_add_permission(self, request):
         if WebSettings.objects.exists():

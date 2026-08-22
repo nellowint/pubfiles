@@ -100,3 +100,59 @@ class WebSettings(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
+
+class Banner(models.Model):
+    website = models.ForeignKey(
+        WebSettings,
+        on_delete=models.CASCADE,
+        related_name='banners',
+        verbose_name='Website',
+    )
+    title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Título',
+    )
+    subtitle = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Subtítulo',
+    )
+    image = models.ImageField(
+        upload_to=MediaPath('website/banners'),
+        validators=[validate_file_size],
+        blank=True,
+        null=True,
+        verbose_name='Imagem',
+        help_text='Obrigatório se não for script.',
+    )
+    link = models.URLField(
+        blank=True,
+        verbose_name='Link',
+    )
+    script = models.TextField(
+        blank=True,
+        verbose_name='Script',
+        help_text='Cole o script HTML. Se preenchido, ignora imagem/link.',
+    )
+    order = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name='Ordem',
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='Ativo',
+    )
+
+    class Meta:
+        verbose_name = 'Banner'
+        verbose_name_plural = 'Banners'
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title or f'Banner {self.pk}'
+
+    @property
+    def is_script(self):
+        return bool(self.script and self.script.strip().startswith('<script'))
