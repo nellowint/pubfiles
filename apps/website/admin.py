@@ -66,6 +66,10 @@ class WebSettingsAdminForm(forms.ModelForm):
 @admin.register(WebSettings)
 class WebSettingsAdmin(TabbedTranslationAdmin):
     form = WebSettingsAdminForm
+    list_display = ['title', 'subtitle']
+    list_filter = ['title']
+    search_fields = ['title', 'subtitle', 'description']
+    readonly_fields = ['title']
     fieldsets = (
         ('Título', {'fields': ('title', 'subtitle', 'description', 'logo')}),
         ('Backgrounds', {'fields': ('background', 'background_mobile')}),
