@@ -18,7 +18,19 @@
                 {% if banner.advertisement %}
                     {% include "advertisements/_ad_render.html" with ad=banner.advertisement %}
                 {% elif banner.image %}
-                    <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
+                    <div class="banner-image-wrapper">
+                        <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
+                        {% if banner.title or banner.subtitle %}
+                        <div class="banner-text-overlay">
+                            {% if banner.title %}
+                            <h3 class="banner-title">{{ banner.title }}</h3>
+                            {% endif %}
+                            {% if banner.subtitle %}
+                            <p class="banner-subtitle">{{ banner.subtitle }}</p>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
                 {% endif %}
             </div>
             {% endfor %}
