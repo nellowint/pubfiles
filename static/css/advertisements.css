@@ -329,11 +329,20 @@ a.ad-card:hover {
 
 @media (max-width: 750px) {
     .ad-footer-mobile {
-        display: flex;
+        display: block;
         justify-content: center;
         align-items: center;
         margin: 24px auto;
         padding: 0 16px;
+        min-width: 320px;
+        min-height: 50px;
+        width: 100%;
+        max-width: 320px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 50px;
+        min-width: 320px;
     }
 }
 
