@@ -307,13 +307,34 @@ a.ad-card:hover {
     text-decoration: none;
 }
 
-/* Anúncio acima do footer */
-.ad-footer {
+/* Anúncio acima do footer - Desktop */
+.ad-footer-desktop {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 32px auto;
     padding: 0 16px;
+}
+
+@media (max-width: 768px) {
+    .ad-footer-desktop {
+        display: none;
+    }
+}
+
+/* Footer Mobile */
+.ad-footer-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .ad-footer-mobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 24px auto;
+        padding: 0 16px;
+    }
 }
 
 /* Fixed bottom ad banner (mobile reader) */

@@ -159,8 +159,14 @@
     {% endif %}
 
     {% if ads_footer %}
-    <div class="ad-footer">
+    <div class="ad-footer ad-footer-desktop">
         {% include "advertisements/_ad_render.html" with ad=ads_footer %}
+    </div>
+    {% endif %}
+
+    {% if ads_footer_mobile %}
+    <div class="ad-footer ad-footer-mobile">
+        {% include "advertisements/_ad_render.html" with ad=ads_footer_mobile %}
     </div>
     {% endif %}
 {% endblock %}
