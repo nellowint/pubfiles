@@ -64,16 +64,16 @@
 
     <div class="reels-wrapper" data-current-page="{{ page_number }}" data-total-pages="{{ total_pages }}" data-slug="{{ publication.slug }}">
         {% for page in pages %}
-            <div class="reel-page" data-page-number="{{ page.page_order }}">
-                <img src="{{ page.image.url }}" alt="{% blocktrans with num=page.page_order %}Page {{ num }}{% endblocktrans %}" class="reel-image">
-            </div>
-            {% if ads_preview and not forloop.last %}
+            {% if ads_preview and not forloop.first %}
             <div class="reel-page reel-page-ad" data-page-type="ad">
                 <div class="reel-ad-content">
                     {% include "advertisements/_ad_render.html" with ad=ads_preview|first %}
                 </div>
             </div>
             {% endif %}
+            <div class="reel-page" data-page-number="{{ page.page_order }}">
+                <img src="{{ page.image.url }}" alt="{% blocktrans with num=page.page_order %}Page {{ num }}{% endblocktrans %}" class="reel-image">
+            </div>
         {% endfor %}
         {% if is_members_only and not has_full_access %}
             <div class="reel-page reel-page-locked" data-page-number="{{ free_pages_count|add:1 }}">
