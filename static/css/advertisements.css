@@ -106,6 +106,7 @@ a.ad-card:hover {
 }
 
 .ad-card-content {
+    position: relative;
     flex: 1;
     display: flex;
     align-items: center;
@@ -130,6 +131,7 @@ a.ad-card:hover {
     border-radius: 6px;
     z-index: 2;
     letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
 }
 
 /* Popup de preview no reader */
