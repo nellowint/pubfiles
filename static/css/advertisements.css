@@ -219,6 +219,15 @@ a.ad-card:hover {
     text-decoration: none;
 }
 
+/* Anúncio acima do footer */
+.ad-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 32px auto;
+    padding: 0 16px;
+}
+
 /* Botão de ação para SmartLink */
 .ad-button {
     display: inline-flex;

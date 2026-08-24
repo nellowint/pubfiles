@@ -14,6 +14,7 @@ class AdvertisementsPositions(models.TextChoices):
     LEFT = 'left', 'Lateral esquerda'
     RIGHT = 'right', 'Lateral direita'
     PREVIEW = 'preview', 'Reader preview'
+    FOOTER = 'footer', 'Acima do footer'
 
 
 class Advertisements(models.Model):
