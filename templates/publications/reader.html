@@ -101,10 +101,10 @@
         <span class="reels-current">{{ page_number }}</span> / {{ total_pages }}
     </div>
 
-    {% if ads_preview %}
+    {% if ads_mobile %}
     <div class="reel-ad-bottom">
         <div class="reel-ad-bottom-content">
-            {% with ad=ads_preview|first %}
+            {% with ad=ads_mobile|first %}
                 {% include "advertisements/_ad_render.html" with ad=ad %}
             {% endwith %}
         </div>

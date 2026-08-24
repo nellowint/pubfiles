@@ -13,7 +13,8 @@ class AdvertisementsPositions(models.TextChoices):
     CARD = 'card', 'Card de publicações'
     LEFT = 'left', 'Lateral esquerda'
     RIGHT = 'right', 'Lateral direita'
-    PREVIEW = 'preview', 'Reader preview'
+    PREVIEW = 'preview', 'Reader preview (Desktop)'
+    MOBILE = 'mobile', 'Reader preview (Mobile)'
     FOOTER = 'footer', 'Acima do footer'
 
 
