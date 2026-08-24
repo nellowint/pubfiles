@@ -316,7 +316,7 @@ a.ad-card:hover {
     padding: 0 16px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 750px) {
     .ad-footer-desktop {
         display: none;
     }
@@ -327,7 +327,7 @@ a.ad-card:hover {
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 750px) {
     .ad-footer-mobile {
         display: flex;
         justify-content: center;
