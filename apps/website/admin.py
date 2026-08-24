@@ -3,6 +3,7 @@ import re
 from django import forms
 from django.contrib import admin
 from django.core.validators import validate_image_file_extension
+from django.template.loader import get_template
 from modeltranslation.admin import TabbedTranslationAdmin
 
 from core.utils import validate_file_size
@@ -18,7 +19,15 @@ def _natural_sort_key(file):
 class BannerInline(admin.TabularInline):
     model = Banner
     extra = 0
-    fields = ('order', 'title', 'subtitle', 'image', 'advertisement', 'is_active')
+    fields = ('order', 'banner_thumbnail', 'title', 'subtitle', 'image', 'advertisement', 'is_active')
+    readonly_fields = ('banner_thumbnail',)
+
+    def banner_thumbnail(self, instance):
+        if instance.image:
+            tpl = get_template("admin/thumbnail.html")
+            return tpl.render({"page": instance})
+        return '-'
+    banner_thumbnail.short_description = "Preview"
 
 
 class WebSettingsAdminForm(forms.ModelForm):
