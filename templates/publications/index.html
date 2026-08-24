@@ -38,10 +38,10 @@
     <div class="grid">
         {% if ads_card %}
         <div class="card-wrapper ad-card-wrapper" id="adCard" style="display:none" data-ad-id="{{ ads_card.id }}">
-            <div class="card ad-card js-ad-click" data-ad-id="{{ ads_card.id }}" data-ad-link="{{ ads_card.link }}" data-ad-is-script="{{ ads_card.is_script|yesno:'true,false' }}" style="cursor: pointer;">
+            <div class="card ad-card js-ad-click" data-ad-id="{{ ads_card.id }}">
                 <div class="ad-card-content">
                     <span class="ad-badge">AD</span>
-                    {% include "advertisements/_ad_render.html" with ad=ads_card %}
+                    {{ ads_card.link|safe }}
                 </div>
                 <div>
                     <h3>{{ ads_card.title }}</h3>

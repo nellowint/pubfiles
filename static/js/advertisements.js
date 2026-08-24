@@ -109,9 +109,6 @@
                 }
 
                 var adId = card.getAttribute('data-ad-id');
-                var adLink = card.getAttribute('data-ad-link');
-                var isScript = card.getAttribute('data-ad-is-script') === 'true';
-                
                 if (!adId) return;
 
                 // Incrementa contador em background
@@ -123,11 +120,6 @@
                     },
                     keepalive: true
                 });
-
-                // Se for URL (não script), abre em nova aba
-                if (!isScript && adLink) {
-                    window.open(adLink, '_blank', 'noopener,sponsored');
-                }
             });
         });
     }
