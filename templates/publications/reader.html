@@ -51,7 +51,7 @@
         {% endif %}
     {% endif %}
 
-    {% if ads_preview and has_next %}
+    {% if ads_preview %}
     <div class="cinema-ad-wrapper">
         <a href="{% url 'advertisements:ad_redirect' ads_preview.0.id %}" target="_blank" rel="noopener sponsored" class="cinema-ad-link">
             <div class="cinema-ad-content">
