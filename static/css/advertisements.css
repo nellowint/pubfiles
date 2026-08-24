@@ -447,7 +447,7 @@ a.ad-card:hover {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 10000;
     padding: 8px 16px;
     background: rgba(0, 0, 0, 0.9);
     backdrop-filter: blur(10px);
