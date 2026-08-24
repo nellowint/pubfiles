@@ -38,6 +38,7 @@
     <div class="grid">
         {% if ads_card %}
         <div class="card-wrapper ad-card-wrapper" id="adCard" style="display:none" data-ad-id="{{ ads_card.id }}">
+            <input type="hidden" class="ad-link-data" value="{{ ads_card.link }}">
             <div class="card ad-card js-ad-click" style="cursor: pointer;">
                 <div class="ad-card-content">
                     <span class="ad-badge">AD</span>
