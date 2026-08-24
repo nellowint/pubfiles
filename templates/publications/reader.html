@@ -67,6 +67,13 @@
             <div class="reel-page" data-page-number="{{ page.page_order }}">
                 <img src="{{ page.image.url }}" alt="{% blocktrans with num=page.page_order %}Page {{ num }}{% endblocktrans %}" class="reel-image">
             </div>
+            {% if ads_preview and not forloop.last %}
+            <div class="reel-page reel-page-ad" data-page-type="ad">
+                <div class="reel-ad-content">
+                    {% include "advertisements/_ad_render.html" with ad=ads_preview|first %}
+                </div>
+            </div>
+            {% endif %}
         {% endfor %}
         {% if is_members_only and not has_full_access %}
             <div class="reel-page reel-page-locked" data-page-number="{{ free_pages_count|add:1 }}">
@@ -91,19 +98,6 @@
     <div class="reels-counter">
         <span class="reels-current">{{ page_number }}</span> / {{ total_pages }}
     </div>
-
-    {% if ads_preview %}
-    <div class="ad-preview-popup" id="adPreviewPopup">
-        <button class="ad-preview-close" id="adPreviewClose" aria-label="Fechar">&times;</button>
-        <div class="ad-preview-content" id="adPreviewContent">
-            {% for ad in ads_preview %}
-            <div class="ad-preview-item" data-ad-index="{{ forloop.counter0 }}" style="display: none;">
-                {% include "advertisements/_ad_render.html" with ad=ad %}
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
 </div>
 {% endblock %}
 

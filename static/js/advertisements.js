@@ -114,62 +114,9 @@
         });
     }
 
-    // Popup de preview no reader
-    function initPreviewPopup() {
-        var popup = document.getElementById('adPreviewPopup');
-        if (!popup) return;
-
-        var closeBtn = document.getElementById('adPreviewClose');
-        var content = document.getElementById('adPreviewContent');
-        var adItems = content.querySelectorAll('.ad-preview-item');
-
-        if (adItems.length === 0) {
-            popup.style.display = 'none';
-            return;
-        }
-
-        var currentIndex = 0;
-
-        function showAd() {
-            adItems.forEach(function(item, index) {
-                item.style.display = (index === currentIndex) ? '' : 'none';
-            });
-        }
-
-        function nextAd() {
-            currentIndex = (currentIndex + 1) % adItems.length;
-            showAd();
-        }
-
-        // Mostra primeiro anúncio
-        showAd();
-
-        // Fecha popup
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function() {
-                popup.style.display = 'none';
-            });
-        }
-
-        // Troca anúncio ao navegar (observa mudanças na URL do reader)
-        var lastPage = window.location.pathname;
-        var observer = new MutationObserver(function() {
-            var currentPage = window.location.pathname;
-            if (currentPage !== lastPage) {
-                lastPage = currentPage;
-                if (popup.style.display !== 'none') {
-                    nextAd();
-                }
-            }
-        });
-
-        observer.observe(document.body, { childList: true, subtree: true });
-    }
-
     // Inicializa tudo
     document.addEventListener('DOMContentLoaded', function() {
         initCarousel();
         initAdCard();
-        initPreviewPopup();
     });
 })();
