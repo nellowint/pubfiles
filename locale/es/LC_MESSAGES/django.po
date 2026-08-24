@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-17 15:27-0300\n"
+"POT-Creation-Date: 2026-08-24 12:41-0300\n"
 "PO-Revision-Date: 2026-06-22 21:32-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -117,7 +117,7 @@ msgstr "Cancelar suscripción"
 msgid "Free"
 msgstr "Gratis"
 
-#: templates/accounts/profile.html:151 templates/publications/reader.html:83
+#: templates/accounts/profile.html:151 templates/publications/reader.html:84
 msgid "Subscribe Premium"
 msgstr "Suscribirse Premium"
 
@@ -136,6 +136,10 @@ msgstr ""
 #: templates/accounts/profile.html:180
 msgid "Delete my account"
 msgstr "Eliminar mi cuenta"
+
+#: templates/advertisements/_ad_render.html:6
+msgid "Access"
+msgstr "Acceder"
 
 #: templates/errors/404.html:5 templates/errors/404.html:15
 msgid "Page Not Found"
@@ -163,12 +167,12 @@ msgstr "Ver todo de %(name)s"
 msgid "Type to search..."
 msgstr "Escribe para buscar..."
 
-#: templates/publications/base.html:113 templates/publications/base.html:252
+#: templates/publications/base.html:113 templates/publications/base.html:254
 msgid "Toggle Theme"
 msgstr "Cambiar Tema"
 
-#: templates/publications/base.html:130 templates/publications/base.html:263
-#: templates/publications/base.html:265
+#: templates/publications/base.html:130 templates/publications/base.html:265
+#: templates/publications/base.html:267
 msgid "Language"
 msgstr "Idioma"
 
@@ -176,42 +180,42 @@ msgstr "Idioma"
 msgid "Account menu"
 msgstr "Menú de cuenta"
 
-#: templates/publications/base.html:148 templates/publications/base.html:241
+#: templates/publications/base.html:148 templates/publications/base.html:243
 msgid "My profile"
 msgstr "Mi perfil"
 
-#: templates/publications/base.html:151 templates/publications/base.html:244
+#: templates/publications/base.html:151 templates/publications/base.html:246
 msgid "Logout"
 msgstr "Salir"
 
-#: templates/publications/base.html:156 templates/publications/base.html:247
+#: templates/publications/base.html:156 templates/publications/base.html:249
 #: templates/registration/login.html:5
 msgid "Login"
 msgstr "Iniciar Sesión"
 
-#: templates/publications/base.html:168 templates/publications/base.html:272
+#: templates/publications/base.html:168 templates/publications/base.html:274
 msgid "All Categories"
 msgstr "Todas las Categorías"
 
-#: templates/publications/base.html:200
+#: templates/publications/base.html:202
 msgid "Os direitos sobre as obras pertencem aos seus respectivos titulares."
 msgstr "Los derechos sobre las obras pertenecen a sus respectivos titulares."
 
-#: templates/publications/base.html:203 templates/website/privacy.html:4
+#: templates/publications/base.html:205 templates/website/privacy.html:4
 #: templates/website/privacy.html:8
 msgid "Privacy Policy"
 msgstr "Política de Privacidad"
 
-#: templates/publications/base.html:207 templates/website/terms.html:4
+#: templates/publications/base.html:209 templates/website/terms.html:4
 #: templates/website/terms.html:8
 msgid "Terms of Use"
 msgstr "Términos de Uso"
 
-#: templates/publications/base.html:212
+#: templates/publications/base.html:214
 msgid "Back to top"
 msgstr "Volver arriba"
 
-#: templates/publications/base.html:223
+#: templates/publications/base.html:225
 msgid "Close menu"
 msgstr "Cerrar menú"
 
@@ -220,7 +224,7 @@ msgid "Details"
 msgstr "Detalles"
 
 #: templates/publications/detail.html:35 templates/publications/detail.html:97
-#: templates/publications/index.html:18
+#: templates/publications/index.html:61
 msgid "PREMIUM"
 msgstr "PREMIUM"
 
@@ -287,52 +291,52 @@ msgstr "Inicia sesión para dejar un comentario."
 msgid "Similar publications"
 msgstr "Publicaciones similares"
 
-#: templates/publications/index.html:33
+#: templates/publications/index.html:76
 msgid "Default"
 msgstr "Predeterminado"
 
-#: templates/publications/index.html:48
+#: templates/publications/index.html:91
 msgid "No rating"
 msgstr "Sin valoración"
 
-#: templates/publications/index.html:56
+#: templates/publications/index.html:99
 msgid "No publications found."
 msgstr "No se encontraron publicaciones."
 
-#: templates/publications/index.html:63
+#: templates/publications/index.html:106
 msgid "First"
 msgstr "Primera"
 
-#: templates/publications/index.html:64
+#: templates/publications/index.html:107
 msgid "Previous"
 msgstr "Anterior"
 
-#: templates/publications/index.html:67
+#: templates/publications/index.html:110
 #, python-format
 msgid "%(current)s of %(total)s"
 msgstr "%(current)s de %(total)s"
 
-#: templates/publications/index.html:70
+#: templates/publications/index.html:113
 msgid "Next"
 msgstr "Siguiente"
 
-#: templates/publications/index.html:71
+#: templates/publications/index.html:114
 msgid "Last"
 msgstr "Última"
 
-#: templates/publications/index.html:87
+#: templates/publications/index.html:131
 msgid "Aviso"
 msgstr "Aviso"
 
-#: templates/publications/index.html:91
+#: templates/publications/index.html:135
 msgid "Não mostrar novamente"
 msgstr "No volver a mostrar"
 
-#: templates/publications/index.html:94
+#: templates/publications/index.html:138
 msgid "Confirmar"
 msgstr "Confirmar"
 
-#: templates/publications/index.html:95
+#: templates/publications/index.html:139
 msgid "Sair"
 msgstr "Salir"
 
@@ -403,7 +407,7 @@ msgstr ""
 "activa. Suscríbete a Premium para desbloquear esta página y el resto de "
 "<strong>\"%(title)s\"</strong>."
 
-#: templates/publications/premium.html:47 templates/publications/reader.html:81
+#: templates/publications/premium.html:47 templates/publications/reader.html:82
 msgid "Activate Subscription"
 msgstr "Activar Suscripción"
 
@@ -416,25 +420,25 @@ msgstr "Volver a los detalles de la publicación"
 msgid "Page"
 msgstr "Página"
 
-#: templates/publications/reader.html:33 templates/publications/reader.html:62
+#: templates/publications/reader.html:34 templates/publications/reader.html:63
 msgid "Close reader"
 msgstr "Cerrar lector"
 
-#: templates/publications/reader.html:43
+#: templates/publications/reader.html:44
 msgid "Click to advance"
 msgstr "Haz clic para avanzar"
 
-#: templates/publications/reader.html:44 templates/publications/reader.html:48
-#: templates/publications/reader.html:67
+#: templates/publications/reader.html:45 templates/publications/reader.html:49
+#: templates/publications/reader.html:68
 #, python-format
 msgid "Page %(num)s"
 msgstr "Página %(num)s"
 
-#: templates/publications/reader.html:74
+#: templates/publications/reader.html:75
 msgid "This publication is exclusive to Subscribers"
 msgstr "Esta publicación es exclusiva para Suscriptores"
 
-#: templates/publications/reader.html:77
+#: templates/publications/reader.html:78
 #, python-format
 msgid "%(currency)s %(price)s/month"
 msgstr "%(currency)s %(price)s/mes"
