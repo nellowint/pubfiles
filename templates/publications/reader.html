@@ -1,7 +1,6 @@
 {% extends "publications/base.html" %}
 {% load static %}
 {% load i18n %}
-{% load publications_extras %}
 
 {% block title %}{{ publication.title }} - {% trans "Page" %} {{ page_number }}{% endblock %}
 
@@ -63,12 +62,13 @@
 <div class="reels-container">
     <a href="{% url 'publications:detail' publication.slug %}" class="reels-close" title="{% trans 'Close reader' %}">✕</a>
 
-    <div class="reels-wrapper" data-current-page="{{ page_number }}" data-total-pages="{{ total_pages }}" data-slug="{{ publication.slug }}">
+<div class="reels-wrapper" data-current-page="{{ page_number }}" data-total-pages="{{ total_pages }}" data-slug="{{ publication.slug }}">
+        {% load ads_extras %}
         {% for page in pages %}
             <div class="reel-page" data-page-number="{{ page.page_order }}">
                 <img src="{{ page.image.url }}" alt="{% blocktrans with num=page.page_order %}Page {{ num }}{% endblocktrans %}" class="reel-image">
             </div>
-{% if ads_preview and not forloop.last %}
+            {% if ads_preview and not forloop.last %}
             <div class="reel-page reel-page-ad" data-page-type="ad">
                 <div class="reel-ad-content">
                     {% with ad=ads_preview|get_item:forloop.counter0 %}
