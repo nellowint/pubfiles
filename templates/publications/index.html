@@ -37,7 +37,7 @@
 
     <div class="grid">
         {% if ads_card %}
-        <a href="{% url 'advertisements:ad_redirect' ads_card.id %}" target="_blank" rel="noopener sponsored" class="card-wrapper ad-card-wrapper" id="adCard" style="display:none" data-ad-id="{{ ads_card.id }}">
+        <div class="card-wrapper ad-card-wrapper" id="adCard" style="display:none" data-ad-id="{{ ads_card.id }}">
             <div class="card ad-card">
                 <div class="ad-card-content">
                     <span class="ad-badge">AD</span>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-        </a>
+        </div>
         {% endif %}
         {% for publication in publications %}
             <div class="card-wrapper">

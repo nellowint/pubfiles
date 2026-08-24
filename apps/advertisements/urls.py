@@ -5,5 +5,4 @@ app_name = 'advertisements'
 
 urlpatterns = [
     path('click/<int:ad_id>/', views.increment_click, name='increment_click'),
-    path('redirect/<int:ad_id>/', views.ad_redirect, name='ad_redirect'),
 ]
