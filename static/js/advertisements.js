@@ -103,6 +103,11 @@
         var adCards = document.querySelectorAll('.js-ad-click');
         adCards.forEach(function(card) {
             card.addEventListener('click', function(e) {
+                // Não intercepta cliques em links internos (para scripts que têm seus próprios links)
+                if (e.target.tagName === 'A' || e.target.closest('a')) {
+                    return;
+                }
+
                 var wrapper = card.closest('[data-ad-id]');
                 if (!wrapper) return;
 
@@ -117,6 +122,13 @@
                         'Content-Type': 'application/json'
                     },
                     keepalive: true
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(data) {
+                    // Se for URL (não script), abre em nova aba
+                    if (data.is_url && data.link) {
+                        window.open(data.link, '_blank', 'noopener,sponsored');
+                    }
                 });
             });
         });

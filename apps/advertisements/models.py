@@ -17,6 +17,12 @@ class AdvertisementsPositions(models.TextChoices):
 
 
 class Advertisements(models.Model):
+    title = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name='Título',
+        help_text='Título exibido no card de anúncio'
+    )
     link = models.TextField(
         verbose_name='Link/Script',
         help_text='Cole o script HTML completo ou uma URL. Se começar com "<script", será renderizado como script; caso contrário, será tratado como link.'
@@ -30,12 +36,6 @@ class Advertisements(models.Model):
         max_length=20,
         choices=AdvertisementsPositions.choices,
         verbose_name='Posição'
-    )
-    title = models.CharField(
-        max_length=200,
-        blank=True,
-        verbose_name='Título',
-        help_text='Título exibido no card de anúncio'
     )
     ratings_count = models.PositiveIntegerField(
         default=0,
