@@ -206,10 +206,12 @@ a.ad-card:hover {
 
 .ad-sidebar-left {
     left: 16px;
+    margin-left: 16px;
 }
 
 .ad-sidebar-right {
     right: 16px;
+    margin-right: 16px;
 }
 
 .ad-sidebar .ad-link {
