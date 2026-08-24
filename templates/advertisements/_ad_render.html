@@ -1,11 +1,6 @@
 {% load i18n %}
 {% if ad.is_script %}
     {{ ad.link|safe }}
-{% elif ad.type == 'smart_link' %}
-    <a href="{{ ad.link }}" target="_blank" rel="noopener sponsored" class="ad-button">
-        <span class="ad-button-text">{% trans 'Access' %}</span>
-        <span class="ad-badge">AD</span>
-    </a>
 {% else %}
     <a href="{{ ad.link }}" target="_blank" rel="noopener sponsored" class="ad-link">
         <span class="ad-badge">AD</span>

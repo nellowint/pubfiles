@@ -66,6 +66,18 @@
     line-height: 1.4;
 }
 
+.banner-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.banner-link:hover {
+    text-decoration: none;
+}
+
 .ad-carousel-slide .ad-link {
     display: block;
     width: 100%;
@@ -267,40 +279,6 @@ a.ad-card:hover {
     align-items: center;
     margin: 32px auto;
     padding: 0 16px;
-}
-
-/* Botão de ação para SmartLink */
-.ad-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    position: relative;
-    min-width: 120px;
-    text-align: center;
-}
-
-.ad-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-    color: white;
-    text-decoration: none;
-}
-
-.ad-button:active {
-    transform: translateY(0);
-}
-
-.ad-button-text {
-    margin-right: 8px;
 }
 
 /* Responsivo */
