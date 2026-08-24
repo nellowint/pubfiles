@@ -89,6 +89,14 @@
     justify-content: center;
 }
 
+.reel-page-ad .ad-script-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
 .reel-ad-content {
     width: 100%;
     height: 100%;

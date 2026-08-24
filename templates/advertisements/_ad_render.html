@@ -1,13 +1,14 @@
 {% load i18n %}
 {% if ad.is_script %}
     {% if ad.position == 'footer_mobile' %}
-    <div class="ad-script-container" style="width: 100%; max-width: 320px; margin: 0 auto; min-height: 50px; min-width: 320px; display: block; position: relative;">
+    <div class="ad-script-container" style="width: 100%; max-width: 320px; margin: 0 auto; min-height: 50px; min-width: 320px; display: flex; justify-content: center; align-items: center; position: relative;">
         {{ ad.link|safe }}
     </div>
     {% else %}
-    <div class="ad-script-container" style="width: 100%; max-width: 728px; margin: 0 auto; min-height: 90px; min-width: 728px; display: block; position: relative;">
+    <div class="ad-script-container" style="width: 100%; max-width: 728px; margin: 0 auto; min-height: 90px; min-width: 728px; display: flex; justify-content: center; align-items: center; position: relative;">
         {{ ad.link|safe }}
     </div>
+    {% endif %}
 {% else %}
 <a href="{{ ad.link }}" target="_blank" rel="noopener sponsored" class="ad-link">
     <span class="ad-badge">{% trans 'Access' %}</span>
