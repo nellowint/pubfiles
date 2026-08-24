@@ -16,7 +16,7 @@ def _natural_sort_key(file):
             for part in re.split(r'(\d+)', file.name)]
 
 
-class BannerInline(admin.TabularInline):
+class BannerInline(admin.StackedInline):
     model = Banner
     extra = 0
     fields = ('order', 'banner_thumbnail', 'title', 'subtitle', 'image', 'advertisement', 'is_active')
