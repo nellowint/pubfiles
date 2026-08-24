@@ -8,6 +8,14 @@ def username_only(value):
     return value.split('@')[0] if value else ''
 
 
+@register.filter
+def get_item(value, index):
+    try:
+        return value[index]
+    except (IndexError, TypeError):
+        return None
+
+
 @register.inclusion_tag('publications/_category_nav_children.html', takes_context=True)
 def render_nav_children(context, category):
     return {'category': category}
