@@ -2,10 +2,10 @@ from django.db import models
 
 
 class AdvertisementsType(models.TextChoices):
-    POPUNDER = 'pop_under', 'Popunder é um anúncio em tela cheia que abre em uma aba separada, com cobrança por CPM/CPA e frequência/cliques ajustáveis.'
-    SOCIALBAR = 'social_bar', 'Social Bar é um anúncio interativo e personalizável, ideal para sites com boa UX, usuários iOS e contorno de bloqueadores de anúncios.   '
-    SMARTLINK = 'smart_link', 'Smartlink direciona cada usuário para a melhor oferta automaticamente, com base em seus dados, sendo ideal para redes sociais e sites com pouco espaço para anúncios.'
-    NATIVEBANNER = 'native_banner', 'Banner nativo é um anúncio que se integra ao conteúdo do site, sendo responsivo e ideal para sites e blogs com conteúdo destacado.'
+    POPUNDER = 'pop_under', 'Popunder: Anúncio em tela cheia aberto em outra aba'
+    SOCIALBAR = 'social_bar', 'SocialBar: Anúncio interativo e personalizável'
+    SMARTLINK = 'smart_link', 'Smartlink: Direciona o usuário à melhor oferta'
+    NATIVEBANNER = 'native_banner', 'Nativo: Anúncio integrado ao conteúdo do site'
 
 
 class AdvertisementsPositions(models.TextChoices):
