@@ -276,7 +276,7 @@ a.ad-card:hover {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1700px) {
     .ad-sidebar {
         display: none;
     }
