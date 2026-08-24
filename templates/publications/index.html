@@ -37,21 +37,32 @@
 
     <div class="grid">
         {% if ads_card %}
-        <div class="card-wrapper ad-card-wrapper" id="adCard" style="display:none">
-            {% if ads_card.is_script %}
-            <div class="card ad-card">
+        <div class="card-wrapper ad-card-wrapper" id="adCard" style="display:none" data-ad-id="{{ ads_card.id }}">
+            <a href="{{ ads_card.link }}" target="_blank" rel="noopener sponsored" class="card ad-card js-ad-click">
                 <div class="ad-card-content">
                     <span class="ad-badge">AD</span>
                     {% include "advertisements/_ad_render.html" with ad=ads_card %}
                 </div>
-            </div>
-            {% else %}
-            <a href="{{ ads_card.link }}" target="_blank" rel="noopener sponsored" class="card ad-card">
-                <div class="ad-card-content">
-                    <span class="ad-badge">AD</span>
+                <div>
+                    <h3>{{ ads_card.title }}</h3>
+                    <div class="info-row">
+                        <span>
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 7l2.5 2.5M21 9l-2.5-2.5"/></svg>
+                            {{ site_title }}
+                        </span>
+                        <span>
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            {{ ads_card.ratings_count }}
+                        </span>
+                    </div>
+                    <div class="info-row rating-row">
+                        <span class="rating-badge">
+                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            5.0 <small>({{ ads_card.ratings_count }})</small>
+                        </span>
+                    </div>
                 </div>
             </a>
-            {% endif %}
         </div>
         {% endif %}
         {% for publication in publications %}

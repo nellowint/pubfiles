@@ -31,6 +31,17 @@ class Advertisements(models.Model):
         choices=AdvertisementsPositions.choices,
         verbose_name='Posição'
     )
+    title = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name='Título',
+        help_text='Título exibido no card de anúncio'
+    )
+    ratings_count = models.PositiveIntegerField(
+        default=0,
+        verbose_name='Cliques',
+        help_text='Quantidade de cliques no anúncio'
+    )
     is_active = models.BooleanField(
         default=True,
         verbose_name='Ativo'

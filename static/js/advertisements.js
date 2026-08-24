@@ -98,6 +98,30 @@
         adCard.style.display = '';
     }
 
+    // Incrementa contador de cliques no card de anúncio
+    function initAdClickTracker() {
+        var adCards = document.querySelectorAll('.js-ad-click');
+        adCards.forEach(function(card) {
+            card.addEventListener('click', function(e) {
+                var wrapper = card.closest('[data-ad-id]');
+                if (!wrapper) return;
+
+                var adId = wrapper.getAttribute('data-ad-id');
+                if (!adId) return;
+
+                // Envia requisição para incrementar contador
+                fetch('/advertisements/click/' + adId + '/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'Content-Type': 'application/json'
+                    },
+                    keepalive: true
+                });
+            });
+        });
+    }
+
     // Popup de preview no reader
     function initPreviewPopup() {
         var popup = document.getElementById('adPreviewPopup');
@@ -155,5 +179,6 @@
         initCarousel();
         initAdCard();
         initPreviewPopup();
+        initAdClickTracker();
     });
 })();

@@ -55,6 +55,7 @@ urlpatterns = [
     path('', include('apps.publications.urls')),
     path('', include('apps.website.urls')),
     path('subscriptions/', include('apps.subscriptions.urls')),
+    path('advertisements/', include('apps.advertisements.urls')),
 ]
 
 if settings.DEBUG:
