@@ -95,11 +95,12 @@
     {% if ads_preview %}
     <div class="ad-preview-popup" id="adPreviewPopup">
         <button class="ad-preview-close" id="adPreviewClose" aria-label="Fechar">&times;</button>
-        <div class="ad-preview-content" id="adPreviewContent" data-ads='[
+        <div class="ad-preview-content" id="adPreviewContent">
             {% for ad in ads_preview %}
-                "{{ ad.link|escapejs }}"{% if not forloop.last %},{% endif %}
+            <div class="ad-preview-item" data-ad-index="{{ forloop.counter0 }}" style="display: none;">
+                {% include "advertisements/_ad_render.html" with ad=ad %}
+            </div>
             {% endfor %}
-        ]'>
         </div>
     </div>
     {% endif %}

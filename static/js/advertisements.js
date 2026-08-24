@@ -105,17 +105,9 @@
 
         var closeBtn = document.getElementById('adPreviewClose');
         var content = document.getElementById('adPreviewContent');
-        var adsData = content.getAttribute('data-ads');
-        var ads = [];
+        var adItems = content.querySelectorAll('.ad-preview-item');
 
-        try {
-            ads = JSON.parse(adsData);
-        } catch (e) {
-            popup.style.display = 'none';
-            return;
-        }
-
-        if (ads.length === 0) {
+        if (adItems.length === 0) {
             popup.style.display = 'none';
             return;
         }
@@ -123,19 +115,13 @@
         var currentIndex = 0;
 
         function showAd() {
-            var ad = ads[currentIndex];
-            if (!ad) return;
-
-            // Detecta se é script ou URL
-            if (ad.trim().startsWith('<script')) {
-                content.innerHTML = ad;
-            } else {
-                content.innerHTML = '<a href="' + ad + '" target="_blank" rel="noopener sponsored" class="ad-link"><span class="ad-badge">ADS</span></a>';
-            }
+            adItems.forEach(function(item, index) {
+                item.style.display = (index === currentIndex) ? '' : 'none';
+            });
         }
 
         function nextAd() {
-            currentIndex = (currentIndex + 1) % ads.length;
+            currentIndex = (currentIndex + 1) % adItems.length;
             showAd();
         }
 
