@@ -102,16 +102,9 @@
     function initAdClickTracker() {
         var adCards = document.querySelectorAll('.js-ad-click');
         adCards.forEach(function(card) {
-            card.addEventListener('click', function(e) {
-                var wrapper = card.closest('[data-ad-id]');
-                if (!wrapper) return;
-
-                var adId = wrapper.getAttribute('data-ad-id');
+            card.addEventListener('click', function() {
+                var adId = card.getAttribute('data-ad-id');
                 if (!adId) return;
-
-                // Pega o link do input hidden
-                var linkInput = wrapper.querySelector('.ad-link-data');
-                var link = linkInput ? linkInput.value : '';
 
                 // Incrementa contador em background
                 fetch('/advertisements/click/' + adId + '/', {
@@ -122,11 +115,6 @@
                     },
                     keepalive: true
                 });
-
-                // Se for URL (não script), abre em nova aba
-                if (link && !link.trim().startsWith('<script')) {
-                    window.open(link, '_blank', 'noopener,sponsored');
-                }
             });
         });
     }
