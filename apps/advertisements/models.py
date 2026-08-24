@@ -11,8 +11,8 @@ class AdvertisementsType(models.TextChoices):
 class AdvertisementsPositions(models.TextChoices):
     BANNER = 'banner', 'Carrossel de banners'
     CARD = 'card', 'Card de publicações'
-    LEFT = 'left', 'Lateral esquerda'
-    RIGHT = 'right', 'Lateral direita'
+    LEFT = 'left', 'Lateral esquerda (Desktop)'
+    RIGHT = 'right', 'Lateral direita (Desktop)'
     PREVIEW = 'preview', 'Reader preview (Desktop)'
     MOBILE = 'mobile', 'Reader preview (Mobile)'
     FOOTER = 'footer', 'Acima do footer (Desktop)'
