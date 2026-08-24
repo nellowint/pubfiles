@@ -34,7 +34,7 @@ document.addEventListener('keydown', function(event) {
         scrollTimeout = setTimeout(function() {
             const scrollTop = reelsWrapper.scrollTop;
             const viewportHeight = window.innerHeight;
-            const pages = document.querySelectorAll('.reel-page');
+            const pages = document.querySelectorAll('[data-page-number]');
             
             let activePage = 1;
             pages.forEach(function(page, index) {

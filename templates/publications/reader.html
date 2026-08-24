@@ -69,7 +69,7 @@
                 <img src="{{ page.image.url }}" alt="{% blocktrans with num=page.page_order %}Page {{ num }}{% endblocktrans %}" class="reel-image">
             </div>
             {% if ads_preview and not forloop.last %}
-            <div class="reel-page reel-page-ad" data-page-type="ad">
+            <div class="reel-page-ad" data-page-type="ad">
                 <div class="reel-ad-content">
                     {% with ad=ads_preview|get_item:forloop.counter0 %}
                         {% include "advertisements/_ad_render.html" with ad=ad %}
