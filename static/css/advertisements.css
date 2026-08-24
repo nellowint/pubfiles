@@ -384,3 +384,45 @@ a.ad-card:hover {
         display: none;
     }
 }
+
+/* Fixed bottom ad banner (mobile reader) */
+.reel-ad-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reel-ad-bottom-content {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 8px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.reel-ad-bottom .ad-link,
+.reel-ad-bottom .ad-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+@media (max-width: 480px) {
+    .reel-ad-bottom {
+        padding: 4px 8px;
+    }
+    .reel-ad-bottom-content {
+        border-radius: 6px;
+    }
+}
