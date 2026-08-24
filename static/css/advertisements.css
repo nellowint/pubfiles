@@ -452,12 +452,24 @@ a.ad-card:hover {
         left: 50%;
         right: auto;
         transform: translateX(-50%);
-        max-width: 280px;
-        width: calc(100% - 32px);
+        max-width: calc(100% - 32px);
+        width: auto;
     }
     
     .cinema-ad-fixed:hover {
         transform: translateX(-50%) scale(1.02);
+    }
+    
+    .cinema-ad-fixed .cinema-ad-content {
+        min-width: auto;
+        min-height: auto;
+        width: 100%;
+    }
+    
+    .cinema-ad-fixed .ad-script-container {
+        min-width: auto !important;
+        max-width: 100% !important;
+        overflow: hidden;
     }
 }
 @media (max-width: 768px) {
