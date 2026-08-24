@@ -9,4 +9,5 @@ def ads_context(request):
         'ads_left': Advertisements.objects.filter(position='left', is_active=True),
         'ads_right': Advertisements.objects.filter(position='right', is_active=True),
         'ads_footer': Advertisements.objects.filter(position='footer', is_active=True).first(),
+        'ads_footer_mobile': Advertisements.objects.filter(position='footer_mobile', is_active=True).first(),
     }

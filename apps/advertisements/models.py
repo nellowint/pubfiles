@@ -15,7 +15,8 @@ class AdvertisementsPositions(models.TextChoices):
     RIGHT = 'right', 'Lateral direita'
     PREVIEW = 'preview', 'Reader preview (Desktop)'
     MOBILE = 'mobile', 'Reader preview (Mobile)'
-    FOOTER = 'footer', 'Acima do footer'
+    FOOTER = 'footer', 'Acima do footer (Desktop)'
+    FOOTER_MOBILE = 'footer_mobile', 'Acima do footer (Mobile)'
 
 
 class Advertisements(models.Model):
