@@ -291,8 +291,15 @@
     .detail-section { padding: 20px 16px; width: 100%; box-sizing: border-box; }
     .section-title { font-size: 18px; }
     .rating-stars .star svg { width: 22px; height: 22px; }
-    .comment-form-header { flex-direction: column; }
-    .btn-comment-submit { align-self: stretch; text-align: center; justify-content: center; }
+    .comment-form-header { flex-direction: column; gap: 12px; }
+    .comment-form-header textarea { width: 100%; }
+    .btn-comment-submit { 
+        align-self: flex-end; 
+        margin-top: 8px;
+        width: auto;
+        min-width: 120px;
+        justify-self: end;
+    }
 }
 
 @media (max-width: 480px) {
