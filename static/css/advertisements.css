@@ -193,7 +193,7 @@ a.ad-card:hover {
 /* Sidebars laterais na home */
 .ad-sidebar {
     position: fixed;
-    bottom: 16px;
+    bottom: 80px;
     z-index: 9998;
     max-width: 160px;
 }
