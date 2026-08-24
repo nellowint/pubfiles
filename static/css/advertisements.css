@@ -86,6 +86,17 @@
 }
 
 /* Card de anúncio na home */
+a.ad-card-wrapper {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+a.ad-card-wrapper:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
 .ad-card-wrapper {
     will-change: transform;
 }
