@@ -52,14 +52,12 @@
     {% endif %}
 
     {% if ads_preview %}
-    <div class="cinema-ad-wrapper">
-        <a href="{% url 'advertisements:ad_redirect' ads_preview.0.id %}" target="_blank" rel="noopener sponsored" class="cinema-ad-link">
-            <div class="cinema-ad-content">
-                <span class="ad-badge">AD</span>
-                {% include "advertisements/_ad_render.html" with ad=ads_preview.0 %}
-            </div>
-        </a>
-    </div>
+    <a href="{% url 'advertisements:ad_redirect' ads_preview.0.id %}" target="_blank" rel="noopener sponsored" class="cinema-ad-fixed">
+        <div class="cinema-ad-content">
+            <span class="ad-badge">AD</span>
+            {% include "advertisements/_ad_render.html" with ad=ads_preview.0 %}
+        </div>
+    </a>
     {% endif %}
 
     {% if has_next %}
