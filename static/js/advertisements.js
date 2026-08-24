@@ -96,6 +96,22 @@
         }
 
         adCard.style.display = '';
+
+        // Trackear cliques no card para incrementar contador de views
+        adCard.addEventListener('click', function(e) {
+            var adId = adCard.getAttribute('data-ad-id');
+            if (!adId) return;
+
+            // Incrementa contador em background
+            fetch('/advertisements/click/' + adId + '/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'Content-Type': 'application/json'
+                },
+                keepalive: true
+            });
+        });
     }
 
     // Popup de preview no reader
