@@ -51,6 +51,17 @@
         {% endif %}
     {% endif %}
 
+    {% if ads_preview and has_next %}
+    <div class="cinema-ad-wrapper">
+        <a href="{% url 'advertisements:ad_redirect' ads_preview|first.id %}" target="_blank" rel="noopener sponsored" class="cinema-ad-link">
+            <div class="cinema-ad-content">
+                <span class="ad-badge">AD</span>
+                {% include "advertisements/_ad_render.html" with ad=ads_preview|first %}
+            </div>
+        </a>
+    </div>
+    {% endif %}
+
     {% if has_next %}
         <a href="{% url 'publications:reader' publication.slug next_page_number %}" class="cinema-btn btn-cinema-next">▶</a>
     {% else %}
