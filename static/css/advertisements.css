@@ -281,3 +281,9 @@ a.ad-card:hover {
         display: none;
     }
 }
+
+@media (max-width: 800px) {
+    .ad-footer {
+        display: none;
+    }
+}
