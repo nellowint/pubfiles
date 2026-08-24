@@ -40,6 +40,7 @@
         <div class="card-wrapper ad-card-wrapper" id="adCard" style="display:none">
             {% if ads_card.is_script %}
             <div class="card ad-card">
+                <span class="ad-badge">ADS</span>
                 <div class="ad-card-content">
                     {% include "advertisements/_ad_render.html" with ad=ads_card %}
                 </div>
