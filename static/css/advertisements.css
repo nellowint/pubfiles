@@ -405,6 +405,14 @@ a.ad-card:hover {
     background: #000;
     border-radius: 8px;
     overflow: hidden;
+    min-height: 100px;
+    min-width: 280px;
+}
+
+.reel-ad-bottom-content > div {
+    width: 100%;
+    height: 100%;
+    min-height: 90px;
 }
 
 .reel-ad-bottom .ad-link,
