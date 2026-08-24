@@ -29,9 +29,6 @@ def ad_redirect(request, ad_id):
         ad.ratings_count += 1
         ad.save(update_fields=['ratings_count'])
         
-        # Escapa o conteúdo do script usando JSON para evitar problemas com caracteres especiais
-        ad_html = json.dumps(ad.link)
-        
         html = f'''<!DOCTYPE html>
 <html>
 <head>
@@ -39,28 +36,10 @@ def ad_redirect(request, ad_id):
     <title>Advertisement</title>
     <style>
         body {{ margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f5f5f5; }}
-        #ad-container {{ width: 100%; max-width: 800px; }}
     </style>
 </head>
 <body>
-    <div id="ad-container"></div>
-    <script>
-        // Injeta o script do anúncio
-        var container = document.getElementById('ad-container');
-        var adHtml = {ad_html};
-        container.innerHTML = adHtml;
-        
-        // Executa todos os scripts dentro do container
-        var scripts = container.querySelectorAll('script');
-        scripts.forEach(function(oldScript) {{
-            var newScript = document.createElement('script');
-            Array.from(oldScript.attributes).forEach(function(attr) {{
-                newScript.setAttribute(attr.name, attr.value);
-            }});
-            newScript.textContent = oldScript.textContent;
-            oldScript.parentNode.replaceChild(newScript, oldScript);
-        }});
-    </script>
+    {ad.link}
 </body>
 </html>'''
         return HttpResponse(html)
