@@ -198,7 +198,8 @@ a.ad-card:hover {
 /* Sidebars laterais na home */
 .ad-sidebar {
     position: fixed;
-    bottom: 80px;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 9998;
     max-width: 160px;
 }
