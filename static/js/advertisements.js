@@ -221,8 +221,13 @@
     });
 
     // Inicializa tudo
-    document.addEventListener('DOMContentLoaded', function() {
+    function initAll() {
         initCarousel();
         initAdCards();
-    });
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+        initAll();
+    }
 })();

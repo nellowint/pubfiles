@@ -54,8 +54,8 @@
             {% endfor %}
         </div>
         {% if website_banners|length > 1 %}
-        <button class="ad-carousel-btn ad-carousel-prev" aria-label="Anterior">&lsaquo;</button>
-        <button class="ad-carousel-btn ad-carousel-next" aria-label="Próximo">&rsaquo;</button>
+        <button type="button" class="ad-carousel-btn ad-carousel-prev" aria-label="Anterior">&lsaquo;</button>
+        <button type="button" class="ad-carousel-btn ad-carousel-next" aria-label="Próximo">&rsaquo;</button>
         <div class="ad-carousel-dots">
             {% for banner in website_banners %}
             <span class="ad-carousel-dot{% if forloop.first %} active{% endif %}"></span>
