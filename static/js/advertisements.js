@@ -69,35 +69,18 @@
         startAutoPlay();
     }
 
-    // Cria iframe isolado para executar script de anúncio
-    function createAdIframe(scriptContent, container) {
-        var iframe = document.createElement('iframe');
-        iframe.style.cssText = 'width: 100%; height: 100%; border: none; min-height: inherit;';
-        iframe.setAttribute('scrolling', 'no');
-        iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('allowtransparency', 'true');
-        
-        // Usa srcdoc para garantir execução completa dos scripts
-        var htmlContent = '<!DOCTYPE html><html><head><style>body{margin:0;padding:0;display:flex;align-items:center;justify-content:center;min-height:100vh;background:transparent;}</style></head><body>' + scriptContent + '</body></html>';
-        iframe.setAttribute('srcdoc', htmlContent);
-        
-        container.appendChild(iframe);
-        
-        return iframe;
-    }
-
-    // Cards de anúncio na home — clona o card base baseado nas colunas do grid
+    // Cards de anúncio na home — insere cards baseado nas colunas do grid
     function initAdCards() {
-        var adCard = document.getElementById('adCard');
-        if (!adCard) return;
+        var adCards = Array.from(document.querySelectorAll('.ad-card-wrapper'));
+        if (adCards.length === 0) return;
 
-        var grid = adCard.parentElement;
+        var grid = adCards[0].parentElement;
         var pubCards = Array.from(grid.children).filter(function(el) {
             return !el.classList.contains('ad-card-wrapper');
         });
 
         if (pubCards.length < 2) {
-            adCard.style.display = '';
+            adCards.forEach(function(card) { card.style.display = ''; });
             return;
         }
 
@@ -115,8 +98,7 @@
         }
 
         // Quantidade de cards de anúncio baseada nas colunas
-        var adsToShow = columns;
-        var adId = adCard.getAttribute('data-ad-id');
+        var adsToShow = Math.min(columns, adCards.length);
 
         // Posições aleatórias (evita início e fim)
         var minPos = 2;
@@ -125,6 +107,7 @@
         // Função para trackear cliques
         function trackClick(card) {
             card.addEventListener('click', function(e) {
+                var adId = card.getAttribute('data-ad-id');
                 if (!adId) return;
                 fetch('/advertisements/click/' + adId + '/', {
                     method: 'POST',
@@ -137,55 +120,23 @@
             });
         }
 
-        // Captura conteúdo original do script (armazenado em data-ad-html antes da execução)
-        var scriptContent = adCard.getAttribute('data-ad-html') || '';
-        if (!scriptContent) {
-            var adContent = adCard.querySelector('.ad-script-container');
-            scriptContent = adContent ? adContent.innerHTML : '';
-        }
-
-        // Remove clones existentes
-        var existingClones = grid.querySelectorAll('.ad-card-wrapper:not(#adCard)');
-        existingClones.forEach(function(clone) {
-            clone.remove();
+        // Esconde todos primeiro
+        adCards.forEach(function(card) {
+            card.style.display = 'none';
         });
 
-        // Esconde o card original
-        adCard.style.display = 'none';
+        // Insere os cards que serão mostrados
+        for (var i = 0; i < adsToShow; i++) {
+            var adCard = adCards[i];
+            var randomPos = Math.floor(Math.random() * (maxPos - minPos + 1)) + minPos;
 
-        // Insere o card original
-        var randomPos = Math.floor(Math.random() * (maxPos - minPos + 1)) + minPos;
-        if (randomPos >= pubCards.length) {
-            grid.appendChild(adCard);
-        } else {
-            grid.insertBefore(adCard, pubCards[randomPos]);
-        }
-        adCard.style.display = '';
-        trackClick(adCard);
-
-        // Clona o card para as posições restantes usando iframes
-        for (var i = 1; i < adsToShow; i++) {
-            var clone = adCard.cloneNode(true);
-            clone.id = 'adCard' + i;
-            clone.style.display = 'none';
-
-            // Substitui conteúdo do script por iframe isolado
-            if (scriptContent) {
-                var cloneContent = clone.querySelector('.ad-script-container');
-                if (cloneContent) {
-                    cloneContent.innerHTML = '';
-                    createAdIframe(scriptContent, cloneContent);
-                }
-            }
-
-            randomPos = Math.floor(Math.random() * (maxPos - minPos + 1)) + minPos;
             if (randomPos >= pubCards.length) {
-                grid.appendChild(clone);
+                grid.appendChild(adCard);
             } else {
-                grid.insertBefore(clone, pubCards[randomPos]);
+                grid.insertBefore(adCard, pubCards[randomPos]);
             }
-            clone.style.display = '';
-            trackClick(clone);
+            adCard.style.display = '';
+            trackClick(adCard);
         }
     }
 
