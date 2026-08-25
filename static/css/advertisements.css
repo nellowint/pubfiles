@@ -501,7 +501,7 @@ a.ad-card:hover {
 }
 
 @media (max-width: 800px) {
-    .ad-footer {
+    .ad-footer-desktop {
         display: none;
     }
 }
