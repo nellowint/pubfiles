@@ -9,10 +9,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     function togglePosition() {
         if (!typeSelect || !positionRow) return;
+        var positionSelect = document.getElementById('id_position');
         if (typeSelect.value === 'social_bar') {
             positionRow.style.display = 'none';
+            if (positionSelect) {
+                positionSelect.value = '';
+                positionSelect.disabled = true;
+                positionSelect.removeAttribute('required');
+            }
         } else {
             positionRow.style.display = '';
+            if (positionSelect) {
+                positionSelect.disabled = false;
+            }
         }
     }
     if (typeSelect) {
