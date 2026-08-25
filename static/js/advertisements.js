@@ -76,6 +76,9 @@
         var adCards = Array.from(document.querySelectorAll('.ad-card-wrapper'));
         if (adCards.length === 0) return;
 
+        // Se já inicializou, não faz nada (mantém posições fixas)
+        if (adCardsInitialized) return;
+
         var grid = adCards[0].parentElement;
         
         // Pega apenas cards de publicação (não anúncios)
@@ -116,7 +119,7 @@
         var minPos = 2;
         var maxPos = Math.max(minPos, pubCards.length - 1);
 
-        // Função para trackear cliques (só adiciona se ainda não tiver)
+        // Função para trackear cliques
         function trackClick(card) {
             if (card.dataset.tracked) return;
             card.dataset.tracked = 'true';
@@ -134,41 +137,31 @@
             });
         }
 
-        // Primeira inicialização: posiciona TODOS os cards no grid
-        if (!adCardsInitialized) {
-            // Posiciona todos os cards (visíveis ou não)
-            for (var i = 0; i < adCards.length; i++) {
-                var adCard = adCards[i];
-                var randomPos = Math.floor(Math.random() * (maxPos - minPos + 1)) + minPos;
+        // Posiciona os cards que serão mostrados
+        for (var i = 0; i < adsToShow; i++) {
+            var adCard = adCards[i];
+            var randomPos = Math.floor(Math.random() * (maxPos - minPos + 1)) + minPos;
 
-                // Recalcula pubCards pois a ordem pode ter mudado
-                pubCards = Array.from(grid.children).filter(function(el) {
-                    return !el.classList.contains('ad-card-wrapper');
-                });
+            // Recalcula pubCards pois a ordem pode ter mudado
+            pubCards = Array.from(grid.children).filter(function(el) {
+                return !el.classList.contains('ad-card-wrapper');
+            });
 
-                if (randomPos >= pubCards.length) {
-                    grid.appendChild(adCard);
-                } else {
-                    grid.insertBefore(adCard, pubCards[randomPos]);
-                }
-                trackClick(adCard);
-            }
-            
-            adCardsInitialized = true;
-        }
-
-        // Ajusta visibilidade baseado nas colunas atuais
-        for (var i = 0; i < adCards.length; i++) {
-            if (i < adsToShow) {
-                adCards[i].style.display = '';
-                adCards[i].style.visibility = '';
-                adCards[i].style.position = '';
+            if (randomPos >= pubCards.length) {
+                grid.appendChild(adCard);
             } else {
-                adCards[i].style.visibility = 'hidden';
-                adCards[i].style.position = 'absolute';
-                adCards[i].style.pointerEvents = 'none';
+                grid.insertBefore(adCard, pubCards[randomPos]);
             }
+            adCard.style.display = '';
+            trackClick(adCard);
         }
+        
+        // Esconde os cards que não serão mostrados
+        for (var i = adsToShow; i < adCards.length; i++) {
+            adCards[i].style.display = 'none';
+        }
+        
+        adCardsInitialized = true;
     }
 
     // Debounce para resize
