@@ -349,6 +349,14 @@ a.ad-card:hover {
         max-width: 320px;
         min-height: 50px;
     }
+    
+    .ad-footer-mobile .ad-script-container,
+    .ad-footer-mobile-script {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow: hidden;
+    }
 }
 
 /* Fixed bottom ad banner (mobile reader) */
