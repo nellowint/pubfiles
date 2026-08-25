@@ -38,7 +38,9 @@ class Advertisements(models.Model):
     position = models.CharField(
         max_length=20,
         choices=AdvertisementsPositions.choices,
-        verbose_name='Posição'
+        verbose_name='Posição',
+        blank=True,
+        help_text='Não necessário para SocialBar'
     )
     ratings_count = models.PositiveIntegerField(
         default=0,
@@ -56,7 +58,17 @@ class Advertisements(models.Model):
         verbose_name_plural = 'Anúncios'
 
     def __str__(self):
+        if self.type == AdvertisementsType.SOCIALBAR:
+            return f'{self.get_type_display()} - {self.title or self.link[:30]}'
         return f'{self.get_position_display()} - {self.get_type_display()}'
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        # socialbar não depende de posição
+        if self.type == AdvertisementsType.SOCIALBAR:
+            self.position = ''
+        elif not self.position:
+            raise ValidationError({'position': 'Selecione uma posição para este tipo de anúncio.'})
 
     @property
     def is_script(self):

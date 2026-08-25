@@ -70,6 +70,12 @@
           gtag('config', 'G-T9P4J6P7J0');
         </script>
     {% endif %}
+
+    {% if ads_socialbar %}
+        {% for ad in ads_socialbar %}
+            {{ ad.link|safe }}
+        {% endfor %}
+    {% endif %}
 </head>
 <body>
 

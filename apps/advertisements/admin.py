@@ -9,5 +9,12 @@ class AdvertisementsAdmin(admin.ModelAdmin):
     search_fields = ['title', 'link']
     readonly_fields = ['ratings_count']
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        # socialbar não depende de posição — torna opcional no form
+        if 'position' in form.base_fields:
+            form.base_fields['position'].required = False
+        return form
+
     class Media:
-        js = ('js/admin-clickable-rows.js',)
+        js = ('js/admin-clickable-rows.js', 'js/advertisements-admin.js')
