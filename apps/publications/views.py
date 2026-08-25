@@ -8,6 +8,7 @@ from django.views.decorators.cache import never_cache
 from django.views.generic import DetailView, ListView
 
 from apps.subscriptions.models import Subscription
+from apps.subscriptions.utils import has_premium_access
 
 from .models import Category, Comment, Publication, Rating
 
@@ -130,14 +131,8 @@ def reader_view(request, slug, page_number):
             views_count=F('views_count') + 1
         )
 
-    # Acesso total: publicações livres ou assinantes ativos.
-    has_full_access = (
-        not publication.is_members_only
-        or (
-            request.user.is_authenticated
-            and Subscription.objects.is_active_for(request.user)
-        )
-    )
+    # Acesso total: publicações livres, assinantes ativos, superuser ou grupo Administrador (hardcode).
+    has_full_access = not publication.is_members_only or has_premium_access(request.user)
 
     if not has_full_access:
         accessible_pages = all_pages[:publication.free_pages_count]
