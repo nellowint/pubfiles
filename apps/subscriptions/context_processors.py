@@ -1,4 +1,5 @@
 from .models import Subscription, SubscriptionSettings
+from .utils import has_premium_access
 
 
 def subscription_settings(request):
@@ -8,4 +9,5 @@ def subscription_settings(request):
     return {
         'subscription_settings': SubscriptionSettings.objects.first(),
         'user_subscription': user_subscription,
+        'is_premium': has_premium_access(request.user),
     }

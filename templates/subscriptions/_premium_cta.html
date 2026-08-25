@@ -1,0 +1,19 @@
+{% load i18n %}
+{% if not is_premium and subscription_settings and subscription_settings.is_enabled %}
+<section class="premium-cta" aria-labelledby="premium-cta-title">
+    <div class="premium-cta-card">
+        <h2 id="premium-cta-title">{% trans "Assinar Premium" %}</h2>
+        <ul class="premium-cta-benefits">
+            <li>{% trans "Remover anúncios de todo o site" %}</li>
+            <li>{% trans "Acesso completo a publicações premium" %}</li>
+            <li>{% trans "Leitura ilimitada no catálogo" %}</li>
+        </ul>
+        <p class="premium-cta-price">{% blocktrans with currency=subscription_settings.currency|upper price=subscription_settings.monthly_price %}{{ currency }} {{ price }}/mês{% endblocktrans %}</p>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'subscriptions:checkout' %}?next={{ request.path }}" class="btn-premium-cta">{% trans "Assinar agora" %}</a>
+        {% else %}
+            <a href="{% url 'register' %}?next={{ request.path }}" class="btn-premium-cta">{% trans "Criar conta e assinar" %}</a>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
