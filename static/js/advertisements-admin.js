@@ -1,9 +1,15 @@
 // Esconde posição quando tipo é SOCIALBAR (não depende de posição)
 (function() {
     function findPositionRow() {
+        // Jazzmin tem 2 elementos .field-position: outer form-group e inner col; precisamos do outer que contém o label
+        var outer = document.querySelector('.form-group.field-position');
+        if (outer) return outer;
         var el = document.getElementById('id_position');
         if (!el) return null;
-        return el.closest('.field-position') || el.closest('.form-group') || el.closest('.form-row') || el.closest('[class*="col-"]')?.closest('.form-group') || el.parentElement?.parentElement || el.parentElement;
+        // fallback: sobe até achar form-group
+        var g = el.closest('.form-group');
+        if (g) return g;
+        return el.closest('.form-row') || el.parentElement?.parentElement || el.parentElement;
     }
     function findTypeSelect() {
         return document.getElementById('id_type');
