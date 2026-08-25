@@ -67,7 +67,7 @@
 
     <div class="grid">
         {% if ads_card %}
-        <div class="card-wrapper ad-card-wrapper" id="adCard" style="display:none" data-ad-id="{{ ads_card.id }}">
+        <div class="card-wrapper ad-card-wrapper" id="adCard" style="display:none" data-ad-id="{{ ads_card.id }}" data-ad-html="{% if ads_card.is_script %}{{ ads_card.link|escape }}{% endif %}">
             <div class="card ad-card">
                 <div class="ad-card-content">
                     <span class="ad-badge">AD</span>

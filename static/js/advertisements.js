@@ -69,20 +69,29 @@
         startAutoPlay();
     }
 
-    // Re-executa scripts dentro de um container (necessário após clonagem)
-    function reExecuteScripts(container) {
-        var scripts = container.querySelectorAll('script');
-        scripts.forEach(function(oldScript) {
-            var newScript = document.createElement('script');
-            // Copia atributos
-            Array.from(oldScript.attributes).forEach(function(attr) {
-                newScript.setAttribute(attr.name, attr.value);
-            });
-            // Copia conteúdo inline
-            newScript.textContent = oldScript.textContent;
-            // Substitui o script antigo pelo novo
-            oldScript.parentNode.replaceChild(newScript, oldScript);
-        });
+    // Cria iframe isolado para executar script de anúncio
+    function createAdIframe(scriptContent) {
+        var iframe = document.createElement('iframe');
+        iframe.style.cssText = 'width: 100%; height: 100%; border: none; min-height: inherit;';
+        iframe.setAttribute('scrolling', 'no');
+        iframe.setAttribute('frameborder', '0');
+        
+        var iframeContent = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: transparent; }
+                </style>
+            </head>
+            <body>
+                ${scriptContent}
+            </body>
+            </html>
+        `;
+        
+        iframe.srcdoc = iframeContent;
+        return iframe;
     }
 
     // Cards de anúncio na home — clona o card base baseado nas colunas do grid
@@ -136,6 +145,13 @@
             });
         }
 
+        // Captura conteúdo original do script (armazenado em data-ad-html antes da execução)
+        var scriptContent = adCard.getAttribute('data-ad-html') || '';
+        if (!scriptContent) {
+            var adContent = adCard.querySelector('.ad-script-container');
+            scriptContent = adContent ? adContent.innerHTML : '';
+        }
+
         // Remove clones existentes
         var existingClones = grid.querySelectorAll('.ad-card-wrapper:not(#adCard)');
         existingClones.forEach(function(clone) {
@@ -155,11 +171,21 @@
         adCard.style.display = '';
         trackClick(adCard);
 
-        // Clona o card para as posições restantes
+        // Clona o card para as posições restantes usando iframes
         for (var i = 1; i < adsToShow; i++) {
             var clone = adCard.cloneNode(true);
             clone.id = 'adCard' + i;
             clone.style.display = 'none';
+
+            // Substitui conteúdo do script por iframe isolado
+            if (scriptContent) {
+                var cloneContent = clone.querySelector('.ad-script-container');
+                if (cloneContent) {
+                    cloneContent.innerHTML = '';
+                    var iframe = createAdIframe(scriptContent);
+                    cloneContent.appendChild(iframe);
+                }
+            }
 
             randomPos = Math.floor(Math.random() * (maxPos - minPos + 1)) + minPos;
             if (randomPos >= pubCards.length) {
@@ -168,7 +194,6 @@
                 grid.insertBefore(clone, pubCards[randomPos]);
             }
             clone.style.display = '';
-            reExecuteScripts(clone);
             trackClick(clone);
         }
     }
