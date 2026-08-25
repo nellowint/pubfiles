@@ -98,7 +98,13 @@
         }
 
         // Quantidade de cards de anúncio baseada nas colunas
-        var adsToShow = Math.min(columns, adCards.length);
+        var adsToShow;
+        if (columns === 3) {
+            adsToShow = 1;
+        } else {
+            adsToShow = columns;
+        }
+        adsToShow = Math.min(adsToShow, adCards.length);
 
         // Posições aleatórias (evita início e fim)
         var minPos = 2;
