@@ -120,6 +120,15 @@
             });
         }
 
+        // Remove clones existentes
+        var existingClones = grid.querySelectorAll('.ad-card-wrapper:not(#adCard)');
+        existingClones.forEach(function(clone) {
+            clone.remove();
+        });
+
+        // Esconde o card original
+        adCard.style.display = 'none';
+
         // Insere o card original
         var randomPos = Math.floor(Math.random() * (maxPos - minPos + 1)) + minPos;
         if (randomPos >= pubCards.length) {
@@ -146,6 +155,15 @@
             trackClick(clone);
         }
     }
+
+    // Debounce para resize
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            initAdCards();
+        }, 250);
+    });
 
     // Inicializa tudo
     document.addEventListener('DOMContentLoaded', function() {
