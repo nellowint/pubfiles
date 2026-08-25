@@ -1,7 +1,20 @@
+from apps.subscriptions.utils import has_premium_access
+
 from .models import Advertisements
 
 
 def ads_context(request):
+    # assinantes premium, Administrador e superuser não veem anúncios
+    if has_premium_access(request.user):
+        return {
+            'ads_cards': [],
+            'ads_preview': [],
+            'ads_mobile': [],
+            'ads_left': Advertisements.objects.none(),
+            'ads_right': Advertisements.objects.none(),
+            'ads_footer': None,
+            'ads_footer_mobile': None,
+        }
     return {
         'ads_cards': list(Advertisements.objects.filter(position='card', is_active=True)),
         'ads_preview': list(Advertisements.objects.filter(position='preview', is_active=True)),

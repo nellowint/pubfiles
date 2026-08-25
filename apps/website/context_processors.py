@@ -1,4 +1,7 @@
 from django.conf import settings
+
+from apps.subscriptions.utils import has_premium_access
+
 from .models import WebSettings
 
 def website_settings(request):
@@ -34,7 +37,11 @@ def website_settings(request):
 
     website_banners = []
     if settings_obj:
-        website_banners = list(settings_obj.banners.filter(is_active=True))
+        qs = settings_obj.banners.filter(is_active=True)
+        # premium não vê banners com anúncio, mantém só banners de imagem pura
+        if has_premium_access(request.user):
+            qs = qs.filter(advertisement__isnull=True)
+        website_banners = list(qs)
 
     return {
         'site_title': site_title,
