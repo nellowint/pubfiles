@@ -7,13 +7,15 @@
 .card-wrapper {
     border-radius: var(--radius-md);
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    will-change: transform;
     min-width: 0;
     display: flex;
+    cursor: pointer;
+    pointer-events: auto;
 }
 .card-wrapper:hover {
     transform: scale(1.04);
     z-index: 10;
+    will-change: transform;
 }
 
 .card {
@@ -36,6 +38,7 @@
     min-width: 0;
     width: 100%;
     flex: 1;
+    pointer-events: auto;
 }
 
 .card-wrapper:hover .card {
