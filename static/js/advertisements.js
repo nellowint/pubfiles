@@ -75,12 +75,24 @@
         if (adCards.length === 0) return;
 
         var grid = adCards[0].parentElement;
+        
+        // Primeiro, remove todos os cards de anúncio do grid (mas mantém no DOM)
+        adCards.forEach(function(card) {
+            if (card.parentNode === grid) {
+                grid.removeChild(card);
+            }
+        });
+
+        // Recalcula os cards de publicação (sem os anúncios)
         var pubCards = Array.from(grid.children).filter(function(el) {
             return !el.classList.contains('ad-card-wrapper');
         });
 
         if (pubCards.length < 2) {
-            adCards.forEach(function(card) { card.style.display = ''; });
+            adCards.forEach(function(card) { 
+                grid.appendChild(card);
+                card.style.display = '';
+            });
             return;
         }
 
@@ -110,8 +122,10 @@
         var minPos = 2;
         var maxPos = Math.max(minPos, pubCards.length - 1);
 
-        // Função para trackear cliques
+        // Função para trackear cliques (só adiciona se ainda não tiver)
         function trackClick(card) {
+            if (card.dataset.tracked) return;
+            card.dataset.tracked = 'true';
             card.addEventListener('click', function(e) {
                 var adId = card.getAttribute('data-ad-id');
                 if (!adId) return;
@@ -126,12 +140,12 @@
             });
         }
 
-        // Esconde todos primeiro
-        adCards.forEach(function(card) {
-            card.style.display = 'none';
-        });
+        // Esconde os cards que não serão mostrados
+        for (var i = adsToShow; i < adCards.length; i++) {
+            adCards[i].style.display = 'none';
+        }
 
-        // Insere os cards que serão mostrados
+        // Insere os cards que serão mostrados em posições aleatórias
         for (var i = 0; i < adsToShow; i++) {
             var adCard = adCards[i];
             var randomPos = Math.floor(Math.random() * (maxPos - minPos + 1)) + minPos;
