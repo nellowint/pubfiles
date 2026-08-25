@@ -94,13 +94,15 @@
         }
 
         // Calcula número de colunas baseado na largura do grid
+        // CSS usa minmax(220px, 1fr) com gap 24px
+        // Fórmula: N colunas = N * 244 - 24
         var gridWidth = grid.offsetWidth;
         var columns;
-        if (gridWidth >= 1200) {
+        if (gridWidth >= 1196) {
             columns = 5;
-        } else if (gridWidth >= 900) {
+        } else if (gridWidth >= 952) {
             columns = 4;
-        } else if (gridWidth >= 600) {
+        } else if (gridWidth >= 708) {
             columns = 3;
         } else {
             columns = 2;
