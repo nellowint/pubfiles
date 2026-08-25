@@ -76,6 +76,12 @@
         var adCards = Array.from(document.querySelectorAll('.ad-card-wrapper'));
         if (adCards.length === 0) return;
 
+        // Não mostrar cards de anúncio ao filtrar por categoria ou busca
+        var params = new URLSearchParams(window.location.search);
+        if (params.has('category') || params.has('q')) {
+            return;
+        }
+
         // Se já inicializou, não faz nada (mantém posições fixas)
         if (adCardsInitialized) return;
 

@@ -66,6 +66,7 @@
     {% endif %}
 
     <div class="grid">
+        {% if not request.GET.category and not request.GET.q %}
         {% for ad in ads_cards %}
         <div class="card-wrapper ad-card-wrapper" id="adCard{{ ad.id }}" style="display:none" data-ad-id="{{ ad.id }}">
             <div class="card ad-card">
@@ -95,6 +96,7 @@
             </div>
         </div>
         {% endfor %}
+        {% endif %}
         {% for publication in publications %}
             <div class="card-wrapper">
                 <a href="{% url 'publications:detail' publication.slug %}" class="card">
