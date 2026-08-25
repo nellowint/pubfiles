@@ -11,11 +11,13 @@
     display: flex;
     cursor: pointer;
     pointer-events: auto;
+    position: relative;
+    isolation: isolate;
+    transform: translateZ(0);
 }
 .card-wrapper:hover {
-    transform: scale(1.04);
+    transform: scale(1.04) translateZ(0);
     z-index: 10;
-    will-change: transform;
 }
 
 .card {

@@ -183,7 +183,9 @@
 
 /* Card de anúncio na home */
 .ad-card-wrapper {
-    will-change: transform;
+    transform: translateZ(0);
+    position: relative;
+    isolation: isolate;
 }
 
 .ad-card {
@@ -316,6 +318,13 @@ a.ad-card:hover {
 .ad-sidebar .ad-link {
     display: block;
     text-decoration: none;
+}
+
+.ad-sidebar .ad-script-container {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow: hidden;
 }
 
 /* Anúncio acima do footer - Desktop */
