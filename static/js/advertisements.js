@@ -69,6 +69,22 @@
         startAutoPlay();
     }
 
+    // Re-executa scripts dentro de um container (necessário após clonagem)
+    function reExecuteScripts(container) {
+        var scripts = container.querySelectorAll('script');
+        scripts.forEach(function(oldScript) {
+            var newScript = document.createElement('script');
+            // Copia atributos
+            Array.from(oldScript.attributes).forEach(function(attr) {
+                newScript.setAttribute(attr.name, attr.value);
+            });
+            // Copia conteúdo inline
+            newScript.textContent = oldScript.textContent;
+            // Substitui o script antigo pelo novo
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+        });
+    }
+
     // Cards de anúncio na home — clona o card base baseado nas colunas do grid
     function initAdCards() {
         var adCard = document.getElementById('adCard');
@@ -152,6 +168,7 @@
                 grid.insertBefore(clone, pubCards[randomPos]);
             }
             clone.style.display = '';
+            reExecuteScripts(clone);
             trackClick(clone);
         }
     }
