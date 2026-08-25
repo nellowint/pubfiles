@@ -1,0 +1,10 @@
+{% load i18n %}
+{% if ad.is_script %}
+<div class="ad-script-container" style="width: 100%; margin: 0 auto; min-height: 50px; display: flex; justify-content: center; align-items: center; position: relative;">
+    {{ ad.link|safe }}
+</div>
+{% else %}
+    <a href="{{ ad.link }}" target="_blank" rel="noopener sponsored" class="ad-link">
+        <span class="ad-badge">{% trans 'Access' %}</span>
+    </a>
+{% endif %}

@@ -55,7 +55,7 @@
     <a href="{% url 'advertisements:ad_redirect' ads_preview.0.id %}" target="_blank" rel="noopener sponsored" class="cinema-ad-fixed">
         <div class="cinema-ad-content">
             <span class="ad-badge">AD</span>
-            {% include "advertisements/_ad_render.html" with ad=ads_preview.0 %}
+            {% include "advertisements/_ad_preview_render.html" with ad=ads_preview.0 %}
         </div>
     </a>
     {% endif %}
