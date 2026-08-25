@@ -68,11 +68,11 @@
     <div class="grid">
         {% if not request.GET.category and not request.GET.q %}
         {% for ad in ads_cards %}
-        <div class="card-wrapper ad-card-wrapper" id="adCard{{ ad.id }}" style="display:none" data-ad-id="{{ ad.id }}">
+        <div class="card-wrapper ad-card-wrapper" id="adCard{{ ad.id }}" style="display:none" data-ad-id="{{ ad.id }}" data-ad-html="{{ ad.link|escape }}" data-is-script="{% if ad.is_script %}1{% else %}0{% endif %}">
             <div class="card ad-card">
                 <div class="ad-card-content">
                     <span class="ad-badge">AD</span>
-                    {{ ad.link|safe }}
+                    <div class="ad-script-container"></div>
                 </div>
                 <div>
                     <h3>{{ ad.title }}</h3>

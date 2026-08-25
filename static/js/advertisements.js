@@ -69,12 +69,51 @@
         startAutoPlay();
     }
 
+    function createAdIframe(scriptHtml, container) {
+        var iframe = document.createElement('iframe');
+        iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;min-height:250px;';
+        iframe.setAttribute('scrolling', 'no');
+        iframe.setAttribute('frameborder', '0');
+        var doc = '<!DOCTYPE html><html><head><meta charset=\"utf-8\"><style>html,body{margin:0;padding:0;background:transparent;display:flex;align-items:center;justify-content:center;min-height:100%;}</style></head><body>' + scriptHtml + '</body></html>';
+        iframe.srcdoc = doc;
+        container.innerHTML = '';
+        container.appendChild(iframe);
+    }
+
+    function decodeHtml(str) {
+        var txt = document.createElement('textarea');
+        txt.innerHTML = str;
+        return txt.value;
+    }
+
     // Cards de anúncio na home — insere cards baseado nas colunas do grid
     var adCardsInitialized = false;
     
     function initAdCards() {
         var adCards = Array.from(document.querySelectorAll('.ad-card-wrapper'));
         if (adCards.length === 0) return;
+
+        // Renderiza cada card em iframe isolado para evitar colisão de atOptions global
+        adCards.forEach(function(card) {
+            if (card.dataset.rendered) return;
+            var isScript = card.getAttribute('data-is-script') === '1';
+            if (!isScript) {
+                var html = decodeHtml(card.getAttribute('data-ad-html') || '');
+                var cont = card.querySelector('.ad-script-container');
+                if (cont && html) {
+                    cont.innerHTML = '<a href=\"' + html + '\" target=\"_blank\" rel=\"noopener sponsored\" class=\"ad-link\"><span class=\"ad-badge\">Access</span></a>';
+                }
+                card.dataset.rendered = '1';
+                return;
+            }
+            var raw = card.getAttribute('data-ad-html') || '';
+            var decoded = decodeHtml(raw);
+            var container = card.querySelector('.ad-script-container');
+            if (container && decoded) {
+                createAdIframe(decoded, container);
+            }
+            card.dataset.rendered = '1';
+        });
 
         // Não mostrar cards de anúncio ao filtrar por categoria ou busca
         var params = new URLSearchParams(window.location.search);
