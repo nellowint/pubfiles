@@ -69,47 +69,66 @@
         startAutoPlay();
     }
 
-    // Card de anúncio na home — posição aleatória
-    function initAdCard() {
-        var adCard = document.getElementById('adCard');
-        if (!adCard) return;
+    // Cards de anúncio na home — quantidade baseada nas colunas do grid
+    function initAdCards() {
+        var adCards = Array.from(document.querySelectorAll('.ad-card-wrapper'));
+        if (adCards.length === 0) return;
 
-        var grid = adCard.parentElement;
-        var cards = Array.from(grid.children).filter(function(el) {
-            return el !== adCard;
+        var grid = adCards[0].parentElement;
+        var pubCards = Array.from(grid.children).filter(function(el) {
+            return !el.classList.contains('ad-card-wrapper');
         });
 
-        if (cards.length < 2) {
-            adCard.style.display = '';
+        if (pubCards.length < 2) {
+            adCards.forEach(function(card) { card.style.display = ''; });
             return;
         }
 
-        // Posição aleatória entre 2 e N-1 (não fica nem no início nem no fim)
-        var minPos = 2;
-        var maxPos = Math.max(minPos, cards.length - 1);
-        var randomPos = Math.floor(Math.random() * (maxPos - minPos + 1)) + minPos;
-
-        if (randomPos >= cards.length) {
-            grid.appendChild(adCard);
+        // Calcula número de colunas baseado na largura do grid
+        var gridWidth = grid.offsetWidth;
+        var columns;
+        if (gridWidth >= 1200) {
+            columns = 5;
+        } else if (gridWidth >= 900) {
+            columns = 4;
+        } else if (gridWidth >= 600) {
+            columns = 3;
         } else {
-            grid.insertBefore(adCard, cards[randomPos]);
+            columns = 2;
         }
 
-        adCard.style.display = '';
+        // Quantidade de cards de anúncio baseada nas colunas
+        var adsToShow = columns;
+        var availableAds = adCards.slice(0, adsToShow);
 
-        // Trackear cliques no card para incrementar contador de views
-        adCard.addEventListener('click', function(e) {
-            var adId = adCard.getAttribute('data-ad-id');
-            if (!adId) return;
+        // Posições aleatórias (evita início e fim)
+        var minPos = 2;
+        var maxPos = Math.max(minPos, pubCards.length - 1);
 
-            // Incrementa contador em background
-            fetch('/advertisements/click/' + adId + '/', {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                    'Content-Type': 'application/json'
-                },
-                keepalive: true
+        availableAds.forEach(function(adCard) {
+            var randomPos = Math.floor(Math.random() * (maxPos - minPos + 1)) + minPos;
+
+            if (randomPos >= pubCards.length) {
+                grid.appendChild(adCard);
+            } else {
+                grid.insertBefore(adCard, pubCards[randomPos]);
+            }
+
+            adCard.style.display = '';
+
+            // Trackear cliques
+            adCard.addEventListener('click', function(e) {
+                var adId = adCard.getAttribute('data-ad-id');
+                if (!adId) return;
+
+                fetch('/advertisements/click/' + adId + '/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'Content-Type': 'application/json'
+                    },
+                    keepalive: true
+                });
             });
         });
     }
@@ -117,6 +136,6 @@
     // Inicializa tudo
     document.addEventListener('DOMContentLoaded', function() {
         initCarousel();
-        initAdCard();
+        initAdCards();
     });
 })();
