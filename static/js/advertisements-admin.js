@@ -1,31 +1,57 @@
 // Esconde posição quando tipo é SOCIALBAR (não depende de posição)
-document.addEventListener('DOMContentLoaded', function() {
-    var typeSelect = document.getElementById('id_type');
-    var positionRow = document.getElementById('id_position') ? document.getElementById('id_position').closest('.form-row') : null;
-    // fallback para Jazzmin: procura pelo label
-    if (!positionRow) {
-        var posLabel = document.querySelector('label[for="id_position"]');
-        if (posLabel) positionRow = posLabel.closest('.form-row') || posLabel.closest('.field-position');
+(function() {
+    function findPositionRow() {
+        var el = document.getElementById('id_position');
+        if (!el) return null;
+        return el.closest('.field-position') || el.closest('.form-group') || el.closest('.form-row') || el.closest('[class*="col-"]')?.closest('.form-group') || el.parentElement?.parentElement || el.parentElement;
+    }
+    function findTypeSelect() {
+        return document.getElementById('id_type');
     }
     function togglePosition() {
-        if (!typeSelect || !positionRow) return;
+        var typeSelect = findTypeSelect();
+        var positionRow = findPositionRow();
         var positionSelect = document.getElementById('id_position');
+        if (!typeSelect || !positionRow) return;
         if (typeSelect.value === 'social_bar') {
             positionRow.style.display = 'none';
             if (positionSelect) {
                 positionSelect.value = '';
                 positionSelect.disabled = true;
                 positionSelect.removeAttribute('required');
+                // esconde select2 container se existir
+                var s2 = document.querySelector('[aria-labelledby="select2-id_position-container"]')?.closest('.form-group') || document.querySelector('.select2-container');
+                if (s2 && s2.closest('.field-position') === positionRow) s2.style.display = 'none';
             }
         } else {
             positionRow.style.display = '';
             if (positionSelect) {
                 positionSelect.disabled = false;
             }
+            var s2 = document.querySelector('.select2-container');
+            if (s2) s2.style.display = '';
         }
     }
-    if (typeSelect) {
+    function init() {
+        var typeSelect = findTypeSelect();
+        if (!typeSelect) return;
         typeSelect.addEventListener('change', togglePosition);
+        // jazzmin usa select2 que dispara change via jquery
+        if (window.django && window.django.jQuery) {
+            window.django.jQuery('#id_type').on('change', togglePosition);
+        }
+        if (window.jQuery) {
+            window.jQuery('#id_type').on('change', togglePosition);
+        }
         togglePosition();
+        // fallback para quando jazzmin renderiza via tabs/ajax
+        setTimeout(togglePosition, 300);
+        setTimeout(togglePosition, 800);
     }
-});
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('load', init);
+    } else {
+        init();
+    }
+})();
