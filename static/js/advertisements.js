@@ -70,27 +70,19 @@
     }
 
     // Cria iframe isolado para executar script de anúncio
-    function createAdIframe(scriptContent) {
+    function createAdIframe(scriptContent, container) {
         var iframe = document.createElement('iframe');
         iframe.style.cssText = 'width: 100%; height: 100%; border: none; min-height: inherit;';
         iframe.setAttribute('scrolling', 'no');
         iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allowtransparency', 'true');
         
-        var iframeContent = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>
-                    body { margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: transparent; }
-                </style>
-            </head>
-            <body>
-                ${scriptContent}
-            </body>
-            </html>
-        `;
+        // Usa srcdoc para garantir execução completa dos scripts
+        var htmlContent = '<!DOCTYPE html><html><head><style>body{margin:0;padding:0;display:flex;align-items:center;justify-content:center;min-height:100vh;background:transparent;}</style></head><body>' + scriptContent + '</body></html>';
+        iframe.setAttribute('srcdoc', htmlContent);
         
-        iframe.srcdoc = iframeContent;
+        container.appendChild(iframe);
+        
         return iframe;
     }
 
@@ -182,8 +174,7 @@
                 var cloneContent = clone.querySelector('.ad-script-container');
                 if (cloneContent) {
                     cloneContent.innerHTML = '';
-                    var iframe = createAdIframe(scriptContent);
-                    cloneContent.appendChild(iframe);
+                    createAdIframe(scriptContent, cloneContent);
                 }
             }
 
