@@ -69,6 +69,9 @@ class Advertisements(models.Model):
             self.position = ''
         elif not self.position:
             raise ValidationError({'position': 'Selecione uma posição para este tipo de anúncio.'})
+        # banner só para smartlink
+        if self.position == AdvertisementsPositions.BANNER and self.type != AdvertisementsType.SMARTLINK:
+            raise ValidationError({'type': 'Posição Banner só aceita SmartLink.', 'position': 'Banner só aceita tipo SmartLink.'})
 
     @property
     def is_script(self):

@@ -38,7 +38,10 @@
                     {% endif %}
                 {% elif banner.image %}
                     <div class="banner-image-wrapper">
-                        <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
+                        <picture>
+                            {% if banner.image_mobile %}<source media="(max-width: 768px)" srcset="{{ banner.image_mobile.url }}">{% endif %}
+                            <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
+                        </picture>
                         {% if banner.title or banner.subtitle %}
                         <div class="banner-text-overlay">
                             {% if banner.title %}

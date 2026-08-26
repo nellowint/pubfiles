@@ -19,8 +19,13 @@ def _natural_sort_key(file):
 class BannerInline(admin.StackedInline):
     model = Banner
     extra = 0
-    fields = ('order', 'banner_thumbnail', 'title', 'subtitle', 'image', 'advertisement', 'is_active')
+    fields = ('order', 'banner_thumbnail', 'title', 'subtitle', 'image', 'image_mobile', 'advertisement', 'is_active')
     readonly_fields = ('banner_thumbnail',)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'advertisement':
+            kwargs['queryset'] = kwargs.get('queryset', db_field.remote_field.model.objects.filter(type='smart_link', is_active=True))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def banner_thumbnail(self, instance):
         if instance.image:

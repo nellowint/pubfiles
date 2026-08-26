@@ -124,8 +124,16 @@ class Banner(models.Model):
         validators=[validate_file_size],
         blank=True,
         null=True,
-        verbose_name='Imagem',
-        help_text='Obrigatório se não houver anúncio vinculado.',
+        verbose_name='Imagem (Desktop)',
+        help_text='Obrigatório se não houver anúncio vinculado. Recomendado 1248×250 (5:1).',
+    )
+    image_mobile = models.ImageField(
+        upload_to=MediaPath('website/banners/mobile'),
+        validators=[validate_file_size],
+        blank=True,
+        null=True,
+        verbose_name='Imagem (Mobile)',
+        help_text='Opcional — 640×360 recomendado, usado em ≤768px. Se vazio, usa a imagem desktop.',
     )
     advertisement = models.ForeignKey(
         'advertisements.Advertisements',
@@ -134,7 +142,8 @@ class Banner(models.Model):
         blank=True,
         related_name='banners',
         verbose_name='Anúncio',
-        help_text='Se preenchido, ignora a imagem.',
+        help_text='Se preenchido, ignora a imagem. Somente SmartLink.',
+        limit_choices_to={'type': 'smart_link', 'is_active': True},
     )
     order = models.PositiveSmallIntegerField(
         default=0,
@@ -149,6 +158,11 @@ class Banner(models.Model):
         verbose_name = 'Banner'
         verbose_name_plural = 'Banners'
         ordering = ['order']
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.advertisement and self.advertisement.type != 'smart_link':
+            raise ValidationError({'advertisement': 'Banner só aceita anúncios do tipo SmartLink.'})
 
     def __str__(self):
         return self.title or f'Banner {self.pk}'
