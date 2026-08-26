@@ -15,8 +15,8 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; height: 100%; }
-body { min-height: 100vh; margin: 0; }
+html { scroll-behavior: smooth; height: 100%; height: -webkit-fill-available; }
+body { min-height: 100vh; min-height: 100dvh; min-height: -webkit-fill-available; margin: 0; background-color: var(--primary-color); }
 
 body {
     font-family: var(--font-body);
@@ -32,12 +32,19 @@ body::before {
     content: "";
     position: fixed;
     inset: 0;
+    height: 100vh;
+    height: 100dvh;
+    height: -webkit-fill-available;
     z-index: -1;
     background-image: var(--bg-image);
+    background-color: var(--primary-color);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     pointer-events: none;
+}
+@supports (height: 100dvh) {
+    body::before { height: 100dvh; }
 }
 
 /* Scrollbar personalizado no desktop: thumb na cor secundária, track transparente */
@@ -76,6 +83,8 @@ a { text-decoration: none; color: inherit; }
     display: grid;
     grid-template-rows: auto 1fr auto;
     min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
 }
 main { min-height: 0; }
 
@@ -553,6 +562,8 @@ main { min-height: 0; }
     width: 320px;
     max-width: 85vw;
     height: 100vh;
+    height: 100dvh;
+    height: -webkit-fill-available;
     background: var(--dropdown-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
