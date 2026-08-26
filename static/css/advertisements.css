@@ -6,7 +6,9 @@
 .ad-carousel {
     position: relative;
     width: 100%;
-    height: 250px;
+    aspect-ratio: 1248 / 250;
+    height: auto;
+    max-height: 250px;
     margin: 0 0 24px 0;
     overflow: hidden;
     border-radius: 12px;
@@ -494,6 +496,19 @@ a.ad-card:hover {
     .ad-carousel {
         margin-bottom: 16px;
         border-radius: 8px;
+        aspect-ratio: 16 / 9;
+        max-height: 180px;
+    }
+    .ad-carousel-slide img {
+        object-position: center center;
+    }
+    .banner-text-overlay {
+        bottom: 12px;
+        left: 12px;
+        max-width: 85%;
+    }
+    .banner-title {
+        font-size: 1.1rem;
     }
 
     .ad-preview-popup {
