@@ -53,14 +53,10 @@
         if (hide) {
             positionRow.style.display = 'none';
             if (positionSelect) {
-                positionSelect.value = '';
+                // evita trigger recursivo — só limpa se ainda tiver valor
+                if (positionSelect.value) positionSelect.value = '';
                 positionSelect.disabled = true;
                 positionSelect.removeAttribute('required');
-                // notifica select2 para limpar seleção visual
-                try {
-                    if (window.jQuery) window.jQuery('#id_position').val('').trigger('change.select2');
-                    if (window.django && window.django.jQuery) window.django.jQuery('#id_position').val('').trigger('change.select2');
-                } catch (e) {}
             }
             if (s2) s2.style.display = 'none';
         } else {
@@ -69,7 +65,6 @@
                 positionSelect.disabled = false;
             }
             if (s2) s2.style.display = '';
-            // garante que container genérico dentro da linha também volte
             var innerS2 = positionRow.querySelector('.select2-container');
             if (innerS2) innerS2.style.display = '';
         }
@@ -92,13 +87,6 @@
         togglePosition();
         setTimeout(togglePosition, 300);
         setTimeout(togglePosition, 800);
-        setTimeout(togglePosition, 1500);
-        // observer para quando jazzmin re-renderiza abas
-        try {
-            var obs = new MutationObserver(togglePosition);
-            obs.observe(document.body, { childList: true, subtree: true });
-            setTimeout(function() { obs.disconnect(); }, 5000);
-        } catch (e) {}
     }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
