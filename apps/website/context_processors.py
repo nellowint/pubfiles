@@ -47,8 +47,12 @@ def website_settings(request):
     if settings_obj and getattr(settings_obj, 'seo_keywords', ''):
         seo_keywords = [k.strip() for k in settings_obj.seo_keywords.split(',') if k.strip()]
 
+    # variante sem espaços para SEO (ex: "Site HQ" -> "SiteHQ") — ajuda Google a associar "site hq" e "sitehq"
+    site_title_compact = site_title.replace(" ", "") if site_title else ""
+
     return {
         'site_title': site_title,
+        'site_title_compact': site_title_compact,
         'site_subtitle': site_subtitle,
         'site_description': site_description,
         'site_logo': logo_url,

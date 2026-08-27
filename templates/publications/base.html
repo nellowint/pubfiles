@@ -29,6 +29,27 @@
     <meta name="twitter:image" content="{{ site_logo }}">
     {% endblock head_meta %}
 
+    {# JSON-LD WebSite — alternateName ensina o Google que "Site HQ" e "SiteHQ" são a mesma entidade #}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "{{ site_title }}",
+        "alternateName": ["{{ site_title_compact }}", "{{ site_title|lower }}", "{{ site_title_compact|lower }}"],
+        "url": "{{ seo_canonical_domain }}/",
+        "inLanguage": "{{ LANGUAGE_CODE }}",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ seo_canonical_domain }}/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    <link rel="alternate" hreflang="pt-br" href="{{ seo_canonical_domain }}{{ request.path }}">
+    <link rel="alternate" hreflang="en" href="{{ seo_canonical_domain }}/en{{ request.path }}">
+    <link rel="alternate" hreflang="es" href="{{ seo_canonical_domain }}/es{{ request.path }}">
+    <link rel="alternate" hreflang="x-default" href="{{ seo_canonical_domain }}{{ request.path }}">
+
     <style>
         :root {
             --primary-color: {{ color_light_primary|default:"#FFFFFF" }};
