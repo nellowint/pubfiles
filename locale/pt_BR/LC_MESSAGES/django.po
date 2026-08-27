@@ -786,6 +786,19 @@ msgstr ""
 "Assinaturas Premium não estão disponíveis no momento. Tente novamente mais "
 "tarde."
 
+#: templates/publications/base.html:242 templates/website/contact.html:4
+#: templates/website/contact.html:7
+msgid "Contact"
+msgstr "Contato"
+
+#: templates/website/contact.html:12
+msgid "Social media"
+msgstr "Redes sociais"
+
+#: templates/website/contact.html:20
+msgid "No contact information available."
+msgstr "Nenhuma informação de contato disponível."
+
 #~ msgid "Keep subscription"
 #~ msgstr "Manter assinatura"
 

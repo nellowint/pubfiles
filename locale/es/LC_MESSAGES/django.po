@@ -822,6 +822,19 @@ msgstr ""
 "Las suscripciones Premium no están disponibles en este momento. Inténtalo de "
 "nuevo más tarde."
 
+#: templates/publications/base.html:242 templates/website/contact.html:4
+#: templates/website/contact.html:7
+msgid "Contact"
+msgstr "Contacto"
+
+#: templates/website/contact.html:12
+msgid "Social media"
+msgstr "Redes sociales"
+
+#: templates/website/contact.html:20
+msgid "No contact information available."
+msgstr "No hay información de contacto disponible."
+
 #~ msgid "Keep subscription"
 #~ msgstr "Mantener suscripción"
 

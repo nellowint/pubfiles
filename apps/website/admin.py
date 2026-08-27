@@ -96,6 +96,7 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
         ('Tema Claro', {'fields': ('light_theme_primary', 'light_theme_secondary')}),
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),
         ('Termos', {'fields': ('privacy_policy', 'terms')}),
+        ('Contato', {'fields': ('contact_email',)}),
         ('Avisos', {'fields': ('start_message',)}),
     )
     inlines = [BannerInline, SocialMediaInline]

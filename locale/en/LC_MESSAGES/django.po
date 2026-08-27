@@ -786,6 +786,19 @@ msgid ""
 "later."
 msgstr ""
 
+#: templates/publications/base.html:242 templates/website/contact.html:4
+#: templates/website/contact.html:7
+msgid "Contact"
+msgstr "Contact"
+
+#: templates/website/contact.html:12
+msgid "Social media"
+msgstr "Social media"
+
+#: templates/website/contact.html:20
+msgid "No contact information available."
+msgstr "No contact information available."
+
 #~ msgid "Save Avatar"
 #~ msgstr "Save Avatar"
 

@@ -2,6 +2,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from apps.website.models import WebSettings
+from apps.website.views import contact_view
 
 
 class PrivacyView(TemplateView):
@@ -27,4 +28,5 @@ class TermsView(TemplateView):
 urlpatterns = [
     path('privacy/', PrivacyView.as_view(), name='privacy_policy'),
     path('terms/', TermsView.as_view(), name='terms'),
+    path('contato/', contact_view, name='contact'),
 ]

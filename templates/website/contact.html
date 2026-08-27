@@ -1,0 +1,30 @@
+{% extends "publications/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Contact' %}{% endblock %}
+
+{% block content %}
+<div class="legal-page">
+    <h1>{% trans 'Contact' %}</h1>
+    <div class="legal-content">
+        {% if site_contact_email %}
+        <p>
+            {% trans 'Email' %}: <a href="mailto:{{ site_contact_email }}">{{ site_contact_email }}</a>
+        </p>
+        {% endif %}
+
+        {% if social_media %}
+        <h2>{% trans 'Social media' %}</h2>
+        <ul>
+            {% for link in social_media %}
+            <li><a href="{{ link.url }}" target="_blank" rel="noopener">{{ link.get_platform_display }} — {{ link.url }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if not site_contact_email and not social_media %}
+        <p>{% trans 'No contact information available.' %}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

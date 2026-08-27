@@ -91,6 +91,11 @@ class WebSettings(models.Model):
         verbose_name='Mensagem de aviso',
         help_text='Exibida em um modal na página inicial. Deixe vazio para desativar.',
     )
+    contact_email = models.EmailField(
+        blank=True,
+        verbose_name='E-mail de contato',
+        help_text='Exibido na página de contato',
+    )
 
     class Meta:
         verbose_name = 'Configuração do site'

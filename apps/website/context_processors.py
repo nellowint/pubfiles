@@ -50,6 +50,10 @@ def website_settings(request):
     # variante sem espaços para SEO (ex: "Site HQ" -> "SiteHQ") — ajuda Google a associar "site hq" e "sitehq"
     site_title_compact = site_title.replace(" ", "") if site_title else ""
 
+    site_contact_email = ""
+    if settings_obj and getattr(settings_obj, 'contact_email', ''):
+        site_contact_email = settings_obj.contact_email.strip()
+
     # SocialMedia — múltiplas redes (X, Instagram, Facebook, TikTok, YouTube)
     social_media = []
     site_social_sameAs = []
@@ -87,6 +91,7 @@ def website_settings(request):
     return {
         'site_title': site_title,
         'site_title_compact': site_title_compact,
+        'site_contact_email': site_contact_email,
         'social_media': social_media,
         'site_social_sameAs': site_social_sameAs,
         'site_twitter_url': site_twitter_url,
