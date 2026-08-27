@@ -85,7 +85,7 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
     search_fields = ['title', 'subtitle', 'description']
     readonly_fields = ['title']
     fieldsets = (
-        ('Título', {'fields': ('title', 'subtitle', 'description', 'logo', 'batch_upload')}),
+        ('Título', {'fields': ('title', 'subtitle', 'description', 'seo_keywords', 'logo', 'batch_upload')}),
         ('Backgrounds', {'fields': ('background', 'background_mobile')}),
         ('Tema Claro', {'fields': ('light_theme_primary', 'light_theme_secondary')}),
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),

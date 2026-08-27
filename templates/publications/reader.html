@@ -6,6 +6,7 @@
 
 {% block head_meta %}
     <meta name="description" content="{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}">
+    {% if seo_keywords %}<meta name="keywords" content="{{ seo_keywords|join:", " }}">{% endif %}
     <link rel="canonical" href="{{ seo_canonical_domain }}{{ request.path }}">
     <meta property="og:title" content="{{ site_title }}{% if site_subtitle %} - {{ site_subtitle }}{% endif %} - {{ publication.title }} - {% trans "Page" %} {{ page_number }}">
     <meta property="og:description" content="{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}">

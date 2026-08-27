@@ -17,8 +17,7 @@ DEBUG = os.getenv('DEBUG', '0') == '1'
 
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',') if os.getenv('DJANGO_ALLOWED_HOSTS') else ['*'] if DEBUG else []
 
-# SEO: palavras-chave (lista separada por vírgula no .env) e domínio canônico (sempre com www)
-SEO_KEYWORDS = [k.strip() for k in os.getenv('SEO_KEYWORDS', '').split(',') if k.strip()]
+# SEO: domínio canônico (sempre com www) — keywords agora em WebSettings.seo_keywords
 SEO_CANONICAL_DOMAIN = f"https://www.{os.getenv('DOMAIN', 'localhost')}"
 
 

@@ -43,6 +43,10 @@ def website_settings(request):
             qs = qs.filter(advertisement__isnull=True)
         website_banners = list(qs)
 
+    seo_keywords = []
+    if settings_obj and getattr(settings_obj, 'seo_keywords', ''):
+        seo_keywords = [k.strip() for k in settings_obj.seo_keywords.split(',') if k.strip()]
+
     return {
         'site_title': site_title,
         'site_subtitle': site_subtitle,
@@ -56,7 +60,7 @@ def website_settings(request):
         'color_dark_primary': dark_primary,
         'color_dark_secondary': dark_secondary,
         'web_settings': settings_obj,
-        'seo_keywords': settings.SEO_KEYWORDS,
+        'seo_keywords': seo_keywords,
         'seo_canonical_domain': settings.SEO_CANONICAL_DOMAIN,
         'website_banners': website_banners,
     }

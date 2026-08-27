@@ -25,6 +25,12 @@ class WebSettings(models.Model):
         verbose_name='Descrição',
         help_text='Usada como meta description de SEO (Limite de 160 caracteres)',
     )
+    seo_keywords = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name='Palavras-chave SEO',
+        help_text='Separadas por vírgula. Ex: revista, ebook, quadrinhos',
+    )
     logo = models.ImageField(
         upload_to=MediaPath('website/logo'),
         verbose_name='Logo do site',
