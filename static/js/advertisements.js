@@ -69,15 +69,47 @@
         startAutoPlay();
     }
 
-    function createAdIframe(scriptHtml, container) {
+    function createAdIframe(scriptHtml, container, adId) {
         var iframe = document.createElement('iframe');
         iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;min-height:250px;';
         iframe.setAttribute('scrolling', 'no');
         iframe.setAttribute('frameborder', '0');
+        if (adId) iframe.dataset.adId = adId;
         var doc = '<!DOCTYPE html><html><head><meta charset=\"utf-8\"><style>html,body{margin:0;padding:0;background:transparent;display:flex;align-items:center;justify-content:center;min-height:100%;}</style></head><body>' + scriptHtml + '</body></html>';
         iframe.srcdoc = doc;
         container.innerHTML = '';
         container.appendChild(iframe);
+
+        // Polling via rAF: detecta clique dentro do iframe same-origin (srcdoc) via activeElement
+        // Conta a cada vez que o iframe ganha foco (cada clique)
+        (function pollIframeFocus() {
+            var wasFocused = false;
+            function check() {
+                var isFocused = document.activeElement === iframe;
+                if (isFocused && !wasFocused) {
+                    wasFocused = true;
+                    var wrapper = iframe.closest('.ad-card-wrapper');
+                    if (wrapper) {
+                        var id = iframe.dataset.adId;
+                        var tokenEl = document.querySelector('[name=csrfmiddlewaretoken]');
+                        if (id && tokenEl) {
+                            fetch('/advertisements/click/' + id + '/', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': tokenEl.value,
+                                    'Content-Type': 'application/json'
+                                },
+                                keepalive: true
+                            });
+                        }
+                    }
+                } else if (!isFocused && wasFocused) {
+                    wasFocused = false;
+                }
+                requestAnimationFrame(check);
+            }
+            requestAnimationFrame(check);
+        })();
     }
 
     function decodeHtml(str) {
@@ -110,7 +142,7 @@
             var decoded = decodeHtml(raw);
             var container = card.querySelector('.ad-script-container');
             if (container && decoded) {
-                createAdIframe(decoded, container);
+                createAdIframe(decoded, container, card.getAttribute('data-ad-id'));
             }
             card.dataset.rendered = '1';
         });
@@ -214,29 +246,6 @@
         
         adCardsInitialized = true;
     }
-
-    // Cliques dentro do iframe cross-origin não propagam para o parent — detecta via blur + activeElement
-    // Quando o usuário clica no conteúdo do iframe, a janela perde foco e o iframe vira activeElement
-    window.addEventListener('blur', function() {
-        setTimeout(function() {
-            var active = document.activeElement;
-            if (!active || active.tagName !== 'IFRAME') return;
-            var wrapper = active.closest('.ad-card-wrapper');
-            if (!wrapper) return;
-            var adId = wrapper.getAttribute('data-ad-id');
-            if (!adId) return;
-            var tokenEl = document.querySelector('[name=csrfmiddlewaretoken]');
-            if (!tokenEl) return;
-            fetch('/advertisements/click/' + adId + '/', {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': tokenEl.value,
-                    'Content-Type': 'application/json'
-                },
-                keepalive: true
-            });
-        }, 0);
-    });
 
     // Debounce para resize
     var resizeTimer;
