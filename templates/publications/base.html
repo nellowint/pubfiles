@@ -38,7 +38,7 @@
         "@type": "WebSite",
         "name": "{{ site_title }}",
         "alternateName": ["{{ site_title_compact }}", "{{ site_title|lower }}", "{{ site_title_compact|lower }}"],
-        {% if site_twitter_url %}"sameAs": ["{{ site_twitter_url }}"],{% endif %}
+        {% if site_social_sameAs %}"sameAs": [{% for u in site_social_sameAs %}"{{ u }}"{% if not forloop.last %}, {% endif %}{% endfor %}],{% elif site_twitter_url %}"sameAs": ["{{ site_twitter_url }}"],{% endif %}
         "url": "{{ seo_canonical_domain }}/",
         "inLanguage": "{{ LANGUAGE_CODE }}",
         "potentialAction": {

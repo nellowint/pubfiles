@@ -31,11 +31,6 @@ class WebSettings(models.Model):
         verbose_name='Palavras-chave SEO',
         help_text='Separadas por vírgula. Ex: revista, ebook, quadrinhos',
     )
-    twitter_url = models.URLField(
-        blank=True,
-        verbose_name='Twitter / X',
-        help_text='URL completa do perfil. Ex: https://x.com/seuperfil ou https://twitter.com/seuperfil',
-    )
     logo = models.ImageField(
         upload_to=MediaPath('website/logo'),
         verbose_name='Logo do site',
@@ -177,3 +172,45 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.title or f'Banner {self.pk}'
+
+
+class SocialPlatform(models.TextChoices):
+    X = 'x', 'X / Twitter'
+    INSTAGRAM = 'instagram', 'Instagram'
+    FACEBOOK = 'facebook', 'Facebook'
+    TIKTOK = 'tiktok', 'TikTok'
+    YOUTUBE = 'youtube', 'YouTube'
+
+
+class SocialMedia(models.Model):
+    website = models.ForeignKey(
+        WebSettings,
+        on_delete=models.CASCADE,
+        related_name='social_media',
+        verbose_name='Website',
+    )
+    platform = models.CharField(
+        max_length=20,
+        choices=SocialPlatform.choices,
+        verbose_name='Plataforma',
+    )
+    url = models.URLField(
+        verbose_name='URL',
+        help_text='URL completa do perfil',
+    )
+    order = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name='Ordem',
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='Ativo',
+    )
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = 'Rede social'
+        verbose_name_plural = 'Redes sociais'
+
+    def __str__(self):
+        return f'{self.get_platform_display()} - {self.url}'

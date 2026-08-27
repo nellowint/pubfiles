@@ -8,7 +8,7 @@ from modeltranslation.admin import TabbedTranslationAdmin
 
 from core.utils import validate_file_size
 
-from .models import WebSettings, Banner
+from .models import WebSettings, Banner, SocialMedia
 
 
 def _natural_sort_key(file):
@@ -33,6 +33,12 @@ class BannerInline(admin.StackedInline):
             return tpl.render({"page": instance})
         return '-'
     banner_thumbnail.short_description = "Preview"
+
+
+class SocialMediaInline(admin.TabularInline):
+    model = SocialMedia
+    extra = 0
+    fields = ('order', 'platform', 'url', 'is_active')
 
 
 class WebSettingsAdminForm(forms.ModelForm):
@@ -85,14 +91,14 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
     search_fields = ['title', 'subtitle', 'description']
     readonly_fields = ['title']
     fieldsets = (
-        ('Título', {'fields': ('title', 'subtitle', 'description', 'seo_keywords', 'twitter_url', 'logo', 'batch_upload')}),
+        ('Título', {'fields': ('title', 'subtitle', 'description', 'seo_keywords', 'logo', 'batch_upload')}),
         ('Backgrounds', {'fields': ('background', 'background_mobile')}),
         ('Tema Claro', {'fields': ('light_theme_primary', 'light_theme_secondary')}),
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),
         ('Termos', {'fields': ('privacy_policy', 'terms')}),
         ('Avisos', {'fields': ('start_message',)}),
     )
-    inlines = [BannerInline]
+    inlines = [BannerInline, SocialMediaInline]
 
     def has_add_permission(self, request):
         if WebSettings.objects.exists():

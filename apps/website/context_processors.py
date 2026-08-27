@@ -50,20 +50,45 @@ def website_settings(request):
     # variante sem espaços para SEO (ex: "Site HQ" -> "SiteHQ") — ajuda Google a associar "site hq" e "sitehq"
     site_title_compact = site_title.replace(" ", "") if site_title else ""
 
+    # SocialMedia — múltiplas redes (X, Instagram, Facebook, TikTok, YouTube)
+    social_media = []
+    site_social_sameAs = []
     site_twitter_url = ""
     site_twitter_handle = ""
-    if settings_obj and getattr(settings_obj, 'twitter_url', ''):
-        site_twitter_url = settings_obj.twitter_url.strip()
-        if site_twitter_url:
-            handle = site_twitter_url.rstrip("/").split("/")[-1]
-            if handle:
-                if not handle.startswith("@"):
-                    handle = "@" + handle
-                site_twitter_handle = handle
+    if settings_obj:
+        try:
+            qs_social = settings_obj.social_media.filter(is_active=True).order_by('order')
+            social_media = list(qs_social)
+            site_social_sameAs = [s.url for s in social_media if s.url]
+            # primeiro X para twitter:site
+            for s in social_media:
+                if s.platform == 'x' and s.url:
+                    site_twitter_url = s.url.strip()
+                    handle = site_twitter_url.rstrip("/").split("/")[-1]
+                    if handle:
+                        if not handle.startswith("@"):
+                            handle = "@" + handle
+                        site_twitter_handle = handle
+                    break
+        except Exception:
+            pass
+        # fallback legado: twitter_url single field (antes da migração para SocialMedia)
+        if not site_twitter_url and getattr(settings_obj, 'twitter_url', ''):
+            site_twitter_url = settings_obj.twitter_url.strip()
+            if site_twitter_url:
+                handle = site_twitter_url.rstrip("/").split("/")[-1]
+                if handle:
+                    if not handle.startswith("@"):
+                        handle = "@" + handle
+                    site_twitter_handle = handle
+                if site_twitter_url not in site_social_sameAs:
+                    site_social_sameAs = [site_twitter_url] + site_social_sameAs
 
     return {
         'site_title': site_title,
         'site_title_compact': site_title_compact,
+        'social_media': social_media,
+        'site_social_sameAs': site_social_sameAs,
         'site_twitter_url': site_twitter_url,
         'site_twitter_handle': site_twitter_handle,
         'site_subtitle': site_subtitle,
