@@ -35,7 +35,7 @@ class BannerInline(admin.StackedInline):
     banner_thumbnail.short_description = "Preview"
 
 
-class SocialMediaInline(admin.TabularInline):
+class SocialMediaInline(admin.StackedInline):
     model = SocialMedia
     extra = 0
     fields = ('order', 'platform', 'url', 'is_active')
@@ -91,12 +91,11 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
     search_fields = ['title', 'subtitle', 'description']
     readonly_fields = ['title']
     fieldsets = (
-        ('Título', {'fields': ('title', 'subtitle', 'description', 'seo_keywords', 'logo', 'batch_upload')}),
+        ('Título', {'fields': ('title', 'subtitle', 'description', 'contact_email', 'seo_keywords', 'logo', 'batch_upload')}),
         ('Backgrounds', {'fields': ('background', 'background_mobile')}),
         ('Tema Claro', {'fields': ('light_theme_primary', 'light_theme_secondary')}),
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),
         ('Termos', {'fields': ('privacy_policy', 'terms')}),
-        ('Contato', {'fields': ('contact_email',)}),
         ('Avisos', {'fields': ('start_message',)}),
     )
     inlines = [BannerInline, SocialMediaInline]
