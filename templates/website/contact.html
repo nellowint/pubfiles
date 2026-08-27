@@ -1,23 +1,52 @@
 {% extends "publications/base.html" %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}{% trans 'Contact' %}{% endblock %}
+
+{% block extra_css %}
+<style>
+.contact-list { list-style: none; padding: 0; margin: 16px 0 0 0; display: flex; flex-direction: column; gap: 12px; }
+.contact-item { display: flex; align-items: center; gap: 10px; }
+.contact-item a { color: var(--text-color); text-decoration: none; word-break: break-all; }
+.contact-item a:hover { text-decoration: underline; }
+.contact-icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--text-color); opacity: 0.85; }
+.contact-email { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.contact-email a { color: var(--text-color); }
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="legal-page">
     <h1>{% trans 'Contact' %}</h1>
     <div class="legal-content">
         {% if site_contact_email %}
-        <p>
-            {% trans 'Email' %}: <a href="mailto:{{ site_contact_email }}">{{ site_contact_email }}</a>
+        <p class="contact-email">
+            <svg class="contact-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <span>{% trans 'Email' %}: <a href="mailto:{{ site_contact_email }}">{{ site_contact_email }}</a></span>
         </p>
         {% endif %}
 
         {% if social_media %}
         <h2>{% trans 'Social media' %}</h2>
-        <ul>
+        <ul class="contact-list">
             {% for link in social_media %}
-            <li><a href="{{ link.url }}" target="_blank" rel="noopener">{{ link.get_platform_display }} — {{ link.url }}</a></li>
+            <li class="contact-item">
+                {% if link.platform == 'x' %}
+                <svg class="contact-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M18.9 3H22l-6.5 7.4L22 21h-4.5l-4-4.7L8.5 21H4l7-8L4.5 3H9l3.5 4.1L18.9 3z"/></svg>
+                {% elif link.platform == 'instagram' %}
+                <svg class="contact-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                {% elif link.platform == 'facebook' %}
+                <svg class="contact-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                {% elif link.platform == 'tiktok' %}
+                <svg class="contact-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12a4 4 0 104 4V8a6 6 0 004 1.2V8a4 4 0 01-4-1V12z"/></svg>
+                {% elif link.platform == 'youtube' %}
+                <svg class="contact-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M22.5 12a3.5 3.5 0 01-3.5 3.5H5a3.5 3.5 0 01-3.5-3.5A3.5 3.5 0 015 8.5h14A3.5 3.5 0 0122.5 12z"/><polygon points="10,9 15,12 10,15" fill="currentColor" stroke="none"/></svg>
+                {% else %}
+                <svg class="contact-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101"/></svg>
+                {% endif %}
+                <a href="{{ link.url }}" target="_blank" rel="noopener">{{ link.get_platform_display }} — {{ link.url }}</a>
+            </li>
             {% endfor %}
         </ul>
         {% endif %}
