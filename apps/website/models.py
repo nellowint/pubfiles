@@ -148,7 +148,7 @@ class Banner(models.Model):
         blank=True,
         related_name='banners',
         verbose_name='Anúncio',
-        help_text='Se preenchido, ignora a imagem. Somente SmartLink.',
+        help_text='Torna a imagem do banner clicável, redirecionando para o link. Apenas SmartLink.',
         limit_choices_to={'type': 'smart_link', 'is_active': True},
     )
     order = models.PositiveSmallIntegerField(

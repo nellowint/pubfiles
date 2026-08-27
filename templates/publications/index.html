@@ -16,43 +16,30 @@
         <div class="ad-carousel-track">
             {% for banner in website_banners %}
             <div class="ad-carousel-slide">
-                {% if banner.advertisement %}
-                    {% if banner.advertisement.is_script %}
-                        {% include "advertisements/_ad_render.html" with ad=banner.advertisement %}
-                    {% else %}
-                        <a href="{{ banner.advertisement.link }}" target="_blank" rel="noopener sponsored" class="banner-link">
-                            <div class="banner-image-wrapper">
+                {% if banner.image %}
+                    {% if banner.advertisement and not banner.advertisement.is_script %}
+                    <a href="{{ banner.advertisement.link }}" target="_blank" rel="noopener sponsored" class="banner-link">
+                    {% endif %}
+                        <div class="banner-image-wrapper">
+                            <picture>
+                                {% if banner.image_mobile %}<source media="(max-width: 768px)" srcset="{{ banner.image_mobile.url }}">{% endif %}
                                 <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
-                                {% if banner.title or banner.subtitle %}
-                                <div class="banner-text-overlay">
-                                    {% if banner.title %}
-                                    <h3 class="banner-title">{{ banner.title }}</h3>
-                                    {% endif %}
-                                    {% if banner.subtitle %}
-                                    <p class="banner-subtitle">{{ banner.subtitle }}</p>
-                                    {% endif %}
-                                </div>
+                            </picture>
+                            {% if banner.title or banner.subtitle %}
+                            <div class="banner-text-overlay">
+                                {% if banner.title %}
+                                <h3 class="banner-title">{{ banner.title }}</h3>
+                                {% endif %}
+                                {% if banner.subtitle %}
+                                <p class="banner-subtitle">{{ banner.subtitle }}</p>
                                 {% endif %}
                             </div>
-                        </a>
-                    {% endif %}
-                {% elif banner.image %}
-                    <div class="banner-image-wrapper">
-                        <picture>
-                            {% if banner.image_mobile %}<source media="(max-width: 768px)" srcset="{{ banner.image_mobile.url }}">{% endif %}
-                            <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
-                        </picture>
-                        {% if banner.title or banner.subtitle %}
-                        <div class="banner-text-overlay">
-                            {% if banner.title %}
-                            <h3 class="banner-title">{{ banner.title }}</h3>
-                            {% endif %}
-                            {% if banner.subtitle %}
-                            <p class="banner-subtitle">{{ banner.subtitle }}</p>
                             {% endif %}
                         </div>
-                        {% endif %}
-                    </div>
+                    {% if banner.advertisement and not banner.advertisement.is_script %}</a>{% endif %}
+                    {% if banner.advertisement and banner.advertisement.is_script %}
+                        {% include "advertisements/_ad_render.html" with ad=banner.advertisement %}
+                    {% endif %}
                 {% endif %}
             </div>
             {% endfor %}
