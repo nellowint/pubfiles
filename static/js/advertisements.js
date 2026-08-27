@@ -198,28 +198,6 @@
         var minPos = 2;
         var maxPos = Math.max(minPos, pubCards.length - 1);
 
-        // Função para trackear cliques (área do card fora do iframe)
-        function trackClick(card) {
-            if (card.dataset.tracked) return;
-            card.dataset.tracked = 'true';
-            card.addEventListener('click', function(e) {
-                // cliques dentro do iframe não propagam — são tratados via blur abaixo
-                if (e.target.tagName === 'IFRAME') return;
-                var adId = card.getAttribute('data-ad-id');
-                if (!adId) return;
-                var tokenEl = document.querySelector('[name=csrfmiddlewaretoken]');
-                if (!tokenEl) return;
-                fetch('/advertisements/click/' + adId + '/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': tokenEl.value,
-                        'Content-Type': 'application/json'
-                    },
-                    keepalive: true
-                });
-            });
-        }
-
         // Posiciona os cards que serão mostrados
         for (var i = 0; i < adsToShow; i++) {
             var adCard = adCards[i];
@@ -236,7 +214,6 @@
                 grid.insertBefore(adCard, pubCards[randomPos]);
             }
             adCard.style.display = '';
-            trackClick(adCard);
         }
         
         // Esconde os cards que não serão mostrados
