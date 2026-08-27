@@ -1,4 +1,4 @@
-// Esconde posição quando tipo é SOCIALBAR (não depende de posição)
+// Esconde posição quando tipo é SOCIALBAR ou SMARTLINK (não dependem de posição)
 (function() {
     function findPositionRow() {
         // Jazzmin tem 2 elementos .field-position: outer form-group e inner col; precisamos do outer que contém o label
@@ -19,7 +19,7 @@
         var positionRow = findPositionRow();
         var positionSelect = document.getElementById('id_position');
         if (!typeSelect || !positionRow) return;
-        if (typeSelect.value === 'social_bar') {
+        if (typeSelect.value === 'social_bar' || typeSelect.value === 'smart_link') {
             positionRow.style.display = 'none';
             if (positionSelect) {
                 positionSelect.value = '';

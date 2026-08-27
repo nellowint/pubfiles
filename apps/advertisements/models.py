@@ -40,7 +40,7 @@ class Advertisements(models.Model):
         choices=AdvertisementsPositions.choices,
         verbose_name='Posição',
         blank=True,
-        help_text='Não necessário para SocialBar'
+        help_text='Não necessário para SocialBar e SmartLink'
     )
     ratings_count = models.PositiveIntegerField(
         default=0,
@@ -58,14 +58,14 @@ class Advertisements(models.Model):
         verbose_name_plural = 'Anúncios'
 
     def __str__(self):
-        if self.type == AdvertisementsType.SOCIALBAR:
+        if self.type in (AdvertisementsType.SOCIALBAR, AdvertisementsType.SMARTLINK):
             return f'{self.get_type_display()} - {self.title or self.link[:30]}'
         return f'{self.get_position_display()} - {self.get_type_display()}'
 
     def clean(self):
         from django.core.exceptions import ValidationError
-        # socialbar não depende de posição
-        if self.type == AdvertisementsType.SOCIALBAR:
+        # socialbar e smartlink não dependem de posição
+        if self.type in (AdvertisementsType.SOCIALBAR, AdvertisementsType.SMARTLINK):
             self.position = ''
         elif not self.position:
             raise ValidationError({'position': 'Selecione uma posição para este tipo de anúncio.'})
