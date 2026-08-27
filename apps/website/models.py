@@ -31,6 +31,11 @@ class WebSettings(models.Model):
         verbose_name='Palavras-chave SEO',
         help_text='Separadas por vírgula. Ex: revista, ebook, quadrinhos',
     )
+    twitter_url = models.URLField(
+        blank=True,
+        verbose_name='Twitter / X',
+        help_text='URL completa do perfil. Ex: https://x.com/seuperfil ou https://twitter.com/seuperfil',
+    )
     logo = models.ImageField(
         upload_to=MediaPath('website/logo'),
         verbose_name='Logo do site',

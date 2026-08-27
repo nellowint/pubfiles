@@ -27,6 +27,8 @@
     <meta name="twitter:description" content="{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}">
     <meta name="twitter:url" content="{{ seo_canonical_domain }}{{ request.path }}">
     <meta name="twitter:image" content="{{ site_logo }}">
+    {% if site_twitter_handle %}<meta name="twitter:site" content="{{ site_twitter_handle }}">
+    <meta name="twitter:creator" content="{{ site_twitter_handle }}">{% endif %}
     {% endblock head_meta %}
 
     {# JSON-LD WebSite — alternateName ensina o Google que "Site HQ" e "SiteHQ" são a mesma entidade #}
@@ -36,6 +38,7 @@
         "@type": "WebSite",
         "name": "{{ site_title }}",
         "alternateName": ["{{ site_title_compact }}", "{{ site_title|lower }}", "{{ site_title_compact|lower }}"],
+        {% if site_twitter_url %}"sameAs": ["{{ site_twitter_url }}"],{% endif %}
         "url": "{{ seo_canonical_domain }}/",
         "inLanguage": "{{ LANGUAGE_CODE }}",
         "potentialAction": {

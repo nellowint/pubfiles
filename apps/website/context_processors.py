@@ -50,9 +50,22 @@ def website_settings(request):
     # variante sem espaços para SEO (ex: "Site HQ" -> "SiteHQ") — ajuda Google a associar "site hq" e "sitehq"
     site_title_compact = site_title.replace(" ", "") if site_title else ""
 
+    site_twitter_url = ""
+    site_twitter_handle = ""
+    if settings_obj and getattr(settings_obj, 'twitter_url', ''):
+        site_twitter_url = settings_obj.twitter_url.strip()
+        if site_twitter_url:
+            handle = site_twitter_url.rstrip("/").split("/")[-1]
+            if handle:
+                if not handle.startswith("@"):
+                    handle = "@" + handle
+                site_twitter_handle = handle
+
     return {
         'site_title': site_title,
         'site_title_compact': site_title_compact,
+        'site_twitter_url': site_twitter_url,
+        'site_twitter_handle': site_twitter_handle,
         'site_subtitle': site_subtitle,
         'site_description': site_description,
         'site_logo': logo_url,
