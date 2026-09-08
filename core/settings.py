@@ -161,6 +161,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DATA_UPLOAD_MAX_NUMBER_FILES = 500
 
+TEST_RUNNER = 'core.test_runner.PubfilesTestRunner'
+
 CSRF_TRUSTED_ORIGINS = [
     f'https://{os.getenv("DOMAIN", "localhost")}',
     f'https://www.{os.getenv("DOMAIN", "localhost")}',
