@@ -90,7 +90,7 @@ class PublicationAdmin(TabbedTranslationAdmin):
         form.save_pages(form.instance)
 
     class Media:
-        js = ('js/admin-clickable-rows.js',)
+        js = ('js/admin-clickable-rows.js', 'js/admin-publication-pages.js')
 
 
 @admin.register(Comment)
