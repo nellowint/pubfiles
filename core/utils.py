@@ -10,7 +10,12 @@ FILE_SIZE_LIMIT_MB = 1
 
 def validate_file_size(value):
     limit = FILE_SIZE_LIMIT_MB * 1024 * 1024
-    if value.size > limit:
+    try:
+        size = value.size
+    except OSError:
+        # arquivo referenciado sumiu do disco — não gera 500, admin segue utilizável
+        return
+    if size > limit:
         raise ValidationError(
             f'Arquivo muito grande. Tamanho máximo permitido: {FILE_SIZE_LIMIT_MB} MB.'
         )
