@@ -6,12 +6,13 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetView
 from django.conf import settings
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.core.mail import send_mail
 from django.template.loader import render_to_string
+
+from core.email import send_mail_async
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
@@ -136,7 +137,7 @@ def register_view(request):
                 'confirmation_url': confirmation_url,
                 'site_title': current_site.name,
             })
-            send_mail(subject, message, None, [user.email])
+            send_mail_async(subject, message, [user.email])
 
             return redirect('verification_sent')
     else:
@@ -171,6 +172,16 @@ def confirm_email_view(request, uidb64, token):
             'invalid_token': True,
             'next_url': next_url,
         })
+
+
+class AsyncPasswordResetView(PasswordResetView):
+    # Envia o e-mail de redefinição em background (mesmo comportamento do Django, só o SMTP é assíncrono)
+    def send_mail(self, subject_template_name, email_template_name,
+                  context, from_email, to_email, html_email_template_name=None):
+        subject = render_to_string(subject_template_name, context)
+        subject = ''.join(subject.splitlines())
+        body = render_to_string(email_template_name, context)
+        send_mail_async(subject, body, [to_email], from_email=from_email)
 
 
 @login_required

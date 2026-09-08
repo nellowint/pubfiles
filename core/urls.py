@@ -9,7 +9,7 @@ from django.views.static import serve
 
 from apps.accounts.views import (
     register_view, RememberMeLoginView, profile_view,
-    verification_sent_view, confirm_email_view,
+    verification_sent_view, confirm_email_view, AsyncPasswordResetView,
 )
 from apps.publications.sitemaps import PublicationSitemap, StaticSitemap
 from apps.website.views import robots_txt
@@ -47,7 +47,7 @@ urlpatterns = [
     path('confirm-email/<uidb64>/<token>/', confirm_email_view, name='confirm_email'),
     path('profile/', profile_view, name='profile'),
 
-    path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password-reset/', AsyncPasswordResetView.as_view(), name='password_reset'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('password-reset/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
