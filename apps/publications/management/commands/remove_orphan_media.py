@@ -5,7 +5,8 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
 from apps.publications.models import Page, Publication
-from apps.website.models import WebSettings
+from apps.subscriptions.models import SubscriptionSettings
+from apps.website.models import Banner, WebSettings
 
 
 class Command(BaseCommand):
@@ -51,7 +52,18 @@ class Command(BaseCommand):
             for field in ('logo', 'background', 'background_mobile'):
                 value = getattr(settings_obj, field, None)
                 if value:
-                    valid_paths.add(value)
+                    valid_paths.add(value.name)
+
+        for field in ('image', 'image_mobile'):
+            valid_paths.update(
+                Banner.objects.filter(**{f'{field}__isnull': False})
+                .exclude(**{f'{field}': ''})
+                .values_list(field, flat=True)
+            )
+
+        sub_settings = SubscriptionSettings.objects.first()
+        if sub_settings and sub_settings.product_image:
+            valid_paths.add(sub_settings.product_image.name)
 
         valid_paths.update(
             get_user_model().objects.filter(avatar__isnull=False).exclude(avatar='')
