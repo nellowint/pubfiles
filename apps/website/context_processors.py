@@ -54,6 +54,10 @@ def website_settings(request):
     if settings_obj and getattr(settings_obj, 'contact_email', ''):
         site_contact_email = settings_obj.contact_email.strip()
 
+    site_google_analytics = ""
+    if settings_obj and getattr(settings_obj, 'google_analytics', ''):
+        site_google_analytics = settings_obj.google_analytics.strip()
+
     # SocialMedia — múltiplas redes (X, Instagram, Facebook, TikTok, YouTube)
     social_media = []
     site_social_sameAs = []
@@ -92,6 +96,7 @@ def website_settings(request):
         'site_title': site_title,
         'site_title_compact': site_title_compact,
         'site_contact_email': site_contact_email,
+        'site_google_analytics': site_google_analytics,
         'social_media': social_media,
         'site_social_sameAs': site_social_sameAs,
         'site_twitter_url': site_twitter_url,

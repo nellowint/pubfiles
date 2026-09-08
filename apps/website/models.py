@@ -96,6 +96,11 @@ class WebSettings(models.Model):
         verbose_name='E-mail de contato',
         help_text='Exibido na página de contato',
     )
+    google_analytics = models.TextField(
+        blank=True,
+        verbose_name='Google Analytics',
+        help_text='Cole o script completo do Google Analytics (gtag.js). Deixe vazio para desativar.',
+    )
 
     class Meta:
         verbose_name = 'Configuração do site'

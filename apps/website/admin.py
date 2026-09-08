@@ -97,6 +97,7 @@ class WebSettingsAdmin(TabbedTranslationAdmin):
         ('Tema Escuro', {'fields': ('dark_theme_primary', 'dark_theme_secondary')}),
         ('Termos', {'fields': ('privacy_policy', 'terms')}),
         ('Avisos', {'fields': ('start_message',)}),
+        ('Integrações', {'fields': ('google_analytics',)}),
     )
     inlines = [BannerInline, SocialMediaInline]
 

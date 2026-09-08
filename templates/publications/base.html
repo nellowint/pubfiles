@@ -83,17 +83,7 @@
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
 
-    {% if not debug %}
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9P4J6P7J0"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-T9P4J6P7J0');
-        </script>
-    {% endif %}
+    {% if site_google_analytics %}{{ site_google_analytics|safe }}{% endif %}
 
     {% if ads_socialbar %}
         {% for ad in ads_socialbar %}
