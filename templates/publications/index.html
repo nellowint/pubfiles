@@ -151,6 +151,13 @@
     </div>
     {% endif %}
 
+    {% if site_subtitle or site_description %}
+    <section class="seo-intro">
+        {% if site_subtitle %}<h2 class="seo-intro-title">{{ site_subtitle }}</h2>{% endif %}
+        {% if site_description %}<p class="seo-intro-text">{{ site_description }}</p>{% endif %}
+    </section>
+    {% endif %}
+
     {% if ads_footer %}
     <div class="ad-footer ad-footer-desktop">
         {% include "advertisements/_ad_footer_render.html" with ad=ads_footer %}
