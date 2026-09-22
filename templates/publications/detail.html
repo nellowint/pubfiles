@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load publications_extras %}
 
-{% block title %}{{ publication.title }} - {% trans "Details" %}{% endblock %}
+{% block title %} - {{ publication.title }} - {% trans "Details" %}{% endblock %}
 
 {% block head_meta %}
     <meta name="description" content="{% if publication.description %}{{ publication.description|truncatechars:160 }}{% elif site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}">
