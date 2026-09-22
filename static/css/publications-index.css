@@ -317,3 +317,27 @@
         width: 100%;
     }
 }
+
+.seo-intro {
+    max-width: 800px;
+    margin: 8px auto 24px;
+    padding: 20px 24px;
+    text-align: center;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(12px);
+}
+.seo-intro-title {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    margin: 0 0 8px;
+    color: var(--text-color);
+}
+.seo-intro-text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-color);
+    opacity: 0.85;
+}
