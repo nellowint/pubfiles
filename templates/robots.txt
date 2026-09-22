@@ -4,13 +4,7 @@ Disallow: /admin/
 Disallow: /i18n/
 Disallow: /health/
 Disallow: /subscriptions/
-Disallow: /login/
 Disallow: /logout/
-Disallow: /register/
-Disallow: /profile/
-Disallow: /verification-sent/
-Disallow: /confirm-email/
-Disallow: /password-reset/
 Disallow: /*/comment/
 Disallow: /*/rate/
 Disallow: /comment/
