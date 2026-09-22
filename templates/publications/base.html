@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ site_title }} - {% block title %}{% endblock %}</title>
+    <title>{{ site_title }}{% block title %}{% endblock %}</title>
     <link rel="icon" type="image/png" href="{{ site_favicon }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,6 +30,7 @@
     {% if site_twitter_handle %}<meta name="twitter:site" content="{{ site_twitter_handle }}">
     <meta name="twitter:creator" content="{{ site_twitter_handle }}">{% endif %}
     {% endblock head_meta %}
+    {% block robots %}{% endblock %}
 
     {# JSON-LD WebSite — alternateName ensina o Google que "Site HQ" e "SiteHQ" são a mesma entidade #}
     <script type="application/ld+json">
@@ -123,7 +124,11 @@
                     <div class="nav-logo">
                         <img src="{{ site_logo }}" alt="{{ site_title }}">
                     </div>
+                    {% if request.resolver_match and request.resolver_match.url_name == 'home' %}
+                    <h1 class="nav-title">{{ site_title }}</h1>
+                    {% else %}
                     <span class="nav-title">{{ site_title }}</span>
+                    {% endif %}
                 </a>
 
                 <form action="{% url 'publications:home' %}" method="GET" class="search-form">
