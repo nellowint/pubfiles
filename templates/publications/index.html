@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{{ site_subtitle }}{% endblock %}
+{% block title %}{% if site_subtitle %} - {{ site_subtitle }}{% endif %}{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/publications-index.css' %}">
