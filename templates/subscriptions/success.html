@@ -2,7 +2,8 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Subscription Activated" %}{% endblock %}
+{% block title %} - {% trans "Subscription Activated" %}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/subscriptions.css' %}">
