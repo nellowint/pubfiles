@@ -15,7 +15,7 @@ from django.template.loader import render_to_string
 from core.email import send_mail_async
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 
 from .models import User
@@ -126,16 +126,17 @@ def register_view(request):
             user.email_verified = False
             user.save(update_fields=['email_verified'])
 
-            current_site = get_current_site(request)
             subject = 'Confirm your email address'
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = account_verification_token.make_token(user)
-            confirmation_url = f'http://{current_site.domain}/confirm-email/{uid}/{token}/'
+            confirmation_url = (
+                f'{settings.SEO_CANONICAL_DOMAIN}'
+                f'{reverse("confirm_email", kwargs={"uidb64": uid, "token": token})}'
+            )
 
             message = render_to_string('registration/account_verification_email.html', {
                 'user': user,
                 'confirmation_url': confirmation_url,
-                'site_title': current_site.name,
             })
             send_mail_async(subject, message, [user.email])
 
