@@ -49,6 +49,8 @@
                 </a>
             </div>
 
+            <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
+
             <button type="submit" class="btn-login-submit">{% trans 'Login to Account' %}</button>
         </form>
 
@@ -61,6 +63,7 @@
 
 {% block extra_js %}
 <script src="{% static 'js/password-toggle.js' %}"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
 (function () {
     var STORAGE_KEY = 'pubfiles_remember_login';
