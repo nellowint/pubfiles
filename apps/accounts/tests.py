@@ -2,11 +2,12 @@ from unittest.mock import patch
 
 from django.core import mail
 from django.core.cache import cache
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
+from apps.accounts import recaptcha as recaptcha_mod
 from apps.accounts.models import User
 from apps.accounts.tokens import account_verification_token
 from core import email as email_mod
@@ -278,3 +279,110 @@ class SendMailAsyncTests(TestCase):
                 self.assertTrue(email_mod.flush_email_queue(timeout=10))
         self.assertTrue(future.done())
         self.assertFalse(received.get('ok'))
+
+
+class FakeRecaptchaResponse:
+    def __init__(self, payload):
+        self._payload = payload
+
+    def json(self):
+        return self._payload
+
+
+def recaptcha_success():
+    return FakeRecaptchaResponse({'success': True})
+
+
+@override_settings(RECAPTCHA_SITE_KEY='test-site', RECAPTCHA_SECRET_KEY='test-secret')
+class RecaptchaHelperTests(TestCase):
+    def test_valid_token_returns_true(self):
+        with patch('apps.accounts.recaptcha.requests.post', return_value=recaptcha_success()):
+            self.assertTrue(recaptcha_mod.verify_recaptcha_token('token'))
+
+    def test_invalid_token_returns_false(self):
+        with patch('apps.accounts.recaptcha.requests.post',
+                   return_value=FakeRecaptchaResponse({'success': False})):
+            self.assertFalse(recaptcha_mod.verify_recaptcha_token('token'))
+
+    def test_network_error_returns_false(self):
+        with patch('apps.accounts.recaptcha.requests.post', side_effect=ConnectionError('down')):
+            self.assertFalse(recaptcha_mod.verify_recaptcha_token('token'))
+
+    def test_empty_token_returns_false(self):
+        self.assertFalse(recaptcha_mod.verify_recaptcha_token(''))
+
+    @override_settings(RECAPTCHA_SITE_KEY='', RECAPTCHA_SECRET_KEY='')
+    def test_unconfigured_returns_true(self):
+        self.assertTrue(recaptcha_mod.verify_recaptcha_token(''))
+
+
+@override_settings(RECAPTCHA_SITE_KEY='test-site', RECAPTCHA_SECRET_KEY='test-secret')
+class RecaptchaFormsTests(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    def test_register_blocked_on_recaptcha_failure(self):
+        with patch('apps.accounts.recaptcha.requests.post',
+                   return_value=FakeRecaptchaResponse({'success': False})):
+            response = self.client.post(reverse('register'), {
+                'email': 'blocked@example.com',
+                'password1': PASSWORD,
+                'password2': PASSWORD,
+                'g-recaptcha-response': 'token',
+            })
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['recaptcha_failed'])
+        self.assertFalse(User.objects.filter(email='blocked@example.com').exists())
+
+    def test_register_allowed_on_recaptcha_success(self):
+        with patch('apps.accounts.recaptcha.requests.post', return_value=recaptcha_success()):
+            response = self.client.post(reverse('register'), {
+                'email': 'ok@example.com',
+                'password1': PASSWORD,
+                'password2': PASSWORD,
+                'g-recaptcha-response': 'token',
+            })
+        self.assertRedirects(response, reverse('verification_sent'))
+        self.assertTrue(User.objects.filter(email='ok@example.com').exists())
+        email_mod.flush_email_queue()
+
+    def test_login_blocked_on_recaptcha_failure(self):
+        user = User.objects.create_user(email='captcha@example.com', password=PASSWORD)
+        user.email_verified = True
+        user.save(update_fields=['email_verified'])
+        with patch('apps.accounts.recaptcha.requests.post',
+                   return_value=FakeRecaptchaResponse({'success': False})):
+            response = self.client.post(reverse('login'), {
+                'username': 'captcha@example.com',
+                'password': PASSWORD,
+                'g-recaptcha-response': 'token',
+            })
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn('_auth_user_id', self.client.session)
+
+    def test_login_allowed_on_recaptcha_success(self):
+        user = User.objects.create_user(email='login-ok@example.com', password=PASSWORD)
+        user.email_verified = True
+        user.save(update_fields=['email_verified'])
+        with patch('apps.accounts.recaptcha.requests.post', return_value=recaptcha_success()):
+            response = self.client.post(reverse('login'), {
+                'username': 'login-ok@example.com',
+                'password': PASSWORD,
+                'g-recaptcha-response': 'token',
+            })
+        self.assertRedirects(response, reverse('publications:home'))
+
+    def test_password_reset_blocked_on_recaptcha_failure(self):
+        User.objects.create_user(email='reset-captcha@example.com', password=PASSWORD)
+        with patch('apps.accounts.recaptcha.requests.post',
+                   return_value=FakeRecaptchaResponse({'success': False})):
+            response = self.client.post(reverse('password_reset'), {'email': 'reset-captcha@example.com', 'g-recaptcha-response': 'token'})
+        self.assertEqual(response.status_code, 200)
+        email_mod.flush_email_queue()
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_forms_render_recaptcha_widget(self):
+        for url_name in ('login', 'register', 'password_reset'):
+            response = self.client.get(reverse(url_name))
+            self.assertContains(response, 'class="g-recaptcha"')
+            self.assertContains(response, 'https://www.google.com/recaptcha/api.js')
