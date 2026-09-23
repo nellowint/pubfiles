@@ -15,14 +15,6 @@ from core import email as email_mod
 PASSWORD = 'StrongPass123!'
 
 
-def wait_for_outbox(expected=1, timeout=5.0):
-    import time
-    deadline = time.monotonic() + timeout
-    while len(mail.outbox) < expected and time.monotonic() < deadline:
-        time.sleep(0.05)
-    return len(mail.outbox)
-
-
 class RegisterTests(TestCase):
     def setUp(self):
         cache.clear()
@@ -36,7 +28,8 @@ class RegisterTests(TestCase):
         self.assertRedirects(response, reverse('verification_sent'))
         user = User.objects.get(email='new@example.com')
         self.assertFalse(user.email_verified)
-        self.assertEqual(wait_for_outbox(1), 1)
+        email_mod.flush_email_queue()
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'Confirm your email address')
         self.assertEqual(mail.outbox[0].to, ['new@example.com'])
 
@@ -56,7 +49,7 @@ class RegisterTests(TestCase):
                 'password1': PASSWORD,
                 'password2': PASSWORD,
             })
-        wait_for_outbox(3)
+        email_mod.flush_email_queue()
         response = self.client.post(reverse('register'), {
             'email': 'blocked@example.com',
             'password1': PASSWORD,
@@ -148,17 +141,20 @@ class PasswordResetTests(TestCase):
     def test_reset_sends_email_for_known_address(self):
         response = self.client.post(reverse('password_reset'), {'email': 'reset@example.com'})
         self.assertRedirects(response, reverse('password_reset_done'))
-        self.assertEqual(wait_for_outbox(1), 1)
+        email_mod.flush_email_queue()
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, ['reset@example.com'])
 
     def test_reset_unknown_address_sends_nothing_but_redirects(self):
         response = self.client.post(reverse('password_reset'), {'email': 'nobody@example.com'})
         self.assertRedirects(response, reverse('password_reset_done'))
-        self.assertEqual(wait_for_outbox(1, timeout=1.0), 0)
+        email_mod.flush_email_queue()
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_reset_email_contains_valid_token_link(self):
         self.client.post(reverse('password_reset'), {'email': 'reset@example.com'})
-        self.assertEqual(wait_for_outbox(1), 1)
+        email_mod.flush_email_queue()
+        self.assertEqual(len(mail.outbox), 1)
         body = mail.outbox[0].body
         self.assertIn('/password-reset/confirm/', body)
 
@@ -221,12 +217,18 @@ class ProfileTests(TestCase):
 
 
 class SendMailAsyncTests(TestCase):
-    def test_returns_thread_and_sends_email(self):
-        thread = email_mod.send_mail_async('subject', 'body', ['to@example.com'])
-        thread.join(timeout=10)
-        self.assertFalse(thread.is_alive())
+    def test_returns_future_and_sends_email(self):
+        future = email_mod.send_mail_async('subject', 'body', ['to@example.com'])
+        self.assertTrue(email_mod.flush_email_queue(timeout=10))
+        self.assertTrue(future.done())
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'subject')
+
+    def test_invalid_recipients_are_ignored(self):
+        future = email_mod.send_mail_async('s', 'b', ['not-an-email', ''])
+        self.assertFalse(future.result(timeout=10))
+        self.assertTrue(email_mod.flush_email_queue(timeout=10))
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_retries_on_transient_failure(self):
         calls = {'n': 0}
@@ -237,16 +239,42 @@ class SendMailAsyncTests(TestCase):
                 raise ConnectionError('smtp down')
             return 1
 
-        with patch.object(email_mod, 'send_mail', side_effect=flaky):
+        with patch('django.core.mail.send_mail', side_effect=flaky):
             with patch.object(email_mod.time, 'sleep', return_value=None):
-                thread = email_mod.send_mail_async('s', 'b', ['x@y.com'])
-                thread.join(timeout=10)
+                future = email_mod.send_mail_async('s', 'b', ['x@y.com'])
+                self.assertTrue(email_mod.flush_email_queue(timeout=10))
         self.assertEqual(calls['n'], 3)
+        self.assertTrue(future.done())
 
-    def test_total_failure_logs_without_raising(self):
-        with patch.object(email_mod, 'send_mail', side_effect=ConnectionError('down')):
+    def test_total_failure_logs_masked_email_without_raising(self):
+        with patch('django.core.mail.send_mail', side_effect=ConnectionError('down')):
             with patch.object(email_mod.time, 'sleep', return_value=None):
-                with self.assertLogs('core.email', level='ERROR'):
-                    thread = email_mod.send_mail_async('s', 'b', ['x@y.com'])
-                    thread.join(timeout=10)
-        self.assertFalse(thread.is_alive())
+                with self.assertLogs('core.email', level='ERROR') as logs:
+                    future = email_mod.send_mail_async('s', 'b', ['x@y.com'])
+                    self.assertTrue(email_mod.flush_email_queue(timeout=10))
+        self.assertTrue(future.done())
+        output = '\n'.join(logs.output)
+        self.assertIn('x***@y.com', output)
+        self.assertNotIn('x@y.com', output)
+
+    def test_success_callback_called(self):
+        received = {}
+        future = email_mod.send_mail_async(
+            's', 'b', ['x@y.com'],
+            on_success=lambda ok: received.setdefault('ok', ok),
+        )
+        self.assertTrue(email_mod.flush_email_queue(timeout=10))
+        self.assertTrue(future.done())
+        self.assertTrue(received.get('ok'))
+
+    def test_error_callback_called_on_total_failure(self):
+        received = {}
+        with patch('django.core.mail.send_mail', side_effect=ConnectionError('down')):
+            with patch.object(email_mod.time, 'sleep', return_value=None):
+                future = email_mod.send_mail_async(
+                    's', 'b', ['x@y.com'],
+                    on_error=lambda ok: received.setdefault('ok', ok),
+                )
+                self.assertTrue(email_mod.flush_email_queue(timeout=10))
+        self.assertTrue(future.done())
+        self.assertFalse(received.get('ok'))
