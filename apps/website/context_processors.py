@@ -114,5 +114,6 @@ def website_settings(request):
         'web_settings': settings_obj,
         'seo_keywords': seo_keywords,
         'seo_canonical_domain': settings.SEO_CANONICAL_DOMAIN,
+        'recaptcha_site_key': settings.RECAPTCHA_SITE_KEY,
         'website_banners': website_banners,
     }
