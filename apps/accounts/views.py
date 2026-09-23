@@ -21,9 +21,17 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from .models import User
 from .tokens import account_verification_token
 from .decorators import rate_limit
+from .recaptcha import verify_recaptcha_token
 
 
 class RememberMeLoginView(LoginView):
+    def post(self, request, *args, **kwargs):
+        if not verify_recaptcha_token(request.POST.get('g-recaptcha-response', '')):
+            form = self.get_form()
+            form.add_error(None, 'Security verification failed. Please try again.')
+            return self.form_invalid(form)
+        return super().post(request, *args, **kwargs)
+
     def form_valid(self, form):
         user = form.get_user()
         if not user.email_verified:
@@ -121,6 +129,12 @@ def register_view(request):
                 'next_url': next_url,
             })
         form = CustomUserCreationForm(request.POST)
+        if not verify_recaptcha_token(request.POST.get('g-recaptcha-response', '')):
+            return render(request, 'registration/register.html', {
+                'form': CustomUserCreationForm(),
+                'recaptcha_failed': True,
+                'next_url': next_url,
+            })
         if form.is_valid():
             user = form.save()
             user.email_verified = False
@@ -177,6 +191,12 @@ def confirm_email_view(request, uidb64, token):
 
 class AsyncPasswordResetView(PasswordResetView):
     # Envia o e-mail de redefinição em background (mesmo comportamento do Django, só o SMTP é assíncrono)
+    def form_valid(self, form):
+        if not verify_recaptcha_token(self.request.POST.get('g-recaptcha-response', '')):
+            form.add_error(None, 'Security verification failed. Please try again.')
+            return self.form_invalid(form)
+        return super().form_valid(form)
+
     def send_mail(self, subject_template_name, email_template_name,
                   context, from_email, to_email, html_email_template_name=None):
         subject = render_to_string(subject_template_name, context)
