@@ -48,6 +48,14 @@
                 {% endfor %}
             {% endif %}
 
+            {% if recaptcha_failed %}
+                <div class="error-alert">
+                    {% trans 'Security verification failed. Please try again.' %}
+                </div>
+            {% endif %}
+
+            <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
+
             <button type="submit" class="btn-register-submit">{% trans 'Register' %}</button>
         </form>
 
@@ -60,4 +68,5 @@
 
 {% block extra_js %}
     <script src="{% static 'js/password-toggle.js' %}"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}
