@@ -10,17 +10,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="sub-result-wrapper">
-    <div class="sub-result-box">
-        <div class="result-icon"><svg width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
-        <h2>{% trans 'Payment Cancelled' %}</h2>
-        <p>{% trans 'Your subscription was not completed. You can try again whenever you want.' %}</p>
-        {% if next_url %}
-            <a href="{% url 'subscriptions:checkout' %}?next={{ next_url }}" class="btn-result btn-result-warning">{% trans 'Try again' %}</a>
-            <a href="{{ next_url }}" class="btn-restricted-back">{% trans 'Back' %}</a>
-        {% else %}
-            <a href="{% url 'subscriptions:checkout' %}" class="btn-result btn-result-warning">{% trans 'Try again' %}</a>
-        {% endif %}
+    <div class="sub-result-wrapper">
+        <div class="sub-result-box">
+            <div class="result-icon"><svg width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
+            <h2>{% trans 'Payment Cancelled' %}</h2>
+            <p>{% trans 'Your subscription was not completed. You can try again whenever you want.' %}</p>
+            {% if next_url %}
+                <a href="{% url 'subscriptions:checkout' %}?next={{ next_url }}" class="btn-result btn-result-warning">{% trans 'Try again' %}</a>
+                <a href="{{ next_url }}" class="btn-restricted-back">{% trans 'Back' %}</a>
+            {% else %}
+                <a href="{% url 'subscriptions:checkout' %}" class="btn-result btn-result-warning">{% trans 'Try again' %}</a>
+            {% endif %}
+        </div>
     </div>
-</div>
 {% endblock %}
