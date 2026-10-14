@@ -12,81 +12,81 @@
 
 {% block content %}
     {% if website_banners %}
-    <div class="ad-carousel" id="adCarousel">
-        <div class="ad-carousel-track">
-            {% for banner in website_banners %}
-            <div class="ad-carousel-slide">
-                {% if banner.image %}
-                    {% if banner.advertisement and not banner.advertisement.is_script %}
-                    <a href="{{ banner.advertisement.link }}" target="_blank" rel="noopener sponsored" class="banner-link">
-                    {% endif %}
-                        <div class="banner-image-wrapper">
-                            <picture>
-                                {% if banner.image_mobile %}<source media="(max-width: 768px)" srcset="{{ banner.image_mobile.url }}">{% endif %}
-                                <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
-                            </picture>
-                            {% if banner.title or banner.subtitle %}
-                            <div class="banner-text-overlay">
-                                {% if banner.title %}
-                                <h3 class="banner-title">{{ banner.title }}</h3>
-                                {% endif %}
-                                {% if banner.subtitle %}
-                                <p class="banner-subtitle">{{ banner.subtitle }}</p>
+        <div class="ad-carousel" id="adCarousel">
+            <div class="ad-carousel-track">
+                {% for banner in website_banners %}
+                    <div class="ad-carousel-slide">
+                        {% if banner.image %}
+                            {% if banner.advertisement and not banner.advertisement.is_script %}
+                                <a href="{{ banner.advertisement.link }}" target="_blank" rel="noopener sponsored" class="banner-link">
+                            {% endif %}
+                            <div class="banner-image-wrapper">
+                                <picture>
+                                    {% if banner.image_mobile %}<source media="(max-width: 768px)" srcset="{{ banner.image_mobile.url }}">{% endif %}
+                                    <img src="{{ banner.image.url }}" alt="{{ banner.title }}" loading="lazy">
+                                </picture>
+                                {% if banner.title or banner.subtitle %}
+                                    <div class="banner-text-overlay">
+                                        {% if banner.title %}
+                                            <h3 class="banner-title">{{ banner.title }}</h3>
+                                        {% endif %}
+                                        {% if banner.subtitle %}
+                                            <p class="banner-subtitle">{{ banner.subtitle }}</p>
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
                             </div>
+                            {% if banner.advertisement and not banner.advertisement.is_script %}</a>{% endif %}
+                            {% if banner.advertisement and banner.advertisement.is_script %}
+                                {% include "advertisements/_ad_render.html" with ad=banner.advertisement %}
                             {% endif %}
-                        </div>
-                    {% if banner.advertisement and not banner.advertisement.is_script %}</a>{% endif %}
-                    {% if banner.advertisement and banner.advertisement.is_script %}
-                        {% include "advertisements/_ad_render.html" with ad=banner.advertisement %}
-                    {% endif %}
-                {% endif %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+            {% if website_banners|length > 1 %}
+                <button type="button" class="ad-carousel-btn ad-carousel-prev" aria-label="Anterior">&lsaquo;</button>
+                <button type="button" class="ad-carousel-btn ad-carousel-next" aria-label="Próximo">&rsaquo;</button>
+                <div class="ad-carousel-dots">
+                    {% for banner in website_banners %}
+                        <span class="ad-carousel-dot{% if forloop.first %} active{% endif %}"></span>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
-        {% if website_banners|length > 1 %}
-        <button type="button" class="ad-carousel-btn ad-carousel-prev" aria-label="Anterior">&lsaquo;</button>
-        <button type="button" class="ad-carousel-btn ad-carousel-next" aria-label="Próximo">&rsaquo;</button>
-        <div class="ad-carousel-dots">
-            {% for banner in website_banners %}
-            <span class="ad-carousel-dot{% if forloop.first %} active{% endif %}"></span>
-            {% endfor %}
-        </div>
-        {% endif %}
-    </div>
     {% endif %}
 
     <div class="grid">
         {% if not request.GET.category and not request.GET.q %}
-        {% for ad in ads_cards %}
-        <div class="card-wrapper ad-card-wrapper" id="adCard{{ ad.id }}" style="display:none" data-ad-id="{{ ad.id }}" data-ad-html="{{ ad.link|escape }}" data-is-script="{% if ad.is_script %}1{% else %}0{% endif %}">
-            <div class="card ad-card">
-                <div class="ad-card-content">
-                    <span class="ad-badge">AD</span>
-                    <div class="ad-script-container"></div>
-                </div>
-                <div>
-                    <h3>{{ ad.title }}</h3>
-                    <div class="info-row">
-                        <span>
-                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 7l2.5 2.5M21 9l-2.5-2.5"/></svg>
-                            {{ site_title }}
-                        </span>
-                        <span>
-                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                            {{ ad.ratings_count }}
-                        </span>
+            {% for ad in ads_cards %}
+                <div class="card-wrapper ad-card-wrapper" id="adCard{{ ad.id }}" style="display:none" data-ad-id="{{ ad.id }}" data-ad-html="{{ ad.link|escape }}" data-is-script="{% if ad.is_script %}1{% else %}0{% endif %}">
+                    <div class="card ad-card">
+                        <div class="ad-card-content">
+                            <span class="ad-badge">AD</span>
+                            <div class="ad-script-container"></div>
+                        </div>
+                        <div>
+                            <h3>{{ ad.title }}</h3>
+                            <div class="info-row">
+                                <span>
+                                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 7l2.5 2.5M21 9l-2.5-2.5"/></svg>
+                                    {{ site_title }}
+                                </span>
+                                <span>
+                                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                    {{ ad.ratings_count }}
+                                </span>
+                            </div>
+                            <div class="info-row rating-row">
+                                <span class="rating-badge">
+                                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    5.0 <small>({{ ad.ratings_count }})</small>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-row rating-row">
-                        <span class="rating-badge">
-                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            5.0 <small>({{ ad.ratings_count }})</small>
-                        </span>
-                    </div>
                 </div>
-            </div>
-        </div>
-        {% endfor %}
+            {% endfor %}
         {% endif %}
         {% for publication in publications %}
             <div class="card-wrapper">
@@ -136,38 +136,38 @@
     </div>
 
     {% if is_paginated %}
-    <div class="pagination">
-        {% if page_obj.has_previous %}
-            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="page-link">&laquo; {% trans 'First' %}</a>
-            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="page-link">{% trans 'Previous' %}</a>
-        {% endif %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="page-link">&laquo; {% trans 'First' %}</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="page-link">{% trans 'Previous' %}</a>
+            {% endif %}
 
-        <span class="page-link active">{% blocktrans with current=page_obj.number total=page_obj.paginator.num_pages %}{{ current }} of {{ total }}{% endblocktrans %}</span>
+            <span class="page-link active">{% blocktrans with current=page_obj.number total=page_obj.paginator.num_pages %}{{ current }} of {{ total }}{% endblocktrans %}</span>
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="page-link">{% trans 'Next' %}</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="page-link">{% trans 'Last' %} &raquo;</a>
-        {% endif %}
-    </div>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="page-link">{% trans 'Next' %}</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="page-link">{% trans 'Last' %} &raquo;</a>
+            {% endif %}
+        </div>
     {% endif %}
 
     {% if site_subtitle or site_description %}
-    <section class="seo-intro">
-        {% if site_subtitle %}<h2 class="seo-intro-title">{{ site_subtitle }}</h2>{% endif %}
-        {% if site_description %}<p class="seo-intro-text">{{ site_description }}</p>{% endif %}
-    </section>
+        <section class="seo-intro">
+            {% if site_subtitle %}<h2 class="seo-intro-title">{{ site_subtitle }}</h2>{% endif %}
+            {% if site_description %}<p class="seo-intro-text">{{ site_description }}</p>{% endif %}
+        </section>
     {% endif %}
 
     {% if ads_footer %}
-    <div class="ad-footer ad-footer-desktop">
-        {% include "advertisements/_ad_footer_render.html" with ad=ads_footer %}
-    </div>
+        <div class="ad-footer ad-footer-desktop">
+            {% include "advertisements/_ad_footer_render.html" with ad=ads_footer %}
+        </div>
     {% endif %}
 
     {% if ads_footer_mobile %}
-    <div class="ad-footer ad-footer-mobile">
-        {% include "advertisements/_ad_footer_mobile_render.html" with ad=ads_footer_mobile %}
-    </div>
+        <div class="ad-footer ad-footer-mobile">
+            {% include "advertisements/_ad_footer_mobile_render.html" with ad=ads_footer_mobile %}
+        </div>
     {% endif %}
 
     {% include "subscriptions/_premium_cta.html" %}
@@ -175,7 +175,7 @@
 
 {% block extra_js %}
     {% if web_settings.start_message %}
-    <script src="{% static 'js/start-message.js' %}"></script>
+        <script src="{% static 'js/start-message.js' %}"></script>
     {% endif %}
     <script src="{% static 'js/advertisements.js' %}"></script>
     <script src="{% static 'js/card-click.js' %}"></script>
@@ -183,33 +183,33 @@
 
 {% block after_content %}
     {% if web_settings.start_message %}
-    <div class="start-modal-overlay" id="startModal" aria-hidden="true">
-        <div class="start-modal" role="dialog" aria-modal="true" aria-labelledby="startModalTitle">
-            <h2 id="startModalTitle">{% trans 'Aviso' %}</h2>
-            <div class="start-modal-body">{{ web_settings.start_message|linebreaks }}</div>
-            <label class="start-modal-check">
-                <input type="checkbox" id="startModalDontShow">
-                <span>{% trans 'Não mostrar novamente' %}</span>
-            </label>
-            <div class="start-modal-actions">
-                <button type="button" class="start-modal-btn btn-confirm" id="startModalConfirm">{% trans 'Confirmar' %}</button>
-                <button type="button" class="start-modal-btn btn-exit" id="startModalExit">{% trans 'Sair' %}</button>
+        <div class="start-modal-overlay" id="startModal" aria-hidden="true">
+            <div class="start-modal" role="dialog" aria-modal="true" aria-labelledby="startModalTitle">
+                <h2 id="startModalTitle">{% trans 'Aviso' %}</h2>
+                <div class="start-modal-body">{{ web_settings.start_message|linebreaks }}</div>
+                <label class="start-modal-check">
+                    <input type="checkbox" id="startModalDontShow">
+                    <span>{% trans 'Não mostrar novamente' %}</span>
+                </label>
+                <div class="start-modal-actions">
+                    <button type="button" class="start-modal-btn btn-confirm" id="startModalConfirm">{% trans 'Confirmar' %}</button>
+                    <button type="button" class="start-modal-btn btn-exit" id="startModalExit">{% trans 'Sair' %}</button>
+                </div>
             </div>
         </div>
-    </div>
     {% endif %}
 {% endblock %}
 
 {% block fixed_ads %}
     {% if ads_left %}
-    <div class="ad-sidebar ad-sidebar-left">
-        {% include "advertisements/_ad_render.html" with ad=ads_left.0 %}
-    </div>
+        <div class="ad-sidebar ad-sidebar-left">
+            {% include "advertisements/_ad_render.html" with ad=ads_left.0 %}
+        </div>
     {% endif %}
 
     {% if ads_right %}
-    <div class="ad-sidebar ad-sidebar-right">
-        {% include "advertisements/_ad_render.html" with ad=ads_right.0 %}
-    </div>
+        <div class="ad-sidebar ad-sidebar-right">
+            {% include "advertisements/_ad_render.html" with ad=ads_right.0 %}
+        </div>
     {% endif %}
 {% endblock %}
