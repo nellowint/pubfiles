@@ -3,325 +3,325 @@
 {% load publications_extras %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ site_title }}{% block title %}{% endblock %}</title>
-    <link rel="icon" type="image/png" href="{{ site_favicon }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ site_title }}{% block title %}{% endblock %}</title>
+        <link rel="icon" type="image/png" href="{{ site_favicon }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    {% block head_meta %}
-    <meta name="description" content="{% block description %}{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}{% endblock %}">
-    {% if seo_keywords %}<meta name="keywords" content="{{ seo_keywords|join:", " }}">{% endif %}
-    <link rel="canonical" href="{{ seo_canonical_domain }}{{ request.path }}">
-    <meta property="og:title" content="{% if site_subtitle %}{{ site_title }} - {{ site_subtitle }}{% else %}{{ site_title }}{% endif %}">
-    <meta property="og:description" content="{% block og_description %}{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}{% endblock %}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ seo_canonical_domain }}{{ request.path }}">
-    <meta property="og:image" content="{{ site_logo }}">
-    <meta property="og:site_name" content="{{ site_title }}">
-    <meta property="og:locale" content="{{ LANGUAGE_CODE }}">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="{% if site_subtitle %}{{ site_title }} - {{ site_subtitle }}{% else %}{{ site_title }}{% endif %}">
-    <meta name="twitter:description" content="{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}">
-    <meta name="twitter:url" content="{{ seo_canonical_domain }}{{ request.path }}">
-    <meta name="twitter:image" content="{{ site_logo }}">
-    {% if site_twitter_handle %}<meta name="twitter:site" content="{{ site_twitter_handle }}">
-    <meta name="twitter:creator" content="{{ site_twitter_handle }}">{% endif %}
-    {% endblock head_meta %}
-    {% block robots %}{% endblock %}
+        {% block head_meta %}
+            <meta name="description" content="{% block description %}{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}{% endblock %}">
+            {% if seo_keywords %}<meta name="keywords" content="{{ seo_keywords|join:", " }}">{% endif %}
+            <link rel="canonical" href="{{ seo_canonical_domain }}{{ request.path }}">
+            <meta property="og:title" content="{% if site_subtitle %}{{ site_title }} - {{ site_subtitle }}{% else %}{{ site_title }}{% endif %}">
+            <meta property="og:description" content="{% block og_description %}{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}{% endblock %}">
+            <meta property="og:type" content="website">
+            <meta property="og:url" content="{{ seo_canonical_domain }}{{ request.path }}">
+            <meta property="og:image" content="{{ site_logo }}">
+            <meta property="og:site_name" content="{{ site_title }}">
+            <meta property="og:locale" content="{{ LANGUAGE_CODE }}">
+            <meta name="twitter:card" content="summary">
+            <meta name="twitter:title" content="{% if site_subtitle %}{{ site_title }} - {{ site_subtitle }}{% else %}{{ site_title }}{% endif %}">
+            <meta name="twitter:description" content="{% if site_description %}{{ site_description }}{% else %}{{ site_title }}{% endif %}">
+            <meta name="twitter:url" content="{{ seo_canonical_domain }}{{ request.path }}">
+            <meta name="twitter:image" content="{{ site_logo }}">
+            {% if site_twitter_handle %}<meta name="twitter:site" content="{{ site_twitter_handle }}">
+                <meta name="twitter:creator" content="{{ site_twitter_handle }}">{% endif %}
+        {% endblock head_meta %}
+        {% block robots %}{% endblock %}
 
     {# JSON-LD WebSite — alternateName ensina o Google que "Site HQ" e "SiteHQ" são a mesma entidade #}
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "{{ site_title }}",
-        "alternateName": ["{{ site_title_compact }}", "{{ site_title|lower }}", "{{ site_title_compact|lower }}"],
-        {% if site_social_sameAs %}"sameAs": [{% for u in site_social_sameAs %}"{{ u }}"{% if not forloop.last %}, {% endif %}{% endfor %}],{% elif site_twitter_url %}"sameAs": ["{{ site_twitter_url }}"],{% endif %}
-        "url": "{{ seo_canonical_domain }}/",
-        "inLanguage": "{{ LANGUAGE_CODE }}",
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "{{ seo_canonical_domain }}/?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }
-    </script>
-    <link rel="alternate" hreflang="pt-br" href="{{ seo_canonical_domain }}{{ request.path }}">
-    <link rel="alternate" hreflang="en" href="{{ seo_canonical_domain }}/en{{ request.path }}">
-    <link rel="alternate" hreflang="es" href="{{ seo_canonical_domain }}/es{{ request.path }}">
-    <link rel="alternate" hreflang="x-default" href="{{ seo_canonical_domain }}{{ request.path }}">
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "{{ site_title }}",
+                "alternateName": ["{{ site_title_compact }}", "{{ site_title|lower }}", "{{ site_title_compact|lower }}"],
+                {% if site_social_sameAs %}"sameAs": [{% for u in site_social_sameAs %}"{{ u }}"{% if not forloop.last %}, {% endif %}{% endfor %}],{% elif site_twitter_url %}"sameAs": ["{{ site_twitter_url }}"],{% endif %}
+                "url": "{{ seo_canonical_domain }}/",
+                "inLanguage": "{{ LANGUAGE_CODE }}",
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "{{ seo_canonical_domain }}/?q={search_term_string}",
+                    "query-input": "required name=search_term_string"
+                }
+            }
+        </script>
+        <link rel="alternate" hreflang="pt-br" href="{{ seo_canonical_domain }}{{ request.path }}">
+        <link rel="alternate" hreflang="en" href="{{ seo_canonical_domain }}/en{{ request.path }}">
+        <link rel="alternate" hreflang="es" href="{{ seo_canonical_domain }}/es{{ request.path }}">
+        <link rel="alternate" hreflang="x-default" href="{{ seo_canonical_domain }}{{ request.path }}">
 
-    <style>
-        :root {
-            --primary-color: {{ color_light_primary|default:"#FFFFFF" }};
-            --secondary-color: {{ color_light_secondary|default:"#F8F9FA" }};
-            --bg-image: url("{{ site_background }}");
-            --bg-image-mobile: url("{{ site_background_mobile }}");
-            --nav-bg: color-mix(in srgb, var(--primary-color) 25%, transparent);
-            --nav-border: color-mix(in srgb, var(--secondary-color) 30%, transparent);
-            --dropdown-bg: color-mix(in srgb, var(--primary-color) 95%, transparent);
-            --dropdown-text: #333333;
-            --card-bg: color-mix(in srgb, var(--primary-color) 85%, transparent);
-            --card-border: color-mix(in srgb, var(--secondary-color) 40%, transparent);
-            --text-color: #333333;
-        }
+        <style>
+            :root {
+                --primary-color: {{ color_light_primary|default:"#FFFFFF" }};
+                --secondary-color: {{ color_light_secondary|default:"#F8F9FA" }};
+                --bg-image: url("{{ site_background }}");
+                --bg-image-mobile: url("{{ site_background_mobile }}");
+                --nav-bg: color-mix(in srgb, var(--primary-color) 25%, transparent);
+                --nav-border: color-mix(in srgb, var(--secondary-color) 30%, transparent);
+                --dropdown-bg: color-mix(in srgb, var(--primary-color) 95%, transparent);
+                --dropdown-text: #333333;
+                --card-bg: color-mix(in srgb, var(--primary-color) 85%, transparent);
+                --card-border: color-mix(in srgb, var(--secondary-color) 40%, transparent);
+                --text-color: #333333;
+            }
 
-        [data-theme="dark"] {
-            --primary-color: {{ color_dark_primary|default:"#121212" }};
-            --secondary-color: {{ color_dark_secondary|default:"#1A1A1A" }};
-            --dropdown-text: #f8f9fa;
-            --text-color: #f8f9fa;
-        }
-    </style>
-    <link rel="stylesheet" href="{% static 'css/publications-base.css' %}">
-    {% block extra_css %}{% endblock %}
+            [data-theme="dark"] {
+                --primary-color: {{ color_dark_primary|default:"#121212" }};
+                --secondary-color: {{ color_dark_secondary|default:"#1A1A1A" }};
+                --dropdown-text: #f8f9fa;
+                --text-color: #f8f9fa;
+            }
+        </style>
+        <link rel="stylesheet" href="{% static 'css/publications-base.css' %}">
+        {% block extra_css %}{% endblock %}
 
-    <script>
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    </script>
+        <script>
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        </script>
 
     <!-- Google tag (gtag.js) -->
-    {% if site_google_analytics %}{{ site_google_analytics|safe }}{% endif %}
+        {% if site_google_analytics %}{{ site_google_analytics|safe }}{% endif %}
 
-    {% if ads_socialbar %}
-        {% for ad in ads_socialbar %}
-            {{ ad.link|safe }}
-        {% endfor %}
-    {% endif %}
-    {% if ads_popunder %}
-    {{ ads_popunder.link|safe }}
-    {% endif %}
-</head>
-<body>
+        {% if ads_socialbar %}
+            {% for ad in ads_socialbar %}
+                {{ ad.link|safe }}
+            {% endfor %}
+        {% endif %}
+        {% if ads_popunder %}
+            {{ ads_popunder.link|safe }}
+        {% endif %}
+    </head>
+    <body>
 
-    <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
-        <symbol id="flag-br" viewBox="0 0 640 480">
-            <g fill-rule="evenodd" stroke-width="1pt">
-                <path fill="#009c3b" d="M0 0h640v480H0z"/>
-                <path fill="#ffdf00" d="M320 55L589.3 240 320 425 50.7 240z"/>
-                <circle cx="320" cy="240" r="90" fill="#002776"/>
-                <circle cx="320" cy="240" r="110" fill="none" stroke="#fff" stroke-width="18"/>
-            </g>
-        </symbol>
-        <symbol id="flag-us" viewBox="0 0 640 480">
-            <path fill="#bd3d44" d="M0 0h640v480H0z"/>
-            <path stroke="#fff" stroke-width="37" d="M0 55.3h640M0 129.4h640M0 203.5h640M0 277.6h640M0 351.7h640M0 425.8h640"/>
-            <path fill="#192f5d" d="M0 0h364.8v258.7H0z"/>
-            <path fill="#fff" d="M16.6 5.5l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM16.6 42l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM49.4 5.5l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM49.4 42l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM82.2 5.5l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM82.2 42l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4z"/>
-        </symbol>
-        <symbol id="flag-es" viewBox="0 0 640 480">
-            <path fill="#aa151b" d="M0 0h640v480H0z"/>
-            <path fill="#f1bf00" d="M0 120h640v240H0z"/>
-        </symbol>
-    </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+            <symbol id="flag-br" viewBox="0 0 640 480">
+                <g fill-rule="evenodd" stroke-width="1pt">
+                    <path fill="#009c3b" d="M0 0h640v480H0z"/>
+                    <path fill="#ffdf00" d="M320 55L589.3 240 320 425 50.7 240z"/>
+                    <circle cx="320" cy="240" r="90" fill="#002776"/>
+                    <circle cx="320" cy="240" r="110" fill="none" stroke="#fff" stroke-width="18"/>
+                </g>
+            </symbol>
+            <symbol id="flag-us" viewBox="0 0 640 480">
+                <path fill="#bd3d44" d="M0 0h640v480H0z"/>
+                <path stroke="#fff" stroke-width="37" d="M0 55.3h640M0 129.4h640M0 203.5h640M0 277.6h640M0 351.7h640M0 425.8h640"/>
+                <path fill="#192f5d" d="M0 0h364.8v258.7H0z"/>
+                <path fill="#fff" d="M16.6 5.5l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM16.6 42l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM49.4 5.5l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM49.4 42l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM82.2 5.5l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4zM82.2 42l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.3 1.2.4-2.5-1.8-1.8 2.5-.4z"/>
+            </symbol>
+            <symbol id="flag-es" viewBox="0 0 640 480">
+                <path fill="#aa151b" d="M0 0h640v480H0z"/>
+                <path fill="#f1bf00" d="M0 120h640v240H0z"/>
+            </symbol>
+        </svg>
 
-    <div class="site-wrapper">
+        <div class="site-wrapper">
 
-        <nav class="floating-nav">
-            <div class="nav-main-row">
-                <a href="{% url 'publications:home' %}" class="nav-brand">
-                    <div class="nav-logo">
-                        <img src="{{ site_logo }}" alt="{{ site_title }}">
+            <nav class="floating-nav">
+                <div class="nav-main-row">
+                    <a href="{% url 'publications:home' %}" class="nav-brand">
+                        <div class="nav-logo">
+                            <img src="{{ site_logo }}" alt="{{ site_title }}">
+                        </div>
+                        {% if request.resolver_match and request.resolver_match.url_name == 'home' %}
+                            <h1 class="nav-title">{{ site_title }}</h1>
+                        {% else %}
+                            <span class="nav-title">{{ site_title }}</span>
+                        {% endif %}
+                    </a>
+
+                    <form action="{% url 'publications:home' %}" method="GET" class="search-form">
+                        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="{% trans 'Type to search...' %}" class="search-input">
+                    </form>
+
+                    <div class="nav-right-zone">
+                        <button class="theme-toggle-btn js-theme-toggle" id="themeToggle" title="{% trans 'Toggle Theme' %}" aria-label="{% trans 'Toggle Theme' %}">
+                            <svg class="icon-moon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                            <svg class="icon-sun" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        </button>
+
+                        <form action="{% url 'set_language' %}" method="post" id="languageForm" style="display: none;">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path|default:'/' }}">
+                            <input type="hidden" name="language" id="languageInput" value="">
+                        </form>
+
+                        <div class="lang-selector">
+                            <div class="lang-dropdown js-lang-dropdown" id="langDropdown">
+                                <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'pt-br' %}selected{% endif %}" data-lang="pt-br" title="Português" aria-label="Português"><svg class="flag-icon"><use href="#flag-br"/></svg></button>
+                                <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'en' %}selected{% endif %}" data-lang="en" title="English" aria-label="English"><svg class="flag-icon"><use href="#flag-us"/></svg></button>
+                                <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'es' %}selected{% endif %}" data-lang="es" title="Español" aria-label="Español"><svg class="flag-icon"><use href="#flag-es"/></svg></button>
+                            </div>
+                            <button class="lang-toggle-btn js-lang-toggle" id="langToggle" title="{% trans 'Language' %}" aria-label="{% trans 'Language' %}">
+                                {% if LANGUAGE_CODE == 'en' %}<svg class="flag-icon"><use href="#flag-us"/></svg>{% elif LANGUAGE_CODE == 'es' %}<svg class="flag-icon"><use href="#flag-es"/></svg>{% else %}<svg class="flag-icon"><use href="#flag-br"/></svg>{% endif %}
+                            </button>
+                        </div>
+
+                        {% if request.user.is_authenticated %}
+                            <div class="user-menu-selector">
+                                <button class="user-avatar js-user-menu-toggle" id="userMenuToggle" title="{{ request.user.email }}" aria-label="{% trans 'Account menu' %}" aria-expanded="false">
+                                    <div class="avatar-icon">
+                                        {% if request.user.avatar %}
+                                            <img src="{{ request.user.avatar.url }}" alt="{{ request.user.email }}">
+                                        {% else %}
+                                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                        {% endif %}
+                                    </div>
+                                </button>
+                                <div class="user-menu-dropdown js-user-menu-dropdown" id="userMenuDropdown">
+                                    <div class="user-menu-email">{{ request.user.email }}</div>
+                                    <a href="{% url 'profile' %}" class="user-menu-link">{% trans 'My profile' %}</a>
+                                    <form action="{% url 'logout' %}" method="POST" class="user-menu-logout-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="user-menu-link user-menu-logout">{% trans 'Logout' %}</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn-premium">{% trans 'Login' %}</a>
+                        {% endif %}
+
+                        <button class="nav-mobile-toggle" id="navMobileToggle" aria-label="Menu" aria-expanded="false">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        </button>
                     </div>
-                    {% if request.resolver_match and request.resolver_match.url_name == 'home' %}
-                    <h1 class="nav-title">{{ site_title }}</h1>
-                    {% else %}
-                    <span class="nav-title">{{ site_title }}</span>
-                    {% endif %}
+                </div>
+
+                {% if categories %}
+                    <div class="nav-categories-row" id="navCategories">
+                        <div class="categories-grid">
+                            <a href="{% url 'publications:home' %}" class="category-nav-button {% if not request.GET.category %}active{% endif %}">{% trans 'All Categories' %}</a>
+
+                            {% for category in categories %}
+                                {% if category.is_root_node %}
+                                    <a href="{% url 'publications:home' %}?category={{ category.slug }}"
+                                       class="category-nav-button cat-{{ category.slug }}"
+                                       data-cat-id="{{ category.slug }}"
+                                       data-parent-id="{{ category.parent_id }}">
+                                        {{ category.name }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {% for category in categories %}
+                        {% if category.is_root_node and not category.is_leaf_node %}
+                            {% render_nav_children category %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </nav>
+
+            <main>
+                {% block content %}{% endblock %}
+                {% block after_content %}{% endblock %}
+            </main>
+
+        </div>
+
+        {% block fixed_ads %}{% endblock %}
+
+        <footer class="site-footer">
+            <div class="footer-line">
+                <span>{% now "Y" %} © {{ site_title }}. {% trans 'Os direitos sobre as obras pertencem aos seus respectivos titulares.' %}</span>
+                {% if web_settings and web_settings.privacy_policy %}
+                    <span class="footer-sep">|</span>
+                    <a href="{% url 'privacy_policy' %}">{% trans 'Privacy Policy' %}</a>
+                {% endif %}
+                {% if web_settings and web_settings.terms %}
+                    <span class="footer-sep">|</span>
+                    <a href="{% url 'terms' %}">{% trans 'Terms of Use' %}</a>
+                {% endif %}
+                <span class="footer-sep">|</span>
+                <a href="{% url 'contact' %}">{% trans 'Contact' %}</a>
+            </div>
+        </footer>
+
+        <button type="button" class="back-top-btn js-back-top" id="backTop" aria-label="{% trans 'Back to top' %}" title="{% trans 'Back to top' %}" tabindex="-1">
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+        </button>
+
+        <div class="drawer-overlay" id="drawerOverlay"></div>
+        <aside class="drawer-nav" id="drawerNav" aria-hidden="true">
+            <div class="drawer-header">
+                <a href="{% url 'publications:home' %}" class="drawer-brand">
+                    <img src="{{ site_logo }}" alt="{{ site_title }}" class="drawer-logo">
+                    <span class="drawer-title">{{ site_title }}</span>
                 </a>
+                <button class="drawer-close" id="drawerClose" aria-label="{% trans 'Close menu' %}">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
 
-                <form action="{% url 'publications:home' %}" method="GET" class="search-form">
-                    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="{% trans 'Type to search...' %}" class="search-input">
-                </form>
+            <div class="drawer-body">
+                <div class="drawer-auth">
+                    {% if request.user.is_authenticated %}
+                        <div class="drawer-user">
+                            <div class="avatar-icon">
+                                {% if request.user.avatar %}
+                                    <img src="{{ request.user.avatar.url }}" alt="{{ request.user.email }}">
+                                {% else %}
+                                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                {% endif %}
+                            </div>
+                            <span>{{ request.user.email }}</span>
+                        </div>
+                        <a href="{% url 'profile' %}" class="drawer-profile-link">{% trans 'My profile' %}</a>
+                        <form action="{% url 'logout' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-logout drawer-logout">{% trans 'Logout' %}</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn-premium drawer-premium">{% trans 'Login' %}</a>
+                    {% endif %}
+                </div>
 
-                <div class="nav-right-zone">
-                    <button class="theme-toggle-btn js-theme-toggle" id="themeToggle" title="{% trans 'Toggle Theme' %}" aria-label="{% trans 'Toggle Theme' %}">
+                <div class="drawer-controls">
+                    <button class="drawer-control-btn js-theme-toggle" title="{% trans 'Toggle Theme' %}" aria-label="{% trans 'Toggle Theme' %}">
                         <svg class="icon-moon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
                         <svg class="icon-sun" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     </button>
 
-                    <form action="{% url 'set_language' %}" method="post" id="languageForm" style="display: none;">
-                        {% csrf_token %}
-                        <input type="hidden" name="next" value="{{ request.get_full_path|default:'/' }}">
-                        <input type="hidden" name="language" id="languageInput" value="">
-                    </form>
-
-                    <div class="lang-selector">
-                        <div class="lang-dropdown js-lang-dropdown" id="langDropdown">
+                    <div class="lang-selector drawer-lang">
+                        <div class="lang-dropdown js-lang-dropdown" id="langDropdownDrawer">
                             <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'pt-br' %}selected{% endif %}" data-lang="pt-br" title="Português" aria-label="Português"><svg class="flag-icon"><use href="#flag-br"/></svg></button>
                             <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'en' %}selected{% endif %}" data-lang="en" title="English" aria-label="English"><svg class="flag-icon"><use href="#flag-us"/></svg></button>
                             <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'es' %}selected{% endif %}" data-lang="es" title="Español" aria-label="Español"><svg class="flag-icon"><use href="#flag-es"/></svg></button>
                         </div>
-                        <button class="lang-toggle-btn js-lang-toggle" id="langToggle" title="{% trans 'Language' %}" aria-label="{% trans 'Language' %}">
+                        <button class="lang-toggle-btn js-lang-toggle" id="langToggleDrawer" title="{% trans 'Language' %}" aria-label="{% trans 'Language' %}">
                             {% if LANGUAGE_CODE == 'en' %}<svg class="flag-icon"><use href="#flag-us"/></svg>{% elif LANGUAGE_CODE == 'es' %}<svg class="flag-icon"><use href="#flag-es"/></svg>{% else %}<svg class="flag-icon"><use href="#flag-br"/></svg>{% endif %}
+                            <span>{% trans 'Language' %}</span>
                         </button>
                     </div>
-
-                    {% if request.user.is_authenticated %}
-                        <div class="user-menu-selector">
-                            <button class="user-avatar js-user-menu-toggle" id="userMenuToggle" title="{{ request.user.email }}" aria-label="{% trans 'Account menu' %}" aria-expanded="false">
-                                <div class="avatar-icon">
-                                    {% if request.user.avatar %}
-                                        <img src="{{ request.user.avatar.url }}" alt="{{ request.user.email }}">
-                                    {% else %}
-                                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                                    {% endif %}
-                                </div>
-                            </button>
-                            <div class="user-menu-dropdown js-user-menu-dropdown" id="userMenuDropdown">
-                                <div class="user-menu-email">{{ request.user.email }}</div>
-                                <a href="{% url 'profile' %}" class="user-menu-link">{% trans 'My profile' %}</a>
-                                <form action="{% url 'logout' %}" method="POST" class="user-menu-logout-form">
-                                    {% csrf_token %}
-                                    <button type="submit" class="user-menu-link user-menu-logout">{% trans 'Logout' %}</button>
-                                </form>
-                            </div>
-                        </div>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="btn-premium">{% trans 'Login' %}</a>
-                    {% endif %}
-
-                    <button class="nav-mobile-toggle" id="navMobileToggle" aria-label="Menu" aria-expanded="false">
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    </button>
                 </div>
-            </div>
 
-            {% if categories %}
-                <div class="nav-categories-row" id="navCategories">
-                    <div class="categories-grid">
-                        <a href="{% url 'publications:home' %}" class="category-nav-button {% if not request.GET.category %}active{% endif %}">{% trans 'All Categories' %}</a>
-
+                <nav class="drawer-categories">
+                    {% if categories %}
+                        <a href="{% url 'publications:home' %}" class="drawer-cat-link {% if not request.GET.category %}active{% endif %}">{% trans 'All Categories' %}</a>
                         {% for category in categories %}
                             {% if category.is_root_node %}
                                 <a href="{% url 'publications:home' %}?category={{ category.slug }}"
-                                   class="category-nav-button cat-{{ category.slug }}"
+                                   class="drawer-cat-link cat-{{ category.slug }}"
                                    data-cat-id="{{ category.slug }}"
-                                   data-parent-id="{{ category.parent_id }}">
-                                    {{ category.name }}
-                                </a>
+                                   data-parent-id="{{ category.parent_id }}">{{ category.name }}</a>
+                                {% if not category.is_leaf_node %}
+                                    {% render_drawer_children category %}
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
-                    </div>
-                </div>
-
-                {% for category in categories %}
-                    {% if category.is_root_node and not category.is_leaf_node %}
-                        {% render_nav_children category %}
                     {% endif %}
-                {% endfor %}
-            {% endif %}
-        </nav>
-
-        <main>
-            {% block content %}{% endblock %}
-            {% block after_content %}{% endblock %}
-        </main>
-
-    </div>
-
-    {% block fixed_ads %}{% endblock %}
-
-    <footer class="site-footer">
-        <div class="footer-line">
-            <span>{% now "Y" %} © {{ site_title }}. {% trans 'Os direitos sobre as obras pertencem aos seus respectivos titulares.' %}</span>
-            {% if web_settings and web_settings.privacy_policy %}
-                <span class="footer-sep">|</span>
-                <a href="{% url 'privacy_policy' %}">{% trans 'Privacy Policy' %}</a>
-            {% endif %}
-            {% if web_settings and web_settings.terms %}
-                <span class="footer-sep">|</span>
-                <a href="{% url 'terms' %}">{% trans 'Terms of Use' %}</a>
-            {% endif %}
-            <span class="footer-sep">|</span>
-            <a href="{% url 'contact' %}">{% trans 'Contact' %}</a>
-        </div>
-    </footer>
-
-    <button type="button" class="back-top-btn js-back-top" id="backTop" aria-label="{% trans 'Back to top' %}" title="{% trans 'Back to top' %}" tabindex="-1">
-        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
-    </button>
-
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-    <aside class="drawer-nav" id="drawerNav" aria-hidden="true">
-        <div class="drawer-header">
-            <a href="{% url 'publications:home' %}" class="drawer-brand">
-                <img src="{{ site_logo }}" alt="{{ site_title }}" class="drawer-logo">
-                <span class="drawer-title">{{ site_title }}</span>
-            </a>
-            <button class="drawer-close" id="drawerClose" aria-label="{% trans 'Close menu' %}">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-        </div>
-
-        <div class="drawer-body">
-            <div class="drawer-auth">
-                {% if request.user.is_authenticated %}
-                    <div class="drawer-user">
-                        <div class="avatar-icon">
-                            {% if request.user.avatar %}
-                                <img src="{{ request.user.avatar.url }}" alt="{{ request.user.email }}">
-                            {% else %}
-                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                            {% endif %}
-                        </div>
-                        <span>{{ request.user.email }}</span>
-                    </div>
-                    <a href="{% url 'profile' %}" class="drawer-profile-link">{% trans 'My profile' %}</a>
-                    <form action="{% url 'logout' %}" method="POST">
-                        {% csrf_token %}
-                        <button type="submit" class="btn-logout drawer-logout">{% trans 'Logout' %}</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'login' %}" class="btn-premium drawer-premium">{% trans 'Login' %}</a>
-                {% endif %}
+                </nav>
             </div>
+        </aside>
 
-            <div class="drawer-controls">
-                <button class="drawer-control-btn js-theme-toggle" title="{% trans 'Toggle Theme' %}" aria-label="{% trans 'Toggle Theme' %}">
-                    <svg class="icon-moon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-                    <svg class="icon-sun" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                </button>
+        <script src="{% static 'js/publications-base.js' %}"></script>
+        <script src="{% static 'js/search-clear.js' %}"></script>
+        {% block extra_js %}{% endblock %}
 
-                <div class="lang-selector drawer-lang">
-                    <div class="lang-dropdown js-lang-dropdown" id="langDropdownDrawer">
-                        <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'pt-br' %}selected{% endif %}" data-lang="pt-br" title="Português" aria-label="Português"><svg class="flag-icon"><use href="#flag-br"/></svg></button>
-                        <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'en' %}selected{% endif %}" data-lang="en" title="English" aria-label="English"><svg class="flag-icon"><use href="#flag-us"/></svg></button>
-                        <button class="lang-option js-lang-option {% if LANGUAGE_CODE == 'es' %}selected{% endif %}" data-lang="es" title="Español" aria-label="Español"><svg class="flag-icon"><use href="#flag-es"/></svg></button>
-                    </div>
-                    <button class="lang-toggle-btn js-lang-toggle" id="langToggleDrawer" title="{% trans 'Language' %}" aria-label="{% trans 'Language' %}">
-                        {% if LANGUAGE_CODE == 'en' %}<svg class="flag-icon"><use href="#flag-us"/></svg>{% elif LANGUAGE_CODE == 'es' %}<svg class="flag-icon"><use href="#flag-es"/></svg>{% else %}<svg class="flag-icon"><use href="#flag-br"/></svg>{% endif %}
-                        <span>{% trans 'Language' %}</span>
-                    </button>
-                </div>
-            </div>
-
-            <nav class="drawer-categories">
-                {% if categories %}
-                <a href="{% url 'publications:home' %}" class="drawer-cat-link {% if not request.GET.category %}active{% endif %}">{% trans 'All Categories' %}</a>
-                {% for category in categories %}
-                    {% if category.is_root_node %}
-                        <a href="{% url 'publications:home' %}?category={{ category.slug }}"
-                           class="drawer-cat-link cat-{{ category.slug }}"
-                           data-cat-id="{{ category.slug }}"
-                           data-parent-id="{{ category.parent_id }}">{{ category.name }}</a>
-                        {% if not category.is_leaf_node %}
-                            {% render_drawer_children category %}
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-                {% endif %}
-            </nav>
-        </div>
-    </aside>
-
-    <script src="{% static 'js/publications-base.js' %}"></script>
-    <script src="{% static 'js/search-clear.js' %}"></script>
-    {% block extra_js %}{% endblock %}
-
-</body>
+    </body>
 </html>
