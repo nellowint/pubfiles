@@ -1,4 +1,4 @@
-// Esconde posição quando tipo é SOCIALBAR ou SMARTLINK (não dependem de posição)
+// Esconde posição quando tipo é SOCIALBAR, SMARTLINK ou POPUNDER (não dependem de posição)
 (function() {
     function findPositionRow() {
         var outer = document.querySelector('.form-group.field-position');
@@ -48,7 +48,7 @@
         var positionSelect = document.getElementById('id_position');
         if (!typeSelect || !positionRow) return;
         var val = getTypeValue(typeSelect);
-        var hide = (val === 'social_bar' || val === 'smart_link');
+        var hide = (val === 'social_bar' || val === 'smart_link' || val === 'pop_under');
         var s2 = findPositionSelect2();
         if (hide) {
             positionRow.style.display = 'none';
