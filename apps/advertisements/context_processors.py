@@ -15,7 +15,13 @@ def ads_context(request):
             'ads_footer': None,
             'ads_footer_mobile': None,
             'ads_socialbar': [],
+            'ads_popunder': None,
         }
+    popunder_ad = None
+    for ad in Advertisements.objects.filter(type=AdvertisementsType.POPUNDER, is_active=True).order_by('id'):
+        if ad.is_script:
+            popunder_ad = ad
+            break
     return {
         'ads_cards': list(Advertisements.objects.filter(position='card', is_active=True)),
         'ads_preview': list(Advertisements.objects.filter(position='preview', is_active=True)),
@@ -25,4 +31,5 @@ def ads_context(request):
         'ads_footer': Advertisements.objects.filter(position='footer', is_active=True).first(),
         'ads_footer_mobile': Advertisements.objects.filter(position='footer_mobile', is_active=True).first(),
         'ads_socialbar': list(Advertisements.objects.filter(type=AdvertisementsType.SOCIALBAR, is_active=True)),
+        'ads_popunder': popunder_ad,
     }
