@@ -9,49 +9,49 @@
 {% endblock %}
 
 {% block content %}
-<div class="restricted-wrapper">
-    <div class="restricted-box">
-        <div class="crown-icon"><svg width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path d="M3 17l2-9 5 5 2-8 2 8 5-5 2 9H3z"/></svg></div>
+    <div class="restricted-wrapper">
+        <div class="restricted-box">
+            <div class="crown-icon"><svg width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path d="M3 17l2-9 5 5 2-8 2 8 5-5 2 9H3z"/></svg></div>
 
-        <h2>{% trans 'This page is exclusive to Subscribers' %}</h2>
+            <h2>{% trans 'This page is exclusive to Subscribers' %}</h2>
 
-        <p>{% blocktrans with title=publication.title %}The publication <strong>"{{ title }}"</strong> requires an active subscription to read from this page.{% endblocktrans %}</p>
+            <p>{% blocktrans with title=publication.title %}The publication <strong>"{{ title }}"</strong> requires an active subscription to read from this page.{% endblocktrans %}</p>
 
-        {% if subscription_settings and subscription_settings.is_enabled %}
-            <p class="restricted-subtext">
-                {% blocktrans with currency=subscription_settings.currency|upper price=subscription_settings.monthly_price %}Premium subscription: <strong>{{ currency }} {{ price }}</strong> / month.{% endblocktrans %}
-            </p>
+            {% if subscription_settings and subscription_settings.is_enabled %}
+                <p class="restricted-subtext">
+                    {% blocktrans with currency=subscription_settings.currency|upper price=subscription_settings.monthly_price %}Premium subscription: <strong>{{ currency }} {{ price }}</strong> / month.{% endblocktrans %}
+                </p>
 
-            <ul class="premium-benefits">
-                <li>{% trans 'Read every page of every premium publication' %}</li>
-                <li>{% trans 'Unlimited access to the entire catalog' %}</li>
-                <li>{% trans 'Cancel anytime' %}</li>
-            </ul>
-        {% endif %}
+                <ul class="premium-benefits">
+                    <li>{% trans 'Read every page of every premium publication' %}</li>
+                    <li>{% trans 'Unlimited access to the entire catalog' %}</li>
+                    <li>{% trans 'Cancel anytime' %}</li>
+                </ul>
+            {% endif %}
 
-        {% if not request.user.is_authenticated %}
-            <p class="restricted-subtext">
-                {% trans 'Create your account or log in now and subscribe to unlock unlimited access to our entire catalog of magazines and comics.' %}
-            </p>
+            {% if not request.user.is_authenticated %}
+                <p class="restricted-subtext">
+                    {% trans 'Create your account or log in now and subscribe to unlock unlimited access to our entire catalog of magazines and comics.' %}
+                </p>
 
-            <a href="{% url 'register' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Create account and subscribe' %}</a>
-            <div class="premium-alt-action">
-                {% trans 'Already have an account?' %}
-                <a href="{% url 'login' %}?next={{ request.path }}">{% trans 'Log in' %}</a>
-            </div>
-        {% else %}
-            <p class="restricted-subtext">
-                {% blocktrans with email=request.user.email title=publication.title %}Hi <strong>{{ email }}</strong>, your account does not have an active subscription yet. Subscribe to Premium to unlock this page and the rest of <strong>"{{ title }}"</strong>.{% endblocktrans %}
-            </p>
+                <a href="{% url 'register' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Create account and subscribe' %}</a>
+                <div class="premium-alt-action">
+                    {% trans 'Already have an account?' %}
+                    <a href="{% url 'login' %}?next={{ request.path }}">{% trans 'Log in' %}</a>
+                </div>
+            {% else %}
+                <p class="restricted-subtext">
+                    {% blocktrans with email=request.user.email title=publication.title %}Hi <strong>{{ email }}</strong>, your account does not have an active subscription yet. Subscribe to Premium to unlock this page and the rest of <strong>"{{ title }}"</strong>.{% endblocktrans %}
+                </p>
 
-            <a href="{% url 'subscriptions:checkout' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Activate Subscription' %}</a>
-        {% endif %}
+                <a href="{% url 'subscriptions:checkout' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Activate Subscription' %}</a>
+            {% endif %}
 
-        <br>
+            <br>
 
-        <a href="{% url 'publications:detail' publication.slug %}" class="btn-restricted-back">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:middle"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/></svg> {% trans 'Back to publication details' %}
-        </a>
+            <a href="{% url 'publications:detail' publication.slug %}" class="btn-restricted-back">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:middle"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/></svg> {% trans 'Back to publication details' %}
+            </a>
+        </div>
     </div>
-</div>
 {% endblock %}
