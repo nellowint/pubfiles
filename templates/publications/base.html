@@ -92,6 +92,9 @@
             {{ ad.link|safe }}
         {% endfor %}
     {% endif %}
+    {% if ads_popunder %}
+    {{ ads_popunder.link|safe }}
+    {% endif %}
 </head>
 <body>
 
@@ -319,11 +322,6 @@
     <script src="{% static 'js/publications-base.js' %}"></script>
     <script src="{% static 'js/search-clear.js' %}"></script>
     {% block extra_js %}{% endblock %}
-
-    {# Popunder global — independe de posição; só pop_under ativo com script; premium não recebe #}
-    {% if ads_popunder %}
-    {{ ads_popunder.link|safe }}
-    {% endif %}
 
 </body>
 </html>
