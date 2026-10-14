@@ -27,109 +27,109 @@
 {% endblock %}
 
 {% block content %}
-<div class="cinema-container">
+    <div class="cinema-container">
 
-    <div class="cinema-counter">
-        {{ page_number }} / {{ total_pages }}
+        <div class="cinema-counter">
+            {{ page_number }} / {{ total_pages }}
+        </div>
+
+        <a href="{% url 'publications:detail' publication.slug %}" class="cinema-btn btn-cinema-close" title="{% trans 'Close reader' %}">✕</a>
+
+        {% if has_previous %}
+            <a href="{% url 'publications:reader' publication.slug previous_page_number %}" class="cinema-btn btn-cinema-prev">◀</a>
+        {% else %}
+            <span class="cinema-btn btn-cinema-prev disabled">◀</span>
+        {% endif %}
+
+        {% if current_page.image %}
+            {% if has_next %}
+                <a href="{% url 'publications:reader' publication.slug next_page_number %}" class="cinema-link" title="{% trans 'Click to advance' %}">
+                    <img src="{{ current_page.image.url }}" alt="{% blocktrans with num=page_number %}Page {{ num }}{% endblocktrans %}" class="cinema-image">
+                </a>
+            {% else %}
+                <div class="cinema-link">
+                    <img src="{{ current_page.image.url }}" alt="{% blocktrans with num=page_number %}Page {{ num }}{% endblocktrans %}" class="cinema-image">
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {% if ads_preview %}
+            <a href="{% url 'advertisements:ad_redirect' ads_preview.0.id %}" target="_blank" rel="noopener sponsored" class="cinema-ad-fixed">
+                <div class="cinema-ad-content">
+                    <span class="ad-badge">AD</span>
+                    {% include "advertisements/_ad_preview_render.html" with ad=ads_preview.0 %}
+                </div>
+            </a>
+        {% endif %}
+
+        {% if has_next %}
+            <a href="{% url 'publications:reader' publication.slug next_page_number %}" class="cinema-btn btn-cinema-next">▶</a>
+        {% else %}
+            <span class="cinema-btn btn-cinema-next disabled"><svg width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>
+        {% endif %}
+
     </div>
 
-    <a href="{% url 'publications:detail' publication.slug %}" class="cinema-btn btn-cinema-close" title="{% trans 'Close reader' %}">✕</a>
+    <div class="reels-container">
+        <a href="{% url 'publications:detail' publication.slug %}" class="reels-close" title="{% trans 'Close reader' %}">✕</a>
 
-    {% if has_previous %}
-        <a href="{% url 'publications:reader' publication.slug previous_page_number %}" class="cinema-btn btn-cinema-prev">◀</a>
-    {% else %}
-        <span class="cinema-btn btn-cinema-prev disabled">◀</span>
-    {% endif %}
-
-    {% if current_page.image %}
-        {% if has_next %}
-            <a href="{% url 'publications:reader' publication.slug next_page_number %}" class="cinema-link" title="{% trans 'Click to advance' %}">
-                <img src="{{ current_page.image.url }}" alt="{% blocktrans with num=page_number %}Page {{ num }}{% endblocktrans %}" class="cinema-image">
-            </a>
-        {% else %}
-            <div class="cinema-link">
-                <img src="{{ current_page.image.url }}" alt="{% blocktrans with num=page_number %}Page {{ num }}{% endblocktrans %}" class="cinema-image">
-            </div>
-        {% endif %}
-    {% endif %}
-
-    {% if ads_preview %}
-    <a href="{% url 'advertisements:ad_redirect' ads_preview.0.id %}" target="_blank" rel="noopener sponsored" class="cinema-ad-fixed">
-        <div class="cinema-ad-content">
-            <span class="ad-badge">AD</span>
-            {% include "advertisements/_ad_preview_render.html" with ad=ads_preview.0 %}
+        <div class="reels-wrapper" data-current-page="{{ page_number }}" data-total-pages="{{ total_pages }}" data-slug="{{ publication.slug }}">
+            {% for page in pages %}
+                <div class="reel-page" data-page-number="{{ page.page_order }}">
+                    <img src="{{ page.image.url }}" alt="{% blocktrans with num=page.page_order %}Page {{ num }}{% endblocktrans %}" class="reel-image">
+                </div>
+            {% endfor %}
+            {% if is_members_only and not has_full_access %}
+                <div class="reel-page reel-page-locked" data-page-number="{{ free_pages_count|add:1 }}">
+                    <div class="reel-locked-box">
+                        <div class="crown-icon"><svg width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path d="M3 17l2-9 5 5 2-8 2 8 5-5 2 9H3z"/></svg></div>
+                        <h2>{% trans 'This publication is exclusive to Subscribers' %}</h2>
+                        {% if subscription_settings and subscription_settings.is_enabled %}
+                            <p class="reel-locked-price">
+                                {% blocktrans with currency=subscription_settings.currency|upper price=subscription_settings.monthly_price %}{{ currency }} {{ price }}/month{% endblocktrans %}
+                            </p>
+                        {% endif %}
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'subscriptions:checkout' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Activate Subscription' %}</a>
+                        {% else %}
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Subscribe Premium' %}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
         </div>
-    </a>
-    {% endif %}
 
-    {% if has_next %}
-        <a href="{% url 'publications:reader' publication.slug next_page_number %}" class="cinema-btn btn-cinema-next">▶</a>
-    {% else %}
-        <span class="cinema-btn btn-cinema-next disabled"><svg width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>
-    {% endif %}
+        <div class="reels-counter">
+            <span class="reels-current">{{ page_number }}</span> / {{ total_pages }}
+        </div>
 
-</div>
-
-<div class="reels-container">
-    <a href="{% url 'publications:detail' publication.slug %}" class="reels-close" title="{% trans 'Close reader' %}">✕</a>
-
-    <div class="reels-wrapper" data-current-page="{{ page_number }}" data-total-pages="{{ total_pages }}" data-slug="{{ publication.slug }}">
-        {% for page in pages %}
-            <div class="reel-page" data-page-number="{{ page.page_order }}">
-                <img src="{{ page.image.url }}" alt="{% blocktrans with num=page.page_order %}Page {{ num }}{% endblocktrans %}" class="reel-image">
-            </div>
-        {% endfor %}
-        {% if is_members_only and not has_full_access %}
-            <div class="reel-page reel-page-locked" data-page-number="{{ free_pages_count|add:1 }}">
-                <div class="reel-locked-box">
-                    <div class="crown-icon"><svg width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path d="M3 17l2-9 5 5 2-8 2 8 5-5 2 9H3z"/></svg></div>
-                    <h2>{% trans 'This publication is exclusive to Subscribers' %}</h2>
-                    {% if subscription_settings and subscription_settings.is_enabled %}
-                        <p class="reel-locked-price">
-                            {% blocktrans with currency=subscription_settings.currency|upper price=subscription_settings.monthly_price %}{{ currency }} {{ price }}/month{% endblocktrans %}
-                        </p>
-                    {% endif %}
-                    {% if request.user.is_authenticated %}
-                        <a href="{% url 'subscriptions:checkout' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Activate Subscription' %}</a>
-                    {% else %}
-                        <a href="{% url 'login' %}?next={{ request.path }}" class="btn-restricted-login">{% trans 'Subscribe Premium' %}</a>
-                    {% endif %}
+        {% if ads_mobile %}
+            <div class="reel-ad-bottom">
+                <div class="reel-ad-bottom-content">
+                    {% with ad=ads_mobile|first %}
+                        {% include "advertisements/_ad_mobile_render.html" with ad=ad %}
+                    {% endwith %}
                 </div>
             </div>
         {% endif %}
     </div>
-
-    <div class="reels-counter">
-        <span class="reels-current">{{ page_number }}</span> / {{ total_pages }}
-    </div>
-
-    {% if ads_mobile %}
-    <div class="reel-ad-bottom">
-        <div class="reel-ad-bottom-content">
-            {% with ad=ads_mobile|first %}
-                {% include "advertisements/_ad_mobile_render.html" with ad=ad %}
-            {% endwith %}
-        </div>
-    </div>
-    {% endif %}
-</div>
 {% endblock %}
 
 {% block fixed_ads %}
     {% if ads_left %}
-    <div class="ad-sidebar ad-sidebar-left">
-        {% include "advertisements/_ad_render.html" with ad=ads_left.0 %}
-    </div>
+        <div class="ad-sidebar ad-sidebar-left">
+            {% include "advertisements/_ad_render.html" with ad=ads_left.0 %}
+        </div>
     {% endif %}
 
     {% if ads_right %}
-    <div class="ad-sidebar ad-sidebar-right">
-        {% include "advertisements/_ad_render.html" with ad=ads_right.0 %}
-    </div>
+        <div class="ad-sidebar ad-sidebar-right">
+            {% include "advertisements/_ad_render.html" with ad=ads_right.0 %}
+        </div>
     {% endif %}
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/publications-reader.js' %}"></script>
-<script src="{% static 'js/advertisements.js' %}"></script>
+    <script src="{% static 'js/publications-reader.js' %}"></script>
+    <script src="{% static 'js/advertisements.js' %}"></script>
 {% endblock %}
